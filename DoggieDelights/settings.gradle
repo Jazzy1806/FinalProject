@@ -1,0 +1,3 @@
+rootProject.name = 'DoggieDelights'
+
+includeFlat "JPATreatTracker"
