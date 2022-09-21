@@ -16,18 +16,6 @@ CREATE SCHEMA IF NOT EXISTS `doggydb` ;
 USE `doggydb` ;
 
 -- -----------------------------------------------------
--- Table `user_role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `user_role` ;
-
-CREATE TABLE IF NOT EXISTS `user_role` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `address`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `address` ;
@@ -40,6 +28,54 @@ CREATE TABLE IF NOT EXISTS `address` (
   `postal_code` VARCHAR(45) NULL,
   `phone` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `user`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `user` ;
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(45) NULL,
+  `last_name` VARCHAR(45) NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(200) NULL,
+  `email` INT NULL,
+  `enabled` TINYINT NULL,
+  `address_id` INT NULL,
+  `created_on` TIMESTAMP NULL,
+  `updated_on` TIMESTAMP NULL,
+  `active` TINYINT NULL,
+  `role` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_user_address1_idx` (`address_id` ASC),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  CONSTRAINT `fk_user_address1`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `address` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `role_type`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `role_type` ;
+
+CREATE TABLE IF NOT EXISTS `role_type` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_role_type_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_role_type_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
@@ -85,59 +121,6 @@ CREATE TABLE IF NOT EXISTS `product` (
   CONSTRAINT `fk_product_store1`
     FOREIGN KEY (`store_id`)
     REFERENCES `store` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `user`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `user` ;
-
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(45) NULL,
-  `last_name` VARCHAR(45) NULL,
-  `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(200) NULL,
-  `email` INT NULL,
-  `enabled` TINYINT NULL,
-  `address_id` INT NULL,
-  `created_on` TIMESTAMP NULL,
-  `updated_on` TIMESTAMP NULL,
-  `active` TINYINT NULL,
-  `role` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_user_address1_idx` (`address_id` ASC),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  CONSTRAINT `fk_user_address1`
-    FOREIGN KEY (`address_id`)
-    REFERENCES `address` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `user_has_role`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `user_has_role` ;
-
-CREATE TABLE IF NOT EXISTS `user_has_role` (
-  `user_id` INT NOT NULL,
-  `user_role_id` INT NOT NULL,
-  PRIMARY KEY (`user_id`, `user_role_id`),
-  INDEX `fk_user_has_user_role_user_role1_idx` (`user_role_id` ASC),
-  INDEX `fk_user_has_user_role_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_user_has_user_role_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_user_has_user_role_user_role1`
-    FOREIGN KEY (`user_role_id`)
-    REFERENCES `user_role` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -419,18 +402,6 @@ SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 
 -- -----------------------------------------------------
--- Data for table `user_role`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `doggydb`;
-INSERT INTO `user_role` (`id`, `name`) VALUES (1, 'Admin');
-INSERT INTO `user_role` (`id`, `name`) VALUES (2, 'Employee');
-INSERT INTO `user_role` (`id`, `name`) VALUES (3, 'Guest');
-
-COMMIT;
-
-
--- -----------------------------------------------------
 -- Data for table `address`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -458,6 +429,27 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (1, NULL, NULL, 'admin', 'admin', 1, 1, NULL, NULL, NULL, 1, '1');
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (2, NULL, NULL, 'Doogy', 'doogy', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `role_type`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `role_type` (`id`, `name`, `user_id`) VALUES (1, 'Admin', 1);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `store`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -473,56 +465,6 @@ COMMIT;
 START TRANSACTION;
 USE `doggydb`;
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `price`, `store_id`, `image`, `created_on`, `updated_on`) VALUES (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `user`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `doggydb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (1, NULL, NULL, 'admin', 'admin', 1, 1, NULL, NULL, NULL, 1, '1');
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (2, NULL, NULL, 'bdobbs', 'bdobbs', 2, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (3, NULL, NULL, 'rcosby', 'rcosby', 3, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (4, NULL, NULL, 'rmiller', 'rmiller', 4, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (5, NULL, NULL, 'zkott', 'zkott', 5, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (6, NULL, NULL, 'jpatt', 'jpatt', 6, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (7, NULL, NULL, 'dschu', 'dschu', 7, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (8, NULL, NULL, 'guest', 'guest', 8, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (9, NULL, NULL, 'mscott', 'mscott', 9, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (10, NULL, NULL, 'dschru', 'dschru', 10, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (11, NULL, NULL, 'phalp', 'phalp', 11, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (12, NULL, NULL, 'jhalp', 'jhalp', 12, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (13, NULL, NULL, 'kkapo', 'kkapo', 13, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (14, NULL, NULL, 'pvanc', 'pvanc', 14, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (15, NULL, NULL, 'abern', 'abern', 15, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (16, NULL, NULL, 'dphil', 'dphil', 16, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (17, NULL, NULL, 'amart', 'amart', 17, 1, NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (18, NULL, NULL, 'kmalon', 'kmalon', 18, 1, NULL, NULL, NULL, NULL, NULL);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `user_has_role`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `doggydb`;
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (1, 1);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (2, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (3, 1);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (4, 1);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (1, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (5, 1);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (6, 1);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (7, 1);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (3, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (4, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (5, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (6, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (7, 2);
-INSERT INTO `user_has_role` (`user_id`, `user_role_id`) VALUES (8, 3);
 
 COMMIT;
 
@@ -544,7 +486,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `group_message` (`id`, `message`, `created`, `squad_id`, `user_id`) VALUES (1, 'Is this showing?', NULL, 3, 6);
+INSERT INTO `group_message` (`id`, `message`, `created`, `squad_id`, `user_id`) VALUES (1, 'Is this showing?', NULL, 3, 1);
 
 COMMIT;
 
@@ -554,8 +496,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (1, 'Maybe now?', NULL, 6, 1);
-INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (2, 'Why?', NULL, 1, 6);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (1, 'Maybe now?', NULL, 2, 1);
 
 COMMIT;
 
@@ -565,10 +506,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `group_member` (`id`, `user_id`, `squad_id`) VALUES (1, 6, 3);
-INSERT INTO `group_member` (`id`, `user_id`, `squad_id`) VALUES (2, 5, 2);
-INSERT INTO `group_member` (`id`, `user_id`, `squad_id`) VALUES (3, 7, 1);
-INSERT INTO `group_member` (`id`, `user_id`, `squad_id`) VALUES (4, 1, 3);
+INSERT INTO `group_member` (`id`, `user_id`, `squad_id`) VALUES (1, 2, 3);
 
 COMMIT;
 
