@@ -32,50 +32,17 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `user`
+-- Table `chain`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `user` ;
+DROP TABLE IF EXISTS `chain` ;
 
-CREATE TABLE IF NOT EXISTS `user` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `first_name` VARCHAR(45) NULL,
-  `last_name` VARCHAR(45) NULL,
-  `username` VARCHAR(45) NOT NULL,
-  `password` VARCHAR(200) NULL,
-  `email` INT NULL,
-  `enabled` TINYINT NULL,
-  `address_id` INT NULL,
-  `created_on` TIMESTAMP NULL,
-  `updated_on` TIMESTAMP NULL,
-  `active` TINYINT NULL,
-  `role` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_user_address1_idx` (`address_id` ASC),
-  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
-  CONSTRAINT `fk_user_address1`
-    FOREIGN KEY (`address_id`)
-    REFERENCES `address` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `role_type`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `role_type` ;
-
-CREATE TABLE IF NOT EXISTS `role_type` (
+CREATE TABLE IF NOT EXISTS `chain` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  `user_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_role_type_user1_idx` (`user_id` ASC),
-  CONSTRAINT `fk_role_type_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  `description` VARCHAR(45) NULL,
+  `website_url` VARCHAR(100) NULL,
+  `logo_url` VARCHAR(100) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -91,11 +58,18 @@ CREATE TABLE IF NOT EXISTS `store` (
   `description` TEXT NULL,
   `website_url` TEXT NULL,
   `logo_url` TEXT NULL,
+  `chain_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_company_address1_idx` (`address_id` ASC),
+  INDEX `fk_store_chain1_idx` (`chain_id` ASC),
   CONSTRAINT `fk_company_address1`
     FOREIGN KEY (`address_id`)
     REFERENCES `address` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_store_chain1`
+    FOREIGN KEY (`chain_id`)
+    REFERENCES `chain` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -111,16 +85,38 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` VARCHAR(45) NULL,
   `brand` VARCHAR(45) NULL,
   `description` TEXT NULL,
-  `price` DECIMAL NULL,
-  `store_id` INT NULL,
   `image` VARCHAR(2000) NULL,
   `created_on` TIMESTAMP NULL,
   `updated_on` TIMESTAMP NULL,
-  INDEX `fk_product_store1_idx` (`store_id` ASC),
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `user`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `user` ;
+
+CREATE TABLE IF NOT EXISTS `user` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `first_name` VARCHAR(45) NULL,
+  `last_name` VARCHAR(45) NULL,
+  `username` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(200) NULL,
+  `email` INT NULL,
+  `enabled` TINYINT NULL,
+  `address_id` INT NULL,
+  `created_on` TIMESTAMP NULL,
+  `updated_on` TIMESTAMP NULL,
+  `role` VARCHAR(45) NULL,
+  `bio` TEXT NULL,
+  `profile_image_url` VARCHAR(200) NULL,
   PRIMARY KEY (`id`),
-  CONSTRAINT `fk_product_store1`
-    FOREIGN KEY (`store_id`)
-    REFERENCES `store` (`id`)
+  INDEX `fk_user_address1_idx` (`address_id` ASC),
+  UNIQUE INDEX `username_UNIQUE` (`username` ASC),
+  CONSTRAINT `fk_user_address1`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `address` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -218,29 +214,29 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `comment`
+-- Table `store_comment`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `comment` ;
+DROP TABLE IF EXISTS `store_comment` ;
 
-CREATE TABLE IF NOT EXISTS `comment` (
+CREATE TABLE IF NOT EXISTS `store_comment` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(45) NOT NULL,
   `description` TEXT NULL,
   `rating` INT NULL,
   `store_id` INT NOT NULL,
-  `product_id` INT NOT NULL,
   `created_on` TIMESTAMP NULL,
+  `in_reply_to_id` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_comment_store1_idx` (`store_id` ASC),
-  INDEX `fk_comment_product1_idx` (`product_id` ASC),
+  INDEX `fk_store_comment_store_comment1_idx` (`in_reply_to_id` ASC),
   CONSTRAINT `fk_comment_store1`
     FOREIGN KEY (`store_id`)
     REFERENCES `store` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comment_product1`
-    FOREIGN KEY (`product_id`)
-    REFERENCES `product` (`id`)
+  CONSTRAINT `fk_store_comment_store_comment1`
+    FOREIGN KEY (`in_reply_to_id`)
+    REFERENCES `store_comment` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -255,6 +251,8 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `store_id` INT NOT NULL,
   `product_id` INT NOT NULL,
+  `price` DECIMAL(5,3) NULL,
+  `quantity` INT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_inventory_store1_idx` (`store_id` ASC),
   INDEX `fk_inventory_product1_idx` (`product_id` ASC),
@@ -315,21 +313,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `dietary_needs`
+-- Table `diet`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `dietary_needs` ;
+DROP TABLE IF EXISTS `diet` ;
 
-CREATE TABLE IF NOT EXISTS `dietary_needs` (
+CREATE TABLE IF NOT EXISTS `diet` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NULL,
-  `pet_id` INT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_dietary_needs_pet1_idx` (`pet_id` ASC),
-  CONSTRAINT `fk_dietary_needs_pet1`
-    FOREIGN KEY (`pet_id`)
-    REFERENCES `pet` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -370,22 +361,91 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `product_history`
+-- Table `product_report`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `product_history` ;
+DROP TABLE IF EXISTS `product_report` ;
 
-CREATE TABLE IF NOT EXISTS `product_history` (
+CREATE TABLE IF NOT EXISTS `product_report` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `created_on` TIMESTAMP NULL,
   `updated_on` TIMESTAMP NULL,
   `user_quantity` INT NULL,
   `price` DECIMAL(5,2) NULL,
+  `is_in_stock` TINYINT NULL,
+  `remark` TEXT NULL,
+  `user_id` INT NOT NULL,
   `product_id` INT NOT NULL,
+  `store_id` INT NOT NULL,
   PRIMARY KEY (`id`),
+  INDEX `fk_product_history_user1_idx` (`user_id` ASC),
   INDEX `fk_product_history_product1_idx` (`product_id` ASC),
+  INDEX `fk_product_history_store1_idx` (`store_id` ASC),
+  CONSTRAINT `fk_product_history_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
   CONSTRAINT `fk_product_history_product1`
     FOREIGN KEY (`product_id`)
     REFERENCES `product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_history_store1`
+    FOREIGN KEY (`store_id`)
+    REFERENCES `store` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pet_has_dietary_needs`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pet_has_dietary_needs` ;
+
+CREATE TABLE IF NOT EXISTS `pet_has_dietary_needs` (
+  `pet_id` INT NOT NULL,
+  `dietary_needs_id` INT NOT NULL,
+  PRIMARY KEY (`pet_id`, `dietary_needs_id`),
+  INDEX `fk_pet_has_dietary_needs_dietary_needs1_idx` (`dietary_needs_id` ASC),
+  INDEX `fk_pet_has_dietary_needs_pet1_idx` (`pet_id` ASC),
+  CONSTRAINT `fk_pet_has_dietary_needs_pet1`
+    FOREIGN KEY (`pet_id`)
+    REFERENCES `pet` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pet_has_dietary_needs_dietary_needs1`
+    FOREIGN KEY (`dietary_needs_id`)
+    REFERENCES `diet` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `product_comment`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `product_comment` ;
+
+CREATE TABLE IF NOT EXISTS `product_comment` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(45) NOT NULL,
+  `description` TEXT NULL,
+  `rating` INT NULL,
+  `created_on` TIMESTAMP NULL,
+  `product_id` INT NOT NULL,
+  `in_reply_to_id` INT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_product_comment_product1_idx` (`product_id` ASC),
+  INDEX `fk_product_comment_product_comment1_idx` (`in_reply_to_id` ASC),
+  CONSTRAINT `fk_product_comment_product1`
+    FOREIGN KEY (`product_id`)
+    REFERENCES `product` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_product_comment_product_comment1`
+    FOREIGN KEY (`in_reply_to_id`)
+    REFERENCES `product_comment` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -429,22 +489,13 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `user`
+-- Data for table `chain`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (1, NULL, NULL, 'admin', 'admin', 1, 1, NULL, NULL, NULL, 1, '1');
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `active`, `role`) VALUES (2, NULL, NULL, 'Doogy', 'doogy', NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `role_type`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `doggydb`;
-INSERT INTO `role_type` (`id`, `name`, `user_id`) VALUES (1, 'Admin', 1);
+INSERT INTO `chain` (`id`, `name`, `description`, `website_url`, `logo_url`) VALUES (1, 'Petco', NULL, NULL, NULL);
+INSERT INTO `chain` (`id`, `name`, `description`, `website_url`, `logo_url`) VALUES (2, 'Petsmart', NULL, NULL, NULL);
+INSERT INTO `chain` (`id`, `name`, `description`, `website_url`, `logo_url`) VALUES (3, 'Chewy', NULL, NULL, NULL);
 
 COMMIT;
 
@@ -454,7 +505,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`) VALUES (1, 'Social Engineering', 5, 'Bringing together people, whether you like it or not.', 'https://helloworld.com/', 'data:image/png;base64,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');
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`) VALUES (1, 'Petco on Ken Pratt', 1, '', '', '', 1);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`) VALUES (2, 'Petssmart on Hover', 2, NULL, NULL, NULL, 2);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`) VALUES (3, 'Petsmart in Boulder', 3, NULL, NULL, NULL, 2);
 
 COMMIT;
 
@@ -464,7 +517,21 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `product` (`id`, `name`, `brand`, `description`, `price`, `store_id`, `image`, `created_on`, `updated_on`) VALUES (1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`) VALUES (1, 'Pacific Catch Recipe', 'Merrick', NULL, NULL, NULL, NULL);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`) VALUES (2, 'Some type', 'Iams', NULL, NULL, NULL, NULL);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`) VALUES (3, 'Generic name here', 'Generic brand here', NULL, NULL, NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (1, 'Ad', 'Min', 'admin', 'admin', NULL, 1, 4, NULL, NULL, '1', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (2, 'Dog', 'Gy', 'doggy', 'doggy', NULL, 1, 5, NULL, NULL, '2', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (3, 'Dog', 'Gy2', 'doggy2', 'doggy2', NULL, 1, 6, NULL, NULL, '3', NULL, NULL);
 
 COMMIT;
 
@@ -496,7 +563,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (1, 'Maybe now?', NULL, 2, 1);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (1, 'First Message', NULL, 1, 2);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (2, 'Second Message', NULL, 2, 1);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (3, 'Third Message', NULL, 3, 1);
 
 COMMIT;
 
@@ -512,12 +581,61 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `dietary_needs`
+-- Data for table `store_comment`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `dietary_needs` (`id`, `name`, `pet_id`) VALUES (1, 'vegan', NULL);
-INSERT INTO `dietary_needs` (`id`, `name`, `pet_id`) VALUES (2, 'grain-free', NULL);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (1, 'Store comment 1', NULL, NULL, 1, NULL, NULL);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (2, 'Store comment 2', NULL, NULL, 2, NULL, NULL);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (3, 'Store comment 3', NULL, NULL, 3, NULL, 2);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `inventory`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`) VALUES (1, 1, 1, NULL, NULL);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`) VALUES (2, 2, 2, NULL, NULL);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`) VALUES (3, 3, 3, NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `pet`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `breed`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `breed` (`id`, `name`, `color`, `pet_id`) VALUES (1, 'Husky', 'white-black', 1);
+INSERT INTO `breed` (`id`, `name`, `color`, `pet_id`) VALUES (2, 'Staffordshire Terrier', 'brown', 2);
+INSERT INTO `breed` (`id`, `name`, `color`, `pet_id`) VALUES (3, 'Brindel Boxer', 'brown-white', 3);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `diet`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `diet` (`id`, `name`) VALUES (1, 'Wild Game');
+INSERT INTO `diet` (`id`, `name`) VALUES (2, 'Omni');
+INSERT INTO `diet` (`id`, `name`) VALUES (3, 'Senior');
 
 COMMIT;
 
@@ -535,6 +653,54 @@ INSERT INTO `ingredient` (`id`, `name`) VALUES (5, 'salmon');
 INSERT INTO `ingredient` (`id`, `name`) VALUES (6, 'white fish');
 INSERT INTO `ingredient` (`id`, `name`) VALUES (7, 'pork');
 INSERT INTO `ingredient` (`id`, `name`) VALUES (8, 'lamb');
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `ingredient_has_product`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `ingredient_has_product` (`ingredient_id`, `product_id`) VALUES (1, 1);
+INSERT INTO `ingredient_has_product` (`ingredient_id`, `product_id`) VALUES (2, 2);
+INSERT INTO `ingredient_has_product` (`ingredient_id`, `product_id`) VALUES (3, 3);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `product_report`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (1, NULL, NULL, NULL, 9.99, 1, 'Finally!', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (2, NULL, NULL, NULL, 10.99, 1, 'Love this stuff', 2, 2, 2);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (3, NULL, NULL, NULL, 11.99, 1, 'Took long enough', 3, 3, 3);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `pet_has_dietary_needs`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `pet_has_dietary_needs` (`pet_id`, `dietary_needs_id`) VALUES (1, 1);
+INSERT INTO `pet_has_dietary_needs` (`pet_id`, `dietary_needs_id`) VALUES (2, 2);
+INSERT INTO `pet_has_dietary_needs` (`pet_id`, `dietary_needs_id`) VALUES (3, 3);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `product_comment`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (1, 'Product comment 1', NULL, NULL, NULL, 1, NULL);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (2, 'Product comment 2', NULL, NULL, NULL, 2, NULL);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Product comment 3', NULL, NULL, NULL, 3, 2);
 
 COMMIT;
 
