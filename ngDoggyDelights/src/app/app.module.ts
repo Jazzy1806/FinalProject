@@ -22,7 +22,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     BrowserModule,
     AppRoutingModule,
   ],
-  providers: [NgbActiveModal, AuthService]
+  providers: [NgbActiveModal, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
