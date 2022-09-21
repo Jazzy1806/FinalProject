@@ -4,6 +4,7 @@
 	<provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
 	
 	
+		<class>com.skilldistillery.treattracker.entities.Address</class>
 		<class>com.skilldistillery.treattracker.entities.User</class>
 		
 		
