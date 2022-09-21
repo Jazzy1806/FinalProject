@@ -4,25 +4,21 @@ import {HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { LogoutComponent } from './components/logout/logout.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HomeComponent } from './components/home/home.component';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-//    HomeComponent,
-//    LoginComponent,
-    LogoutComponent,
-    NavbarComponent
+    HomeComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule,
-    HttpClientModule
   ],
-  providers: [NgbActiveModal, AuthService],
+  providers: [NgbActiveModal]
   bootstrap: [AppComponent]
 })
 export class AppModule { }
