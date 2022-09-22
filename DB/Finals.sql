@@ -59,6 +59,7 @@ CREATE TABLE IF NOT EXISTS `store` (
   `website_url` TEXT NULL,
   `logo_url` TEXT NULL,
   `chain_id` INT NULL,
+  `enabled` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_company_address1_idx` (`address_id` ASC),
   INDEX `fk_store_chain1_idx` (`chain_id` ASC),
@@ -88,6 +89,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `image` VARCHAR(2000) NULL,
   `created_on` TIMESTAMP NULL,
   `updated_on` TIMESTAMP NULL,
+  `enabled` TINYINT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -253,6 +255,7 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `product_id` INT NOT NULL,
   `price` DECIMAL(5,3) NULL,
   `quantity` INT NULL,
+  `enabled` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_inventory_store1_idx` (`store_id` ASC),
   INDEX `fk_inventory_product1_idx` (`product_id` ASC),
@@ -282,6 +285,7 @@ CREATE TABLE IF NOT EXISTS `pet` (
   `gender` VARCHAR(45) NULL,
   `image` VARCHAR(2000) NULL,
   `birth_date` DATE NULL,
+  `enabled` TINYINT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pet_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_pet_user1`
@@ -522,9 +526,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`) VALUES (1, 'Petco on Ken Pratt', 1, '', '', '', 1);
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`) VALUES (2, 'Petssmart on Hover', 2, NULL, NULL, NULL, 2);
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`) VALUES (3, 'Petsmart in Boulder', 3, NULL, NULL, NULL, 2);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`) VALUES (1, 'Petco on Ken Pratt', 1, '', '', '', 1, 1);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`) VALUES (2, 'Petssmart on Hover', 2, NULL, NULL, NULL, 2, 1);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`) VALUES (3, 'Petsmart in Boulder', 3, NULL, NULL, NULL, 2, 1);
 
 COMMIT;
 
@@ -534,9 +538,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`) VALUES (1, 'Pacific Catch Recipe', 'Merrick', NULL, NULL, NULL, NULL);
-INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`) VALUES (2, 'Some type', 'Iams', NULL, NULL, NULL, NULL);
-INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`) VALUES (3, 'Generic name here', 'Generic brand here', NULL, NULL, NULL, NULL);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (1, 'Pacific Catch Recipe', 'Merrick', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (2, 'Some type', 'Iams', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (3, 'Generic name here', 'Generic brand here', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 COMMIT;
 
@@ -614,9 +619,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`) VALUES (1, 1, 1, NULL, NULL);
-INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`) VALUES (2, 2, 2, NULL, NULL);
-INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`) VALUES (3, 3, 3, NULL, NULL);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 1, 1, NULL, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (2, 2, 2, NULL, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (3, 3, 3, NULL, NULL, 1);
 
 COMMIT;
 
@@ -626,9 +631,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL, 1);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL, 1);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL, 1);
 
 COMMIT;
 
