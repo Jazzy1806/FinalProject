@@ -20,10 +20,10 @@ public class Diet {
 
 	private String name;
 
-//  @JsonIgnore
-	@ManyToMany
-	@JoinTable(name = "pet_has_dietary_needs", joinColumns = @JoinColumn(name = "pet_id"), inverseJoinColumns = @JoinColumn(name = "dietary_needs_id"))
-	private Set<Breed> breeds;
+	
+	@ManyToMany(mappedBy="dietNeeds")
+	private Set<Pet> pets;
+	
 
 	public Diet() {
 		super();
@@ -45,12 +45,13 @@ public class Diet {
 		this.name = name;
 	}
 
-	public Set<Breed> getBreeds() {
-		return breeds;
+
+	public Set<Pet> getPets() {
+		return pets;
 	}
 
-	public void setBreeds(Set<Breed> breeds) {
-		this.breeds = breeds;
+	public void setPets(Set<Pet> pets) {
+		this.pets = pets;
 	}
 
 	@Override
@@ -70,9 +71,5 @@ public class Diet {
 		return id == other.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Diet [id=" + id + ", name=" + name + "]";
-	}
 
 }
