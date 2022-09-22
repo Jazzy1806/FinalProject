@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.entities;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,20 +28,20 @@ public class StoreComment {
 	
 	private String description;
 	
-	private int rating;
+	private Integer rating;
 	
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")
 	private Store store;
 	
-	@Column(name="create_on")
 	@CreationTimestamp
+	@Column(name="created_on")
 	private LocalDateTime createdOn;
 	
-	@ManyToOne //is this the right way to map this???
-	@JoinColumn(name="in_reply_to_id")
-	private int inReplyToId;
+//	@ManyToOne //is this the right way to map this???
+//	@JoinColumn(name="in_reply_to_id")
+//	private int inReplyToId;
 	
 	
 	public StoreComment() {
@@ -70,11 +71,11 @@ public class StoreComment {
 		this.description = description;
 	}
 
-	public int getRating() {
+	public Integer getRating() {
 		return rating;
 	}
 
-	public void setRating(int rating) {
+	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
 
@@ -94,19 +95,31 @@ public class StoreComment {
 		this.createdOn = createdOn;
 	}
 
-	public int getInReplyToId() {
-		return inReplyToId;
-	}
-
-	public void setInReplyToId(int inReplyToId) {
-		this.inReplyToId = inReplyToId;
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
 	}
 
 	@Override
-	public String toString() {
-		return "StoreComment [id=" + id + ", title=" + title + ", description=" + description + ", rating=" + rating
-				+ ", store=" + store + ", createdOn=" + createdOn + ", inReplyToId=" + inReplyToId + "]";
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StoreComment other = (StoreComment) obj;
+		return id == other.id;
 	}
+
+//	public int getInReplyToId() {
+//		return inReplyToId;
+//	}
+//
+//	public void setInReplyToId(int inReplyToId) {
+//		this.inReplyToId = inReplyToId;
+//	}
+
 	
 	
 

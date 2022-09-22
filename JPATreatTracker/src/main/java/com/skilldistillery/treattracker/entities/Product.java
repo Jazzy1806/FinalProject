@@ -52,6 +52,14 @@ public class Product {
 	private List<ProductComment> comments;
 
 
+	@OneToMany(mappedBy="product")
+	private List<ProductReport> reports;
+
+	@OneToMany(mappedBy="product")
+	private List<Inventory> inventoryItems;
+	
+	
+
 	public Product() {}
 
 	public int getId() {
@@ -117,6 +125,30 @@ public class Product {
 
 	public void setIngredients(List<Ingredient> ingredients) {
 		this.ingredients = ingredients;
+	}
+
+	public List<ProductComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<ProductComment> comments) {
+		this.comments = comments;
+	}
+
+	public List<Inventory> getInventoryItems() {
+		return inventoryItems;
+	}
+
+	public void setInventoryItems(List<Inventory> inventoryItems) {
+		this.inventoryItems = inventoryItems;
+	}
+
+	public List<ProductReport> getReports() {
+		return reports;
+	}
+
+	public void setReports(List<ProductReport> reports) {
+		this.reports = reports;
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.entities;
 
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +9,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -21,6 +24,7 @@ public class Store {
 	
 	private String name;
 	
+	@OneToOne
 	@JoinColumn(name="address_id")
 	private Address address;
 	
@@ -36,12 +40,19 @@ public class Store {
 	@OneToMany(mappedBy="store")
 	private List<Inventory> inventories;
 	
+	
+	@OneToMany(mappedBy="store")
+	private List<ProductReport> productReports;
+	
+	@ManyToOne
 	@JoinColumn(name="chain_id")
 	private Chain chain;
 	
+
 	@JsonIgnore
 	@OneToMany(mappedBy="store")
 	private List<StoreComment> comments;
+
 
 	public Store() {
 		super();
@@ -53,6 +64,14 @@ public class Store {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public List<ProductReport> getProductReports() {
+		return productReports;
+	}
+
+	public void setProductReports(List<ProductReport> productReports) {
+		this.productReports = productReports;
 	}
 
 	public String getName() {
@@ -103,11 +122,40 @@ public class Store {
 		this.chain = chain;
 	}
 
-	@Override
-	public String toString() {
-		return "Store [id=" + id + ", name=" + name + ", address=" + address + ", description=" + description
-				+ ", websiteUrl=" + websiteUrl + ", logoUrl=" + logoUrl + ", chain=" + chain + "]";
+	public List<Inventory> getInventories() {
+		return inventories;
 	}
+
+	public void setInventories(List<Inventory> inventories) {
+		this.inventories = inventories;
+	}
+
+	public List<StoreComment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<StoreComment> comments) {
+		this.comments = comments;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Store other = (Store) obj;
+		return id == other.id;
+	}
+
+
 	
 	
 

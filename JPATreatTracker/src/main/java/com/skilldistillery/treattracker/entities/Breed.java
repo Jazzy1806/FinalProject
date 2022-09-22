@@ -26,9 +26,6 @@ public class Breed {
 	@JoinColumn(name = "pet_id")
 	private Pet pet;
 	
-//	@JsonIgnore
-    @ManyToMany(mappedBy = "dog")
-    private Set<Diet> diets;
 
 	public Breed() {
 		super();
@@ -71,13 +68,8 @@ public class Breed {
 		return Objects.hash(id);
 	}
 
-	public Set<Diet> getDiets() {
-		return diets;
-	}
-
-	public void setDiets(Set<Diet> diets) {
-		this.diets = diets;
-	}
+	
+	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -91,9 +83,6 @@ public class Breed {
 		return id == other.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Breed [id=" + id + ", name=" + name + ", color=" + color + ", pet=" + pet + "]";
-	}
+
 
 }
