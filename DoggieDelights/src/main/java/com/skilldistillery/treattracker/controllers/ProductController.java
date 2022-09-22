@@ -8,7 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,20 +26,73 @@ import com.skilldistillery.treattracker.services.ProductService;
 public class ProductController {
 
 	@Autowired
-	private ProductService productService;
-	
-//	private String username = "admin";
+	private ProductService prodService;
 
 	@GetMapping("products")
 	public List<Product> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		return productService.index(principal.getName());
-//		return productService.index(username);
+		return prodService.index(principal.getName());
 	}
 
-//	GET    	/products    								get all products
-//	GET    	/products/{productId}    					get product by ID
-//	GET    	/products/{name or keyword}   				get product by word search
-//	PUT    	/products/{productId}     					update product by id
+	@GetMapping("products/{pid}")
+	public Product show(@PathVariable int pid, HttpServletRequest req, HttpServletResponse res,
+			Principal principal) {
+		Product product = prodService.show(principal.getName(), pid);
+		if (product == null) {
+			res.setStatus(404);
+		}
+		return product;
+	}
+	
+	@PostMapping("products")
+	public Product create(@RequestBody Product product, HttpServletRequest req, HttpServletResponse res,
+			Principal principal) {
+		Product created = null;
+		try {
+			created = prodService.create(principal.getName(), product);
+			res.setStatus(201);
+			StringBuffer url = req.getRequestURL();
+			url.append("/").append(product.getId());
+			res.setHeader("Location", url.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return created;
+	}
+	
+	@PutMapping("products/{pid}")
+	public Product update(@PathVariable int pid, @RequestBody Product prodUpdate, HttpServletRequest req,
+			HttpServletResponse res,
+			Principal principal) {
+		Product updated = null;
+		try {
+			updated = prodService.update(principal.getName(), pid, prodUpdate);
+			if (updated == null) {
+				res.setStatus(404);
+			}
+			res.setHeader("Location", req.getRequestURL().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return updated;
+	}
+
+	@DeleteMapping("products/{pid}")
+	public Boolean destroy(@PathVariable int pid, HttpServletRequest req, HttpServletResponse res,
+			Principal principal) {
+		Boolean deleted = prodService.destroy(principal.getName(), pid);
+		if (deleted) {
+			res.setStatus(204);
+		} else {
+			res.setStatus(404);
+		}
+		return deleted;
+	}
+	
+	
+	
+	
 //	PUT    	/products/{productId}     					deactivate product by id
 
 //	GET    	/products/{productId}/reports    			find user updates about product
