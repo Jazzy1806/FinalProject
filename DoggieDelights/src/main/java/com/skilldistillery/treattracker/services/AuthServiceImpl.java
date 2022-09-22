@@ -1,5 +1,6 @@
 package com.skilldistillery.treattracker.services;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,8 +38,12 @@ public class AuthServiceImpl implements AuthService {
 		User user = null;
 		if (userOpt.isPresent()) {
 			user = userOpt.get();
+			System.out.println(user.getUsername());
+//			if (user.getUsername().equals(principal.getName())) {
+				return user;
+//			}
 		}
-		return user;
+		return null;
 	}
 	
 	@Override
@@ -51,56 +56,77 @@ public class AuthServiceImpl implements AuthService {
 	}
 
 	@Override
-	public User updateUserById(int userId, User user) {
+	public User updateUserById(int userId, User user, Principal principal) {
 		Optional<User> userOpt = userRepo.findById(userId);
 		User updated = null;
 		if (userOpt.isPresent()) {
 			updated = userOpt.get();
-			updated.setFirstName(user.getFirstName());
-			updated.setLastName(user.getLastName());
-			updated.setEmail(user.getEmail());
-			updated.setBio(user.getBio());
-			updated.setImage(user.getImage());
-			return userRepo.saveAndFlush(updated);
+//			if (updated.getUsername().equals(principal.getName()) || userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
+				updated.setFirstName(user.getFirstName());
+				updated.setLastName(user.getLastName());
+				updated.setEmail(user.getEmail());
+				updated.setBio(user.getBio());
+				updated.setImage(user.getImage());
+				return userRepo.saveAndFlush(updated);
+//			}
 		}
 		return updated;
 	}
 
 	@Override
-	public boolean deactivateUser(int userId) {
+	public boolean deactivateUser(int userId, Principal principal) {
 		Optional<User> userOpt = userRepo.findById(userId);
 		User updated = null;
 		if (userOpt.isPresent()) {
 			updated = userOpt.get();
-			updated.setEnabled(false);
-			userRepo.saveAndFlush(updated);
-			return true;
+			if (updated.getUsername().equals(principal.getName()) || userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
+				updated.setEnabled(false);
+				userRepo.saveAndFlush(updated);
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public boolean updateCredentials(int userId, String username, String password) {
+	public boolean activateUser(int userId, Principal principal) {
 		Optional<User> userOpt = userRepo.findById(userId);
 		User updated = null;
 		if (userOpt.isPresent()) {
 			updated = userOpt.get();
-			updated.setUsername(username);
-			updated.setPassword(encoder.encode(password));
-			userRepo.saveAndFlush(updated);
-			return true;
+			if (updated.getUsername().equals(principal.getName()) || userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
+				updated.setEnabled(true);
+				userRepo.saveAndFlush(updated);
+				return true;
+			}
 		}
 		return false;
 	}
 
 	@Override
-	public boolean deleteUser(int userId) {
+	public boolean updateCredentials(int userId, User user, Principal principal) {
 		Optional<User> userOpt = userRepo.findById(userId);
 		User updated = null;
 		if (userOpt.isPresent()) {
 			updated = userOpt.get();
-			userRepo.deleteById(userId);
-			return true;
+			if (updated.getUsername().equals(principal.getName()) || userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
+				updated.setUsername(user.getUsername());
+				updated.setPassword(encoder.encode(user.getPassword()));
+				userRepo.saveAndFlush(updated);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public boolean deleteUser(int userId, Principal principal) {
+		Optional<User> userOpt = userRepo.findById(userId);
+		if (userOpt.isPresent()) {
+			if (userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
+				userRepo.deleteById(userId);
+				return true;
+			}
 		}
 		return false;
 	}

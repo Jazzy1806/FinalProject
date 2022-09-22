@@ -1,15 +1,10 @@
 package com.skilldistillery.treattracker.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.treattracker.entities.Pet;
-import com.skilldistillery.treattracker.entities.User;
-import com.skilldistillery.treattracker.repositories.PetRepository;
-import com.skilldistillery.treattracker.repositories.UserRepository;
 
 @Service
 public class PetServiceImpl implements PetService{

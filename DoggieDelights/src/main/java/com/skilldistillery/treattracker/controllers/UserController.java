@@ -18,15 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.services.AuthService;
-import com.skilldistillery.treattracker.services.PetService;
 
 @RestController
 @RequestMapping("api")
 @CrossOrigin({"*", "http://localhost:4200"})
 public class UserController {
 
-	@Autowired
-	private PetService petService;
+//	@Autowired
+//	private PetService petService;
 	
 	@Autowired
 	private AuthService authService;
@@ -49,7 +48,7 @@ public class UserController {
 	}
 	
 //	GET  /users/{username}      find user by username
-	@GetMapping("users/{username}")
+	@GetMapping("users/keyword/{username}")
 	public User findByUsername(@PathVariable String username, HttpServletRequest req, HttpServletResponse res) {
 		User user = authService.getUserByUsername(username); 
 		if (user == null) {
@@ -64,10 +63,10 @@ public class UserController {
 	
 //	PUT     /users/{userId}      update user
 	@PutMapping("users/{userId}")
-	public User update(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, @RequestBody User user) {
+	public User update(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, @RequestBody User user, Principal principal) {
 		User updated = null;
 		try {
-		updated = authService.updateUserById(userId, user); 
+		updated = authService.updateUserById(userId, user, principal); 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -77,11 +76,25 @@ public class UserController {
 	}
 	
 //	PUT    /users/{userId}      update user to deactivate (delete)-serviceImpl
-	@PutMapping(value="users/{userId}", params = "userId")
-	public boolean deactivate(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId) {
+	@PutMapping("users/deactivate/{userId}")
+	public boolean deactivate(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) {
 		boolean result=false;
 		try {
-			result = authService.deactivateUser(userId); 
+			result = authService.deactivateUser(userId, principal); 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return result;
+	}
+	
+//	PUT    /users/{userId}      update user to deactivate (delete)-serviceImpl
+	@PutMapping("users/activate/{userId}")
+	public boolean activate(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) {
+		boolean result=false;
+		try {
+			result = authService.activateUser(userId, principal); 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -91,11 +104,11 @@ public class UserController {
 	}
 
 	//	PUT    /users/{userId}      update user credentials
-	@PutMapping(value="users/{userId}", params= {"userId", "username", "password"})
-	public boolean updateCredentials(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, @RequestBody String username, @RequestBody String password) {
+	@PutMapping("users/credentials/{userId}")
+	public boolean updateCredentials(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, @RequestBody User user, Principal principal) {
 		boolean result=false;
 		try {
-			result = authService.updateCredentials(userId, username, password); 
+			result = authService.updateCredentials(userId, user, principal); 
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -108,8 +121,8 @@ public class UserController {
 	
 //	DELETE    /users/{userId}       delete user?- -Admin only
 	@DeleteMapping("users/{userId}")
-	public boolean destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId) { 
-		boolean deleted = authService.deleteUser(userId);
+	public boolean destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) { 
+		boolean deleted = authService.deleteUser(userId, principal);
 		if (deleted) {
 			res.setStatus(200);
 		}
