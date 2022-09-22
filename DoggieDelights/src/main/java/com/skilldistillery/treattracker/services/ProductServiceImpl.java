@@ -1,36 +1,57 @@
-package com.skilldistillery.treattracker.controllers;
+package com.skilldistillery.treattracker.services;
 
-import java.security.Principal;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Service;
 
 import com.skilldistillery.treattracker.entities.Product;
-import com.skilldistillery.treattracker.services.ProductService;
+import com.skilldistillery.treattracker.repositories.ProductRepository;
+import com.skilldistillery.treattracker.repositories.UserRepository;
 
-@RestController
-@RequestMapping("api")
-@CrossOrigin({ "*", "http://localhost:4200" })
-public class ProductController {
+@Service
+public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductService productService;
-	
-//	private String username = "admin";
+	private ProductRepository productRepo;
 
-	@GetMapping("products")
-	public List<Product> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		return productService.index(principal.getName());
-//		return productService.index(username);
+	@Autowired
+	private UserRepository userRepo;
+
+	@Override
+	public List<Product> index(String username) {
+		System.out.println(productRepo.findAll());
+		return productRepo.findAll();
+//				findByUser_Username(username);
 	}
 
+	@Override
+	public Product show(String username, int pid) {
+		
+		
+		
+		return null;
+	}
+
+	@Override
+	public Product create(String username, Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Product update(String username, int tid, Product product) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean destroy(String username, int tid) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}
 //	GET    	/products    								get all products
 //	GET    	/products/{productId}    					get product by ID
 //	GET    	/products/{name or keyword}   				get product by word search
@@ -54,4 +75,3 @@ public class ProductController {
 //	POST	/products/{productId}/comments     			create comment
 //	PUT 	/products/{productId}/comments/{commentId}  update comment
 //	DELETE 	/products/{productId}/comments/{commentId}  delete comment
-}
