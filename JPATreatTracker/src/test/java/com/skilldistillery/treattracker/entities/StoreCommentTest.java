@@ -14,11 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PetTest {
+class StoreCommentTest {
 
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
-	private Pet pet;
+	private StoreComment storeComment;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -33,33 +33,33 @@ class PetTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		pet = em.find(Pet.class, 1);
+		storeComment = em.find(StoreComment.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		pet = null;
+		storeComment = null;
 	}
 
 	@Test
-	void test_Pet_entity_mapping() {
-		assertNotNull(pet);
-		assertEquals("Specter", pet.getName());
-		assertEquals(70.00, pet.getWeight());
-		assertEquals("male", pet.getGender());
+	void test_StoreComment_entity_mapping() {
+		assertNotNull(storeComment);
+		assertEquals("Store comment 1", storeComment.getTitle());
+		assertEquals("Description 1", storeComment.getDescription());
+		assertEquals(1, storeComment.getRating());
 	}
 
 	@Test
-	void test_Pet_ManyToMany_Breed_mapping() {
-		assertNotNull(pet);
-		assertTrue(pet.getBreeds().size() > 0);
+	void test_StoreComment_ManyToOne_ProductComponent_mapping() {
+		assertNotNull(storeComment);
+		assertEquals("Description 1", storeComment.getParentStoreComment().getDescription());
 	}
 
 	@Test
-	void test_Pet_ManyToMany_Diet_mapping() {
-		assertNotNull(pet);
-		assertTrue(pet.getDietNeeds().size() > 0);
+	void test_StoreComment_OneToMany_ProductComponent_mapping() {
+		assertNotNull(storeComment);
+		assertTrue(storeComment.getReplyStoreComments().size() > 1);
 	}
 
 }

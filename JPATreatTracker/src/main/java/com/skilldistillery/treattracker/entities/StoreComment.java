@@ -1,8 +1,11 @@
 package com.skilldistillery.treattracker.entities;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -35,10 +39,13 @@ public class StoreComment {
 	@CreationTimestamp
 	@Column(name="created_on")
 	private LocalDateTime createdOn;
-	
-//	@ManyToOne //is this the right way to map this???
-//	@JoinColumn(name="in_reply_to_id")
-//	private int inReplyToId;
+
+	@ManyToOne(cascade = { CascadeType.ALL })
+	@JoinColumn(name = "in_reply_to_id")
+	private StoreComment parentStoreComment;
+
+	@OneToMany(mappedBy = "parentStoreComment")
+	private Set<StoreComment> replyStoreComments = new HashSet<>();
 	
 
 	public StoreComment() {
@@ -92,6 +99,22 @@ public class StoreComment {
 		this.createdOn = createdOn;
 	}
 
+	public StoreComment getParentStoreComment() {
+		return parentStoreComment;
+	}
+
+	public void setParentStoreComment(StoreComment parentStoreComment) {
+		this.parentStoreComment = parentStoreComment;
+	}
+
+	public Set<StoreComment> getReplyStoreComments() {
+		return replyStoreComments;
+	}
+
+	public void setReplyStoreComments(Set<StoreComment> replyStoreComments) {
+		this.replyStoreComments = replyStoreComments;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
@@ -109,15 +132,10 @@ public class StoreComment {
 		return id == other.id;
 	}
 
-//	public int getInReplyToId() {
-//		return inReplyToId;
-//	}
-//
-//	public void setInReplyToId(int inReplyToId) {
-//		this.inReplyToId = inReplyToId;
-//	}
-
-	
-	
+	@Override
+	public String toString() {
+		return "StoreComment [id=" + id + ", title=" + title + ", description=" + description + ", rating=" + rating
+				+ ", store=" + store + ", createdOn=" + createdOn + ", parentStoreComment=" + parentStoreComment + "]";
+	}
 
 }

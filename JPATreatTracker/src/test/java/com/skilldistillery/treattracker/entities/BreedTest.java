@@ -48,9 +48,9 @@ class BreedTest {
 		assertEquals("Husky", breed.getName());
 		assertEquals("white-black", breed.getColor());
 	}
-	
+
 	@Test
-	void test_Breed_ManyToOne_Pet_mapping() {
+	void test_Breed_ManyToMany_Pet_mapping() {
 		assertNotNull(breed);
 		assertTrue(breed.getPets().size() > 0);
 	}

@@ -270,19 +270,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `breed`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breed` ;
-
-CREATE TABLE IF NOT EXISTS `breed` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(80) NULL,
-  `color` VARCHAR(45) NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `pet`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `pet` ;
@@ -295,20 +282,26 @@ CREATE TABLE IF NOT EXISTS `pet` (
   `gender` VARCHAR(45) NULL,
   `image` VARCHAR(2000) NULL,
   `birth_date` DATE NULL,
-  `breed_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pet_user1_idx` (`user_id` ASC),
-  INDEX `fk_pet_breed1_idx` (`breed_id` ASC),
   CONSTRAINT `fk_pet_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pet_breed1`
-    FOREIGN KEY (`breed_id`)
-    REFERENCES `breed` (`id`)
-    ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `breed`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `breed` ;
+
+CREATE TABLE IF NOT EXISTS `breed` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(80) NULL,
+  `color` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -450,6 +443,30 @@ CREATE TABLE IF NOT EXISTS `product_comment` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `pet_has_breed`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `pet_has_breed` ;
+
+CREATE TABLE IF NOT EXISTS `pet_has_breed` (
+  `pet_id` INT NOT NULL,
+  `breed_id` INT NOT NULL,
+  PRIMARY KEY (`pet_id`, `breed_id`),
+  INDEX `fk_pet_has_breed_breed1_idx` (`breed_id` ASC),
+  INDEX `fk_pet_has_breed_pet1_idx` (`pet_id` ASC),
+  CONSTRAINT `fk_pet_has_breed_pet1`
+    FOREIGN KEY (`pet_id`)
+    REFERENCES `pet` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pet_has_breed_breed1`
+    FOREIGN KEY (`breed_id`)
+    REFERENCES `breed` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 SET SQL_MODE = '';
 DROP USER IF EXISTS doggyuser@localhost;
 SET SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
@@ -585,9 +602,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (1, 'Store comment 1', NULL, NULL, 1, NULL, NULL);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (2, 'Store comment 2', NULL, NULL, 2, NULL, NULL);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (3, 'Store comment 3', NULL, NULL, 3, NULL, 2);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (1, 'Store comment 1', 'Description 1', 1, 1, NULL, 1);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (2, 'Store comment 2', 'Description 2', 2, 2, NULL, 1);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (3, 'Store comment 3', 'Description 3', 3, 3, NULL, 1);
 
 COMMIT;
 
@@ -605,6 +622,18 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `pet`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `breed`
 -- -----------------------------------------------------
 START TRANSACTION;
@@ -612,18 +641,6 @@ USE `doggydb`;
 INSERT INTO `breed` (`id`, `name`, `color`) VALUES (1, 'Husky', 'white-black');
 INSERT INTO `breed` (`id`, `name`, `color`) VALUES (2, 'Staffordshire Terrier', 'brown');
 INSERT INTO `breed` (`id`, `name`, `color`) VALUES (3, 'Brindel Boxer', 'brown-white');
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `pet`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `doggydb`;
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `breed_id`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL, 1);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `breed_id`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL, 2);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `breed_id`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL, 3);
 
 COMMIT;
 
@@ -698,9 +715,22 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (1, 'Product comment 1', NULL, NULL, NULL, 1, NULL);
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (2, 'Product comment 2', NULL, NULL, NULL, 2, NULL);
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Product comment 3', NULL, NULL, NULL, 3, 2);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (1, 'Product comment 1', 'Description 1', 1, NULL, 1, 1);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (2, 'Product comment 2', 'Description 2', 2, NULL, 1, 1);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Product comment 3', 'Description 3', 3, NULL, 1, 2);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
+-- Data for table `pet_has_breed`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `pet_has_breed` (`pet_id`, `breed_id`) VALUES (1, 1);
+INSERT INTO `pet_has_breed` (`pet_id`, `breed_id`) VALUES (2, 2);
+INSERT INTO `pet_has_breed` (`pet_id`, `breed_id`) VALUES (3, 1);
+INSERT INTO `pet_has_breed` (`pet_id`, `breed_id`) VALUES (3, 2);
 
 COMMIT;
 

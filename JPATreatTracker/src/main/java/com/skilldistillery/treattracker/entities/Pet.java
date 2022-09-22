@@ -42,13 +42,21 @@ public class Pet {
 //	@OneToMany(mappedBy = "pet")
 //	private Set<Breed> breeds;
 
-	@ManyToOne
-	@JoinColumn(name = "breed_id")
-	private Breed breed;
+//	@ManyToOne
+//	@JoinColumn(name = "breed_id")
+//	private Breed breed;
+	
+	@ManyToMany
+	@JoinTable(name = "pet_has_breed",
+			joinColumns = @JoinColumn(name = "pet_id"),
+			inverseJoinColumns = @JoinColumn(name = "breed_id"))
+	private Set<Breed> breeds;
 
 	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "pet_has_dietary_needs", joinColumns = @JoinColumn(name = "pet_id"), inverseJoinColumns = @JoinColumn(name = "dietary_needs_id"))
+	@JoinTable(name = "pet_has_dietary_needs", 
+		joinColumns = @JoinColumn(name = "pet_id"), 
+		inverseJoinColumns = @JoinColumn(name = "dietary_needs_id"))
 	private Set<Diet> dietNeeds;
 
 	public Pet() {
@@ -111,12 +119,12 @@ public class Pet {
 		this.user = user;
 	}
 
-	public Breed getBreed() {
-		return breed;
+	public Set<Breed> getBreeds() {
+		return breeds;
 	}
 
-	public void setBreed(Breed breed) {
-		this.breed = breed;
+	public void setBreeds(Set<Breed> breeds) {
+		this.breeds = breeds;
 	}
 
 	public Set<Diet> getDietNeeds() {
@@ -147,6 +155,6 @@ public class Pet {
 	@Override
 	public String toString() {
 		return "Pet [id=" + id + ", name=" + name + ", weight=" + weight + ", gender=" + gender + ", image=" + image
-				+ ", birthDate=" + birthDate + ", user=" + user + ", breed=" + breed + "]";
+				+ ", birthDate=" + birthDate + ", user=" + user + "]";
 	}
 }
