@@ -2,7 +2,6 @@ package com.skilldistillery.treattracker.entities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -48,19 +47,19 @@ class ProductReportTest {
 		assertEquals(9.99, productReport.getPrice());
 		assertEquals("Finally!", productReport.getRemark());
 	}
-	
+
 	@Test
 	void test_ProductReport_ManyToOne_User_mapping() {
 		assertNotNull(productReport);
 		assertEquals("admin", productReport.getUser().getUsername());
 	}
-	
+
 	@Test
 	void test_ProductReport_ManyToOne_Product_mapping() {
 		assertNotNull(productReport);
 		assertEquals("Pacific Catch Recipe", productReport.getProduct().getName());
 	}
-	
+
 	@Test
 	void test_ProductReport_ManyToOne_Store_mapping() {
 		assertNotNull(productReport);
