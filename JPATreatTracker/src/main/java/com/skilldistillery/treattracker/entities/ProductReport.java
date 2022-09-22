@@ -10,8 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "product_report")
 public class ProductReport {
 
 	@Id
@@ -46,10 +48,6 @@ public class ProductReport {
 	@JoinColumn(name = "store_id")
 	private Store store;
 
-	
-	
-	
-	
 	public ProductReport() {
 		super();
 	}
@@ -159,5 +157,10 @@ public class ProductReport {
 		return id == other.id;
 	}
 
-
+	@Override
+	public String toString() {
+		return "ProductReport [id=" + id + ", createdOn=" + createdOn + ", updatedOn=" + updatedOn + ", userQuantity="
+				+ userQuantity + ", price=" + price + ", isInStock=" + isInStock + ", remark=" + remark + ", user="
+				+ user + ", product=" + product + ", store=" + store + "]";
+	}
 }

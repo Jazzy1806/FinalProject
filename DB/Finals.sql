@@ -270,6 +270,19 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `breed`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `breed` ;
+
+CREATE TABLE IF NOT EXISTS `breed` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(80) NULL,
+  `color` VARCHAR(45) NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `pet`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `pet` ;
@@ -282,31 +295,18 @@ CREATE TABLE IF NOT EXISTS `pet` (
   `gender` VARCHAR(45) NULL,
   `image` VARCHAR(2000) NULL,
   `birth_date` DATE NULL,
+  `breed_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pet_user1_idx` (`user_id` ASC),
+  INDEX `fk_pet_breed1_idx` (`breed_id` ASC),
   CONSTRAINT `fk_pet_user1`
     FOREIGN KEY (`user_id`)
     REFERENCES `user` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `breed`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `breed` ;
-
-CREATE TABLE IF NOT EXISTS `breed` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(80) NULL,
-  `color` VARCHAR(45) NULL,
-  `pet_id` INT NOT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_breed_pet1_idx` (`pet_id` ASC),
-  CONSTRAINT `fk_breed_pet1`
-    FOREIGN KEY (`pet_id`)
-    REFERENCES `pet` (`id`)
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pet_breed1`
+    FOREIGN KEY (`breed_id`)
+    REFERENCES `breed` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -605,25 +605,25 @@ COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `pet`
+-- Data for table `breed`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL);
+INSERT INTO `breed` (`id`, `name`, `color`) VALUES (1, 'Husky', 'white-black');
+INSERT INTO `breed` (`id`, `name`, `color`) VALUES (2, 'Staffordshire Terrier', 'brown');
+INSERT INTO `breed` (`id`, `name`, `color`) VALUES (3, 'Brindel Boxer', 'brown-white');
 
 COMMIT;
 
 
 -- -----------------------------------------------------
--- Data for table `breed`
+-- Data for table `pet`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `breed` (`id`, `name`, `color`, `pet_id`) VALUES (1, 'Husky', 'white-black', 1);
-INSERT INTO `breed` (`id`, `name`, `color`, `pet_id`) VALUES (2, 'Staffordshire Terrier', 'brown', 2);
-INSERT INTO `breed` (`id`, `name`, `color`, `pet_id`) VALUES (3, 'Brindel Boxer', 'brown-white', 3);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `breed_id`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL, 1);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `breed_id`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL, 2);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `breed_id`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL, 3);
 
 COMMIT;
 
