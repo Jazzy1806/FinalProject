@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` VARCHAR(45) NULL,
   `username` VARCHAR(45) NOT NULL,
   `password` VARCHAR(200) NULL,
-  `email` INT NULL,
+  `email` VARCHAR(100) NULL,
   `enabled` TINYINT NULL,
   `address_id` INT NULL,
   `created_on` TIMESTAMP NULL,
