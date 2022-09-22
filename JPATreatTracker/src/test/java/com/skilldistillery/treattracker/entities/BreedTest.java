@@ -14,11 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class PetTest {
+class BreedTest {
 
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
-	private Pet pet;
+	private Breed breed;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -33,34 +33,26 @@ class PetTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		pet = em.find(Pet.class, 1);
+		breed = em.find(Breed.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		pet = null;
+		breed = null;
 	}
 
 	@Test
-	void test_Pet_entity_mapping() {
-		assertNotNull(pet);
-		assertEquals("Specter", pet.getName());
-		assertEquals(70.00, pet.getWeight());
-		assertEquals("male", pet.getGender());
+	void test_Breed_entity_mapping() {
+		assertNotNull(breed);
+		assertEquals("Husky", breed.getName());
+		assertEquals("white-black", breed.getColor());
 	}
 	
 	@Test
-	void test_Pet_OneToMany_Breed_mapping() {
-		assertNotNull(pet);
-		assertEquals("Husky", pet.getBreed().getName());
-		assertEquals("white-black", pet.getBreed().getColor());
-	}
-	
-	@Test
-	void test_Pet_ManyToMany_Diet_mapping() {
-		assertNotNull(pet);
-		assertTrue(pet.getDietNeeds().size() > 0);
+	void test_Breed_ManyToOne_Pet_mapping() {
+		assertNotNull(breed);
+		assertTrue(breed.getPets().size() > 0);
 	}
 
 }
