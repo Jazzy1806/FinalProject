@@ -18,7 +18,8 @@ class StoreCommentTest {
 
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
-	private StoreComment comment;
+
+	private StoreComment storeComment;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -33,25 +34,43 @@ class StoreCommentTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		comment = em.find(StoreComment.class, 1);
+
+		storeComment = em.find(StoreComment.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		comment = null;
+
+		storeComment = null;
 	}
 
 	@Test
 	void test_StoreComment_entity_mapping() {
-		assertNotNull(comment);
-		assertEquals("Store Comment 1", comment.getTitle());
+
+		assertNotNull(storeComment);
+		assertEquals("Store Comment 1", storeComment.getTitle());
 	}
 	
 	@Test
 	void test_StoreComment_ManyToMany_Ingredient_mapping() {
-		assertNotNull(comment);
-		assertNotNull(comment.getStore());
+
+		assertNotNull(storeComment);
+		assertEquals("Store comment 1", storeComment.getTitle());
+		assertEquals("Description 1", storeComment.getDescription());
+		assertEquals(1, storeComment.getRating());
+	}
+
+	@Test
+	void test_StoreComment_ManyToOne_ProductComponent_mapping() {
+		assertNotNull(storeComment);
+		assertEquals("Description 1", storeComment.getParentStoreComment().getDescription());
+	}
+
+	@Test
+	void test_StoreComment_OneToMany_ProductComponent_mapping() {
+		assertNotNull(storeComment);
+		assertTrue(storeComment.getReplyStoreComments().size() > 1);
 	}
 
 }

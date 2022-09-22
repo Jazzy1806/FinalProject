@@ -18,7 +18,8 @@ class ProductCommentTest {
 
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
-	private ProductComment comment;
+
+	private ProductComment productComment;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -33,25 +34,41 @@ class ProductCommentTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-		comment = em.find(ProductComment.class, 1);
+
+		productComment = em.find(ProductComment.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-		comment = null;
+
+		productComment = null;
 	}
 
 	@Test
 	void test_ProductComment_entity_mapping() {
-		assertNotNull(comment);
-		assertEquals("Product Comment 1", comment.getTitle());
+		assertNotNull(productComment);
+		assertEquals("Product Comment 1", productComment.getTitle());
 	}
 	
 	@Test
 	void test_ProductComment_ManyToMany_Ingredient_mapping() {
-		assertNotNull(comment);
-		assertNotNull(comment.getProduct());
+		assertNotNull(productComment);
+		assertEquals("Product comment 1", productComment.getTitle());
+		assertEquals("Description 1", productComment.getDescription());
+		assertEquals(1, productComment.getRating());
+	}
+
+	@Test
+	void test_ProductComment_ManyToOne_ProductComponent_mapping() {
+		assertNotNull(productComment);
+		assertEquals("Description 1", productComment.getParentProductComment().getDescription());
+	}
+
+	@Test
+	void test_ProductComment_OneToMany_ProductComponent_mapping() {
+		assertNotNull(productComment);
+		assertTrue(productComment.getReplyProductComments().size() > 1);
 	}
 
 }

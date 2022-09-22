@@ -49,14 +49,13 @@ class PetTest {
 		assertEquals(70.00, pet.getWeight());
 		assertEquals("male", pet.getGender());
 	}
-	
+
 	@Test
-	void test_Pet_OneToMany_Breed_mapping() {
+	void test_Pet_ManyToMany_Breed_mapping() {
 		assertNotNull(pet);
-		assertEquals("Husky", pet.getBreed().getName());
-		assertEquals("white-black", pet.getBreed().getColor());
+		assertTrue(pet.getBreeds().size() > 0);
 	}
-	
+
 	@Test
 	void test_Pet_ManyToMany_Diet_mapping() {
 		assertNotNull(pet);
