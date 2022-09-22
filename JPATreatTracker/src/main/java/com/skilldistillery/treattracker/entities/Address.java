@@ -8,6 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Address {
 	
@@ -26,9 +28,11 @@ public class Address {
 	
 	private String phone;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy="address")
 	private User user;
 	
+	@JsonIgnore
 	@OneToOne(mappedBy="address")
 	private Store store;
 	

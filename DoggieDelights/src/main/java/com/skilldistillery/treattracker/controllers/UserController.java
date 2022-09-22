@@ -25,6 +25,7 @@ import com.skilldistillery.treattracker.services.PetService;
 @CrossOrigin({"*", "http://localhost:4200"})
 public class UserController {
 	
+<<<<<<< HEAD
 	@Autowired
 	private PetService petService;
 	
@@ -189,4 +190,6 @@ public class UserController {
 //
 //	PUT  /users/[userId}/addresses/{addressId}  update address for user
 //
+=======
+>>>>>>> 47b91c430f87a3ba724c571355fd9c0401c1aba5
 }

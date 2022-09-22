@@ -1,42 +1,21 @@
-package com.skilldistillery.treattracker.controllers;
+package com.skilldistillery.treattracker.repositories;
 
-import java.security.Principal;
-import java.util.List;
+import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.skilldistillery.treattracker.entities.Product;
-import com.skilldistillery.treattracker.services.ProductService;
 
-@RestController
-@RequestMapping("api")
-@CrossOrigin({ "*", "http://localhost:4200" })
-public class ProductController {
-
-	@Autowired
-	private ProductService productService;
+public interface ProductRepository extends JpaRepository<Product, Integer> {
+//	Set<Product> findByUser_Username(String username);
 	
-//	private String username = "admin";
-
-	@GetMapping("products")
-	public List<Product> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-		return productService.index(principal.getName());
-//		return productService.index(username);
-	}
-
+	
 //	GET    	/products    								get all products
 //	GET    	/products/{productId}    					get product by ID
 //	GET    	/products/{name or keyword}   				get product by word search
 //	PUT    	/products/{productId}     					update product by id
 //	PUT    	/products/{productId}     					deactivate product by id
-
+	
 //	GET    	/products/{productId}/reports    			find user updates about product
 //	GET    	/products/{productId}/reports/{reportId}  	find specific report
 //	POST   	/products/{productId}/reports  				create report
@@ -54,4 +33,15 @@ public class ProductController {
 //	POST	/products/{productId}/comments     			create comment
 //	PUT 	/products/{productId}/comments/{commentId}  update comment
 //	DELETE 	/products/{productId}/comments/{commentId}  delete comment
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.skilldistillery.treattracker.entities.Inventory;
+import com.skilldistillery.treattracker.entities.Product;
+import com.skilldistillery.treattracker.entities.Store;
+
+public interface ProductRepository extends JpaRepository<Product,Integer> {
+	List<Product> findByInventoryAndStore(Inventory inventory, Store store);
+
 }

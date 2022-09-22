@@ -40,10 +40,11 @@ public class Store {
 	@OneToMany(mappedBy="store")
 	private List<Inventory> inventories;
 	
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="store")
 	private List<ProductReport> productReports;
 	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="chain_id")
 	private Chain chain;
