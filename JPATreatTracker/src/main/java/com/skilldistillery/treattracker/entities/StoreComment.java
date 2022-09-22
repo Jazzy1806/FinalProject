@@ -9,10 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="store_comment")
@@ -27,6 +28,7 @@ public class StoreComment {
 	private String description;
 	
 	private int rating;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")
