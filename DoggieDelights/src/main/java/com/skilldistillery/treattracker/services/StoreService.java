@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.services;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.stream.events.Comment;
 
@@ -17,7 +18,7 @@ public interface StoreService {
 	Store updateStore(Store store);
 	boolean deleteStore(Store store);
 	Address updateStoreAddress(Store store);
-	List<Product> findProductInventoryByStore(Store store, Inventory inventory);
+	Set<Product> findProductInventoryByStore(Store store);
 	Product updateProductInventoryByStore(Store store, Inventory inventory, Product product);
 	boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product);
 	List<Comment> findStoreComments(Store store);

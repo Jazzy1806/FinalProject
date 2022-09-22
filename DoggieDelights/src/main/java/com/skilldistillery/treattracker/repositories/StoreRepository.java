@@ -8,7 +8,7 @@ import com.skilldistillery.treattracker.entities.Store;
 
 public interface StoreRepository extends JpaRepository<Store, Integer> {
 	Store findById(int storeId);
-	List<Store> findByUsernameContains(String keyword);
+	List<Store> findByNameContains(String keyword);
 	
 
 }

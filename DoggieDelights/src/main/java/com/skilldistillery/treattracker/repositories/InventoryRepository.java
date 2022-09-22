@@ -8,8 +8,8 @@ import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
 
-public interface ProductRepository extends JpaRepository<Product,Integer> {
-	List<Product> findByInventoryAndStore(Inventory inventory, Store store);
+public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
+	List<Inventory> findByStore(Store store);
 	
 
 }
