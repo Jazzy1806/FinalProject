@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -8,9 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Product {
@@ -30,6 +36,13 @@ public class Product {
 	@UpdateTimestamp
 	@Column(name="updated_on")
 	private LocalDateTime dateUpdated;
+	
+	@JsonIgnoreProperties
+	@ManyToMany
+	@JoinTable(name="ingredient_has_product",
+	joinColumns=@JoinColumn(name="ingredient_id"),
+	inverseJoinColumns=@JoinColumn(name="product_id"))
+	private List<Ingredient> ingredients;
 
 	public Product() {}
 
@@ -87,6 +100,15 @@ public class Product {
 
 	public void setDateUpdated(LocalDateTime dateUpdated) {
 		this.dateUpdated = dateUpdated;
+	}
+	
+
+	public List<Ingredient> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<Ingredient> ingredients) {
+		this.ingredients = ingredients;
 	}
 
 	@Override

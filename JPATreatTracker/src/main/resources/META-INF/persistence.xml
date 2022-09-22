@@ -13,7 +13,10 @@
 		<class>com.skilldistillery.treattracker.entities.Chain</class>
 		<class>com.skilldistillery.treattracker.entities.Store</class>
 		<class>com.skilldistillery.treattracker.entities.StoreComment</class>
+		<class>com.skilldistillery.treattracker.entities.ProductComment</class>
+		<class>com.skilldistillery.treattracker.entities.ProductReport</class>
 		<class>com.skilldistillery.treattracker.entities.Inventory</class>
+		<class>com.skilldistillery.treattracker.entities.Ingredient</class>
 		
 		
 		<properties>
