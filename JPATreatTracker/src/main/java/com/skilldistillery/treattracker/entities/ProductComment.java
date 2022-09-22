@@ -12,117 +12,114 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Product {
+@Table(name="product_comment")
+public class ProductComment {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	private String name;
-	private String brand;
+	private String title;
 	private String description;
-	private String image;
-	
+	private Integer rating;
 	@CreationTimestamp
 	@Column(name="created_on")
 	private LocalDateTime dateCreated;
 	
-	@UpdateTimestamp
-	@Column(name="updated_on")
-	private LocalDateTime dateUpdated;
+	@ManyToOne
+	@JoinColumn(name="product_id")
+	private Product product;
 	
-	@JsonIgnoreProperties
-	@ManyToMany
-	@JoinTable(name="ingredient_has_product",
-	joinColumns=@JoinColumn(name="ingredient_id"),
-	inverseJoinColumns=@JoinColumn(name="product_id"))
-	private List<Ingredient> ingredients;
+	@ManyToOne     //is this the right way to map this?
+	@JoinColumn(name="product_comment_id")
+	private int prodComment;
 	
-	@OneToMany(mappedBy="product")
-	private List<Inventory> inventories;
 
-	@OneToMany(mappedBy="product")
-	private List<ProductComment> comments;
+	public ProductComment() {}
 
-
-	public Product() {}
 
 	public int getId() {
 		return id;
 	}
 
+
 	public void setId(int id) {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+
+	public String getTitle() {
+		return title;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
 
 	public String getDescription() {
 		return description;
 	}
 
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	public String getImage() {
-		return image;
+
+	public Integer getRating() {
+		return rating;
 	}
 
-	public void setImage(String image) {
-		this.image = image;
+
+	public void setRating(Integer rating) {
+		this.rating = rating;
 	}
+
 
 	public LocalDateTime getDateCreated() {
 		return dateCreated;
 	}
 
+
 	public void setDateCreated(LocalDateTime dateCreated) {
 		this.dateCreated = dateCreated;
 	}
 
-	public LocalDateTime getDateUpdated() {
-		return dateUpdated;
+
+	public Product getProduct() {
+		return product;
 	}
 
-	public void setDateUpdated(LocalDateTime dateUpdated) {
-		this.dateUpdated = dateUpdated;
-	}
-	
 
-	public List<Ingredient> getIngredients() {
-		return ingredients;
+	public void setProduct(Product product) {
+		this.product = product;
 	}
 
-	public void setIngredients(List<Ingredient> ingredients) {
-		this.ingredients = ingredients;
+
+	public int getProdComment() {
+		return prodComment;
 	}
+
+
+	public void setProdComment(int prodComment) {
+		this.prodComment = prodComment;
+	}
+
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -132,9 +129,11 @@ public class Product {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Product other = (Product) obj;
+		ProductComment other = (ProductComment) obj;
 		return id == other.id;
 	}
+
+	
 	
 	
 }

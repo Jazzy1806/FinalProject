@@ -2,12 +2,14 @@ package com.skilldistillery.treattracker.entities;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -30,11 +32,12 @@ public class StoreComment {
 	@JoinColumn(name="store_id")
 	private Store store;
 	
-	@JoinColumn(name="create_on")
+	@Column(name="create_on")
 	@CreationTimestamp
 	private LocalDateTime createdOn;
 	
-	@JoinColumn(name="in_reploy_to_id")
+	@ManyToOne //is this the right way to map this???
+	@JoinColumn(name="in_reply_to_id")
 	private int inReplyToId;
 	
 	
