@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 @Entity
 public class Breed {
@@ -25,7 +25,7 @@ public class Breed {
 //	private Pet pet;
 
 //	@JsonIgnore
-	@OneToMany(mappedBy = "breed")
+	@ManyToMany(mappedBy = "breeds")
 	private Set<Pet> pets;
 
 	public Breed() {
