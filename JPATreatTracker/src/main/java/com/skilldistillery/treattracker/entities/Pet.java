@@ -34,6 +34,7 @@ public class Pet {
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api")
 @CrossOrigin({"*", "http://localhost:4200"})
 public class UserController {
+
 //	GET  /users      get all users
 //
 //	GET /users/{userId}      findUserById

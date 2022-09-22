@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Breed {
 
@@ -24,7 +26,7 @@ public class Breed {
 //	@JoinColumn(name = "pet_id")
 //	private Pet pet;
 
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToMany(mappedBy = "breeds")
 	private Set<Pet> pets;
 

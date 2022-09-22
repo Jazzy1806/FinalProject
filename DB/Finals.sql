@@ -551,9 +551,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (1, 'Ad', 'Min', 'admin', 'admin', NULL, 1, 4, NULL, NULL, '1', NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (2, 'Dog', 'Gy', 'doggy', 'doggy', NULL, 1, 5, NULL, NULL, '2', NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (3, 'Dog', 'Gy2', 'doggy2', 'doggy2', NULL, 1, 6, NULL, NULL, '3', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (1, 'Ad', 'Min', 'admin', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 4, NULL, NULL, '1', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (2, 'Dog', 'Gy', 'doggy', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 5, NULL, NULL, '2', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (3, 'Dog', 'Gy2', 'doggy2', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 6, NULL, NULL, '3', NULL, NULL);
 
 COMMIT;
 

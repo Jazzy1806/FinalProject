@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin({"*", "http://localhost:4200"})
 public class StoreController {
 
+
 //	GET   /stores     get all stores
 //
 //	GET /stores/{storeId}    get store by id
@@ -42,4 +43,5 @@ public class StoreController {
 //	PUT /stores/{storeId}/comments/{commentId}      update comment
 //
 //	DELETE /stores/{storeId}/comments/{commentId}      delete comment
+
 }
