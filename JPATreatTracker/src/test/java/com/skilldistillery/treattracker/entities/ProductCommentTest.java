@@ -18,6 +18,7 @@ class ProductCommentTest {
 
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
+
 	private ProductComment productComment;
 
 	@BeforeAll
@@ -33,17 +34,25 @@ class ProductCommentTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
+
 		productComment = em.find(ProductComment.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
+
 		productComment = null;
 	}
 
 	@Test
 	void test_ProductComment_entity_mapping() {
+		assertNotNull(productComment);
+		assertEquals("Product Comment 1", productComment.getTitle());
+	}
+	
+	@Test
+	void test_ProductComment_ManyToMany_Ingredient_mapping() {
 		assertNotNull(productComment);
 		assertEquals("Product comment 1", productComment.getTitle());
 		assertEquals("Description 1", productComment.getDescription());

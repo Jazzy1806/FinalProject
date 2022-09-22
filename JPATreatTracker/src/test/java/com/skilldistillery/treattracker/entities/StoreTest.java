@@ -14,12 +14,11 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class StoreCommentTest {
+class StoreTest {
 
 	private static EntityManagerFactory emf;
 	private static EntityManager em;
-
-	private StoreComment storeComment;
+	private Store store;
 
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
@@ -34,43 +33,30 @@ class StoreCommentTest {
 	@BeforeEach
 	void setUp() throws Exception {
 		em = emf.createEntityManager();
-
-		storeComment = em.find(StoreComment.class, 1);
+		store = em.find(Store.class, 1);
 	}
 
 	@AfterEach
 	void tearDown() throws Exception {
 		em.close();
-
-		storeComment = null;
+		store = null;
 	}
 
 	@Test
-	void test_StoreComment_entity_mapping() {
-
-		assertNotNull(storeComment);
-		assertEquals("Store Comment 1", storeComment.getTitle());
+	void test_Store_entity_mapping() {
+		assertNotNull(store);
+		assertEquals("Petco on Ken Pratt", store.getName());
 	}
 	
 	@Test
-	void test_StoreComment_ManyToMany_Ingredient_mapping() {
-
-		assertNotNull(storeComment);
-		assertEquals("Store comment 1", storeComment.getTitle());
-		assertEquals("Description 1", storeComment.getDescription());
-		assertEquals(1, storeComment.getRating());
+	void test_Store_OneToMany_Inventory_mapping() {
+		assertNotNull(store);
+		assertTrue(store.getInventories().size() > 0);
 	}
-
 	@Test
-	void test_StoreComment_ManyToOne_ProductComponent_mapping() {
-		assertNotNull(storeComment);
-		assertEquals("Description 1", storeComment.getParentStoreComment().getDescription());
-	}
-
-	@Test
-	void test_StoreComment_OneToMany_ProductComponent_mapping() {
-		assertNotNull(storeComment);
-		assertTrue(storeComment.getReplyStoreComments().size() > 1);
+	void test_Store_OneToMany_ProductReport_mapping() {
+		assertNotNull(store);
+		assertTrue(store.getProductReports().size() > 0);
 	}
 
 }

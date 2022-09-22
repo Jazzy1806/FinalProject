@@ -50,10 +50,15 @@ public class Product {
 	@JoinTable(name = "ingredient_has_product", joinColumns = @JoinColumn(name = "ingredient_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Ingredient> ingredients;
 
+
 	@OneToMany(mappedBy = "product")
 	private List<ProductComment> comments;
 
-	@OneToMany(mappedBy = "product")
+		@OneToMany(mappedBy="product")
+	private List<Inventory> inventories;
+
+
+	@OneToMany(mappedBy="product")
 	private List<ProductReport> reports;
 
 	@OneToMany(mappedBy = "product")

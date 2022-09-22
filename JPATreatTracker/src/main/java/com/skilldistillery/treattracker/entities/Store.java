@@ -13,6 +13,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Store {
 	
@@ -34,12 +36,10 @@ public class Store {
 	@Column(name="logo_url")
 	private String logoUrl;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="store")
 	private List<Inventory> inventories;
 	
-
-	@OneToMany(mappedBy="store")
-	private List<StoreComment> comments;
 	
 	@OneToMany(mappedBy="store")
 	private List<ProductReport> productReports;
@@ -48,8 +48,11 @@ public class Store {
 	@JoinColumn(name="chain_id")
 	private Chain chain;
 	
-	
-	
+
+	@JsonIgnore
+	@OneToMany(mappedBy="store")
+	private List<StoreComment> comments;
+
 
 	public Store() {
 		super();
