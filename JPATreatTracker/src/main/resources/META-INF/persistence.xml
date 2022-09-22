@@ -6,6 +6,14 @@
 	
 		<class>com.skilldistillery.treattracker.entities.Address</class>
 		<class>com.skilldistillery.treattracker.entities.User</class>
+		<class>com.skilldistillery.treattracker.entities.Diet</class>
+		<class>com.skilldistillery.treattracker.entities.Breed</class>
+		<class>com.skilldistillery.treattracker.entities.Pet</class>
+		<class>com.skilldistillery.treattracker.entities.Product</class>
+		<class>com.skilldistillery.treattracker.entities.Chain</class>
+		<class>com.skilldistillery.treattracker.entities.Store</class>
+		<class>com.skilldistillery.treattracker.entities.StoreComment</class>
+		<class>com.skilldistillery.treattracker.entities.Inventory</class>
 		
 		
 		<properties>

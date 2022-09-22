@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Address {
@@ -20,6 +21,9 @@ public class Address {
 	private String postalCode;
 	
 	private String phone;
+	
+	@OneToOne(mappedBy="address")
+	private User user;
 	
 
 	public Address() {
@@ -64,6 +68,16 @@ public class Address {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	
+	
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override
