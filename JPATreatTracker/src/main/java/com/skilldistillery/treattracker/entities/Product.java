@@ -12,16 +12,18 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Product {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -29,38 +31,36 @@ public class Product {
 	private String brand;
 	private String description;
 	private String image;
-	
+
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
+
 	@CreationTimestamp
-	@Column(name="created_on")
+	@Column(name = "created_on")
 	private LocalDateTime dateCreated;
-	
+
 	@UpdateTimestamp
-	@Column(name="updated_on")
+	@Column(name = "updated_on")
 	private LocalDateTime dateUpdated;
-	
+
 	@JsonIgnoreProperties
 	@ManyToMany
-	@JoinTable(name="ingredient_has_product",
-	joinColumns=@JoinColumn(name="ingredient_id"),
-	inverseJoinColumns=@JoinColumn(name="product_id"))
+	@JoinTable(name = "ingredient_has_product", joinColumns = @JoinColumn(name = "ingredient_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Ingredient> ingredients;
-	
-	@OneToMany(mappedBy="product")
+
+	@OneToMany(mappedBy = "product")
 	private List<ProductComment> comments;
 
-	@OneToMany(mappedBy="product")
+	@OneToMany(mappedBy = "product")
 	private List<ProductReport> reports;
 
-	@OneToMany(mappedBy="product")
+	@OneToMany(mappedBy = "product")
 	private List<Inventory> inventoryItems;
-	
-	
-	
-	
-	
-	
 
-	public Product() {}
+	public Product() {
+	}
 
 	public int getId() {
 		return id;
@@ -102,6 +102,14 @@ public class Product {
 		this.image = image;
 	}
 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	public LocalDateTime getDateCreated() {
 		return dateCreated;
 	}
@@ -117,7 +125,6 @@ public class Product {
 	public void setDateUpdated(LocalDateTime dateUpdated) {
 		this.dateUpdated = dateUpdated;
 	}
-	
 
 	public List<Ingredient> getIngredients() {
 		return ingredients;
@@ -167,6 +174,5 @@ public class Product {
 		Product other = (Product) obj;
 		return id == other.id;
 	}
-	
-	
+
 }

@@ -1,35 +1,21 @@
-package com.skilldistillery.treattracker.controllers;
+package com.skilldistillery.treattracker.services;
 
-import java.security.Principal;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.skilldistillery.treattracker.entities.Product;
-import com.skilldistillery.treattracker.services.ProductService;
 
-@RestController
-@RequestMapping("api")
-@CrossOrigin({ "*", "http://localhost:4200" })
-public class ProductController {
+public interface ProductService {
 
-	@Autowired
-	private ProductService productService;
-	
-	private String username = "admin";
+	public Set<Product> index(String username);
 
-	@GetMapping("products")
-	public Set<Product> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-//		return productService.index(principal.getName());
-		return productService.index(username);
-	}
+	public Product show(String username, int pid);
+
+	public Product create(String username, Product product);
+
+	public Product update(String username, int tid, Product product);
+
+	public boolean destroy(String username, int tid);
+}
 
 //	GET    	/products    								get all products
 //	GET    	/products/{productId}    					get product by ID
@@ -54,4 +40,3 @@ public class ProductController {
 //	POST	/products/{productId}/comments     			create comment
 //	PUT 	/products/{productId}/comments/{commentId}  update comment
 //	DELETE 	/products/{productId}/comments/{commentId}  delete comment
-}
