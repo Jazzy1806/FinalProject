@@ -339,9 +339,9 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `ingredient_has_product` ;
 
 CREATE TABLE IF NOT EXISTS `ingredient_has_product` (
-  `ingredient_id` INT NOT NULL,
   `product_id` INT NOT NULL,
-  PRIMARY KEY (`ingredient_id`, `product_id`),
+  `ingredient_id` INT NOT NULL,
+  PRIMARY KEY (`product_id`, `ingredient_id`),
   INDEX `fk_ingredient_has_product_product1_idx` (`product_id` ASC),
   INDEX `fk_ingredient_has_product_ingredient1_idx` (`ingredient_id` ASC),
   CONSTRAINT `fk_ingredient_has_product_ingredient1`
@@ -684,9 +684,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `ingredient_has_product` (`ingredient_id`, `product_id`) VALUES (1, 1);
-INSERT INTO `ingredient_has_product` (`ingredient_id`, `product_id`) VALUES (2, 2);
-INSERT INTO `ingredient_has_product` (`ingredient_id`, `product_id`) VALUES (3, 3);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 1);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (2, 2);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 1);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 2);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 3);
 
 COMMIT;
 
