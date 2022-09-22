@@ -172,6 +172,21 @@ public class UserController {
 //			res.setStatus(400);
 //		}
 //	}
+//	GET  /users      get all users
+//
+//	GET /users/{userId}      findUserById
+//
+//	GET  /users/{username}      find user by username
+//
+//	POST  /users          register new user
+//
+//	PUT     /users/{userId}      update user
+//
+//	PUT    /users/{userId}      update user to deactivate (delete)-serviceImpl
+//
+//	DELETE    /users/{userId}       delete user?- -Admin only
+//
+//	GET   /users/{userId}/pets    get all user pets
 //
 //	GET    /users/{userId}/pets/{petId}    get specific pet
 //
@@ -188,6 +203,6 @@ public class UserController {
 //	POST /users/[userId}/addresses/        create address for user
 //
 //	PUT  /users/[userId}/addresses/{addressId}  update address for user
-//
+
 
 }
