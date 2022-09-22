@@ -33,5 +33,15 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 //	POST	/products/{productId}/comments     			create comment
 //	PUT 	/products/{productId}/comments/{commentId}  update comment
 //	DELETE 	/products/{productId}/comments/{commentId}  delete comment
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.skilldistillery.treattracker.entities.Inventory;
+import com.skilldistillery.treattracker.entities.Product;
+import com.skilldistillery.treattracker.entities.Store;
+
+public interface ProductRepository extends JpaRepository<Product,Integer> {
+	List<Product> findByInventoryAndStore(Inventory inventory, Store store);
 
 }
