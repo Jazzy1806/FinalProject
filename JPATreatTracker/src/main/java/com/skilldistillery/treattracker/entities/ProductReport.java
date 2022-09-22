@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 @Entity
 public class ProductReport {
@@ -26,12 +25,12 @@ public class ProductReport {
 	private LocalDate updatedOn;
 
 	@Column(name = "user_quantity")
-	private LocalDate userQuantity;
+	private Integer userQuantity;
 
-	private double price;
+	private Double price;
 
 	@Column(name = "is_in_stock")
-	private boolean isInStock;
+	private Boolean isInStock;
 
 	private String remark;
 
@@ -43,7 +42,8 @@ public class ProductReport {
 	@JoinColumn(name = "product_id")
 	private Product product;
 
-	@OneToMany(mappedBy = "store_id")
+	@ManyToOne
+	@JoinColumn(name = "store_id")
 	private Store store;
 
 	public ProductReport() {
@@ -74,27 +74,27 @@ public class ProductReport {
 		this.updatedOn = updatedOn;
 	}
 
-	public LocalDate getUserQuantity() {
+	public Integer getUserQuantity() {
 		return userQuantity;
 	}
 
-	public void setUserQuantity(LocalDate userQuantity) {
+	public void setUserQuantity(Integer userQuantity) {
 		this.userQuantity = userQuantity;
 	}
 
-	public double getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	public void setPrice(double price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
-	public boolean isInStock() {
+	public Boolean isInStock() {
 		return isInStock;
 	}
 
-	public void setInStock(boolean isInStock) {
+	public void setInStock(Boolean isInStock) {
 		this.isInStock = isInStock;
 	}
 
@@ -128,6 +128,14 @@ public class ProductReport {
 
 	public void setStore(Store store) {
 		this.store = store;
+	}
+
+	public Boolean getIsInStock() {
+		return isInStock;
+	}
+
+	public void setIsInStock(Boolean isInStock) {
+		this.isInStock = isInStock;
 	}
 
 	@Override

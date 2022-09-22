@@ -37,9 +37,9 @@ public class ProductComment {
 	@JoinColumn(name="product_id")
 	private Product product;
 	
-	@ManyToOne     //is this the right way to map this?
-	@JoinColumn(name="product_comment_id")
-	private int prodComment;
+//	@ManyToOne     //is this the right way to map this?
+//	@JoinColumn(name="product_comment_id")
+//	private int prodComment;
 	
 
 	public ProductComment() {}
@@ -105,14 +105,14 @@ public class ProductComment {
 	}
 
 
-	public int getProdComment() {
-		return prodComment;
-	}
-
-
-	public void setProdComment(int prodComment) {
-		this.prodComment = prodComment;
-	}
+//	public int getProdComment() {
+//		return prodComment;
+//	}
+//
+//
+//	public void setProdComment(int prodComment) {
+//		this.prodComment = prodComment;
+//	}
 
 
 	@Override

@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.entities;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -9,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -47,6 +49,12 @@ public class User {
 	@OneToOne
 	@JoinColumn(name="address_id")
 	private Address address;
+	
+	@OneToMany(mappedBy="user")
+	private List<Pet> pets;
+	
+	@OneToMany(mappedBy="user")
+	private List<ProductReport> productReports;	
 	
 	
 	
@@ -148,14 +156,29 @@ public class User {
 		this.image = image;
 	}
 	
-	
-
 	public Address getAddress() {
 		return address;
 	}
 
 	public void setAddress(Address address) {
 		this.address = address;
+	}
+	
+
+	public List<Pet> getPets() {
+		return pets;
+	}
+
+	public void setPets(List<Pet> pets) {
+		this.pets = pets;
+	}
+
+	public List<ProductReport> getProductReports() {
+		return productReports;
+	}
+
+	public void setProductReports(List<ProductReport> productReports) {
+		this.productReports = productReports;
 	}
 
 	@Override

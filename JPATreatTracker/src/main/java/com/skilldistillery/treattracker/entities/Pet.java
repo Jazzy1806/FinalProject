@@ -10,8 +10,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Pet {
@@ -22,7 +26,7 @@ public class Pet {
 
 	private String name;
 
-	private double weight;
+	private Double weight;
 
 	private String gender;
 
@@ -39,6 +43,14 @@ public class Pet {
 	@OneToMany(mappedBy = "pet")
 	private Set<Breed> breeds;
 
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name="pet_has_dietary_needs",
+	joinColumns=@JoinColumn(name="pet_id"),
+	inverseJoinColumns=@JoinColumn(name="dietary_needs_id"))
+	private Set<Diet> dietNeeds;
+	
+	
 	public Pet() {
 		super();
 	}
@@ -59,11 +71,11 @@ public class Pet {
 		this.name = name;
 	}
 
-	public double getWeight() {
+	public Double getWeight() {
 		return weight;
 	}
 
-	public void setWeight(double weight) {
+	public void setWeight(Double weight) {
 		this.weight = weight;
 	}
 
@@ -106,6 +118,16 @@ public class Pet {
 	public void setBreeds(Set<Breed> breeds) {
 		this.breeds = breeds;
 	}
+	
+
+	public Set<Diet> getDietNeeds() {
+		return dietNeeds;
+	}
+
+	public void setDietNeeds(Set<Diet> dietNeeds) {
+		this.dietNeeds = dietNeeds;
+	}
+	
 
 	@Override
 	public int hashCode() {
@@ -124,9 +146,5 @@ public class Pet {
 		return id == other.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", weight=" + weight + ", gender=" + gender + ", image=" + image
-				+ ", birthDate=" + birthDate + ", user=" + user + "]";
-	}
+
 }
