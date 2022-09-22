@@ -7,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Breed {
@@ -22,10 +20,13 @@ public class Breed {
 
 	private String color;
 
-	@ManyToOne
-	@JoinColumn(name = "pet_id")
-	private Pet pet;
-	
+//	@ManyToOne
+//	@JoinColumn(name = "pet_id")
+//	private Pet pet;
+
+//	@JsonIgnore
+	@OneToMany(mappedBy = "breed")
+	private Set<Pet> pets;
 
 	public Breed() {
 		super();
@@ -55,21 +56,18 @@ public class Breed {
 		this.color = color;
 	}
 
-	public Pet getPet() {
-		return pet;
+	public Set<Pet> getPets() {
+		return pets;
 	}
 
-	public void setPet(Pet pet) {
-		this.pet = pet;
+	public void setPets(Set<Pet> pets) {
+		this.pets = pets;
 	}
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(id);
 	}
-
-	
-	
 
 	@Override
 	public boolean equals(Object obj) {
@@ -83,6 +81,9 @@ public class Breed {
 		return id == other.id;
 	}
 
-
+	@Override
+	public String toString() {
+		return "Breed [id=" + id + ", name=" + name + ", color=" + color + "]";
+	}
 
 }
