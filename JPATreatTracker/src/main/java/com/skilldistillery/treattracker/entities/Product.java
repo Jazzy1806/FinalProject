@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -43,6 +44,9 @@ public class Product {
 	joinColumns=@JoinColumn(name="ingredient_id"),
 	inverseJoinColumns=@JoinColumn(name="product_id"))
 	private List<Ingredient> ingredients;
+	
+	@OneToMany(mappedBy="product")
+	private List<Inventory> inventories;
 
 	public Product() {}
 

@@ -37,7 +37,7 @@ public class StoreComment {
 	@JoinColumn(name="in_reploy_to_id")
 	private int inReplyToId;
 	
-
+	
 	public StoreComment() {
 	}
 

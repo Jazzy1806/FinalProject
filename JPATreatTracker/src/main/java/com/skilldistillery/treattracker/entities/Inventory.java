@@ -22,6 +22,10 @@ public class Inventory {
 	
 	private int quantity;
 	
+	@ManyToOne
+	@JoinColumn(name="product_id")
+	private Product product;
+	
 
 	public Inventory() {
 	
