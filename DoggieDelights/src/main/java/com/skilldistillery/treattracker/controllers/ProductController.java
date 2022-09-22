@@ -1,7 +1,7 @@
 package com.skilldistillery.treattracker.controllers;
 
 import java.security.Principal;
-import java.util.Set;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,12 +23,12 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
-	private String username = "admin";
+//	private String username = "admin";
 
 	@GetMapping("products")
-	public Set<Product> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-//		return productService.index(principal.getName());
-		return productService.index(username);
+	public List<Product> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		return productService.index(principal.getName());
+//		return productService.index(username);
 	}
 
 //	GET    	/products    								get all products

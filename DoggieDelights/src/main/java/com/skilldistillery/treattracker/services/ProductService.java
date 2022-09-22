@@ -1,12 +1,12 @@
 package com.skilldistillery.treattracker.services;
 
-import java.util.Set;
+import java.util.List;
 
 import com.skilldistillery.treattracker.entities.Product;
 
 public interface ProductService {
 
-	public Set<Product> index(String username);
+	public List<Product> index(String username);
 
 	public Product show(String username, int pid);
 

@@ -16,6 +16,8 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User {
 	
@@ -50,9 +52,11 @@ public class User {
 	@JoinColumn(name="address_id")
 	private Address address;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Pet> pets;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<ProductReport> productReports;	
 	

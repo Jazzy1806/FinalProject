@@ -1,7 +1,7 @@
 package com.skilldistillery.treattracker.services;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,19 +20,17 @@ public class ProductServiceImpl implements ProductService {
 	private UserRepository userRepo;
 
 	@Override
-	public Set<Product> index(String username) {
-		return productRepo.findByUser_Username(username);
+	public List<Product> index(String username) {
+		System.out.println(productRepo.findAll());
+		return productRepo.findAll();
+//				findByUser_Username(username);
 	}
 
 	@Override
 	public Product show(String username, int pid) {
-		Optional<Product> productOpt = productRepo.findById(pid);
-		if (productOpt.isPresent()) {
-			Product product = productOpt.get();
-			if (product.getUser().getUsername().equals(username)) {
-				return product;
-			}
-		}
+		
+		
+		
 		return null;
 	}
 

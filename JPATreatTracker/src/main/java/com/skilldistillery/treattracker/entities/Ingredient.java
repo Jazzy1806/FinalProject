@@ -9,18 +9,22 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Ingredient {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	
-	@ManyToMany(mappedBy="ingredients")
+
+	@JsonIgnore
+	@ManyToMany(mappedBy = "ingredients")
 	private List<Product> products;
-	
-	public Ingredient() {}
+
+	public Ingredient() {
+	}
 
 	public int getId() {
 		return id;
@@ -62,6 +66,5 @@ public class Ingredient {
 		Ingredient other = (Ingredient) obj;
 		return id == other.id;
 	}
-	
-	
+
 }

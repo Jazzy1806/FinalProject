@@ -12,14 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Product {
@@ -32,10 +30,10 @@ public class Product {
 	private String description;
 	private String image;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+//	@JsonIgnore
+//	@ManyToOne
+//	@JoinColumn(name = "user_id")
+//	private User user;
 
 	@CreationTimestamp
 	@Column(name = "created_on")
@@ -45,22 +43,23 @@ public class Product {
 	@Column(name = "updated_on")
 	private LocalDateTime dateUpdated;
 
-	@JsonIgnoreProperties
+//	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "ingredient_has_product", joinColumns = @JoinColumn(name = "ingredient_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
 	private List<Ingredient> ingredients;
 
-
+	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	private List<ProductComment> comments;
 
-		@OneToMany(mappedBy="product")
+	@OneToMany(mappedBy = "product")
 	private List<Inventory> inventories;
 
-
-	@OneToMany(mappedBy="product")
+	@JsonIgnore
+	@OneToMany(mappedBy = "product")
 	private List<ProductReport> reports;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "product")
 	private List<Inventory> inventoryItems;
 
@@ -107,13 +106,13 @@ public class Product {
 		this.image = image;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+//	public User getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(User user) {
+//		this.user = user;
+//	}
 
 	public LocalDateTime getDateCreated() {
 		return dateCreated;

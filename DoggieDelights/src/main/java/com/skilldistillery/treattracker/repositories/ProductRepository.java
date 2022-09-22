@@ -7,7 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.skilldistillery.treattracker.entities.Product;
 
 public interface ProductRepository extends JpaRepository<Product, Integer> {
-	Set<Product> findByUser_Username(String username);
+//	Set<Product> findByUser_Username(String username);
+	
+	
 //	GET    	/products    								get all products
 //	GET    	/products/{productId}    					get product by ID
 //	GET    	/products/{name or keyword}   				get product by word search
