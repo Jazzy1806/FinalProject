@@ -1,6 +1,10 @@
 package com.skilldistillery.treattracker.services;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.stream.events.Comment;
 
@@ -11,7 +15,7 @@ import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
-import com.skilldistillery.treattracker.repositories.ProductRepository;
+import com.skilldistillery.treattracker.repositories.InventoryRepository;
 import com.skilldistillery.treattracker.repositories.StoreCommentRepository;
 import com.skilldistillery.treattracker.repositories.StoreRepository;
 
@@ -22,7 +26,7 @@ public class StoreServiceImpl implements StoreService {
 	private StoreRepository StoreRepo;
 	
 	@Autowired
-	private ProductRepository ProdRepo;
+	private InventoryRepository inventoryRepo;
 	
 	@Autowired
 	private StoreCommentRepository storeCommentRepo;
@@ -41,7 +45,7 @@ public class StoreServiceImpl implements StoreService {
 
 	@Override
 	public List<Store> findStoresByKeyword(String keyword) {
-		List<Store> stores = StoreRepo.findByUsernameContains(keyword);
+		List<Store> stores = StoreRepo.findByNameContains(keyword);
 		return stores;
 	}
 
@@ -70,9 +74,13 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Product> findProductInventoryByStore(Store store, Inventory inventory) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<Product> findProductInventoryByStore(Store store) {
+		Set<Product> products = new HashSet<>();
+		List<Inventory> inventories = inventoryRepo.findByStore(store);
+		for (Inventory item : inventories ) {
+			products.add(item.getProduct());
+		}
+		return products;
 	}
 
 	@Override
