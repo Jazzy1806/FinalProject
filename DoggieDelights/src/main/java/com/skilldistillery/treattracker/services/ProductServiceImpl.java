@@ -6,7 +6,10 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.treattracker.entities.Ingredient;
 import com.skilldistillery.treattracker.entities.Product;
+import com.skilldistillery.treattracker.entities.ProductComment;
+import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.repositories.ProductRepository;
 import com.skilldistillery.treattracker.repositories.UserRepository;
 
@@ -14,64 +17,91 @@ import com.skilldistillery.treattracker.repositories.UserRepository;
 public class ProductServiceImpl implements ProductService {
 
 	@Autowired
-	private ProductRepository productRepo;
+	private ProductRepository prodRepo;
 
 	@Autowired
 	private UserRepository userRepo;
 
 	@Override
 	public List<Product> index(String username) {
-		System.out.println(productRepo.findAll());
-		return productRepo.findAll();
-//				findByUser_Username(username);
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			return prodRepo.findAll();
+		}
+		return null;
 	}
 
 	@Override
 	public Product show(String username, int pid) {
-		
-		
-		
+		User user = userRepo.findByUsername(username);
+		Optional<Product> prodOpt = prodRepo.findById(pid);
+		if (prodOpt.isPresent()) {
+			Product product = prodOpt.get();
+			if (user != null) {
+				return product;
+			}
+		}
 		return null;
 	}
 
 	@Override
 	public Product create(String username, Product product) {
-		// TODO Auto-generated method stub
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			return prodRepo.saveAndFlush(product);
+		}
 		return null;
 	}
 
 	@Override
-	public Product update(String username, int tid, Product product) {
-		// TODO Auto-generated method stub
+	public Product update(String username, int pid, Product product) {
+		User user = userRepo.findByUsername(username);
+		Optional<Product> prodOpt = prodRepo.findById(pid);
+		if (prodOpt.isPresent()) {
+			Product prodUpdate = prodOpt.get();
+			if (user != null) {
+				prodUpdate.setName(product.getName());
+				prodUpdate.setBrand(product.getBrand());
+				prodUpdate.setDescription(product.getDescription());
+				prodUpdate.setImage(product.getImage());
+				prodRepo.save(prodUpdate);
+				return prodUpdate;
+			}
+		}
 		return null;
 	}
 
 	@Override
-	public boolean destroy(String username, int tid) {
-		// TODO Auto-generated method stub
+	public boolean destroy(String username, int pid) {
+		User user = userRepo.findByUsername(username);
+		Optional<Product> prodOpt = prodRepo.findById(pid);
+		if (prodOpt.isPresent()) {
+			if (user != null) {
+				Product prodToDel = prodOpt.get();
+
+				List<ProductComment> comments = prodToDel.getComments();
+				if (comments.size() > 0) {
+					for (ProductComment comment : comments) {
+						comment.removeComment();
+					}
+				}
+				
+				List<Ingredient> ingredients = prodToDel.getIngredients();
+				if (ingredients.size() > 0) {
+					System.out.println(prodToDel);
+					prodToDel.removeIngredients();
+				}
+				System.out.println(prodToDel);
+				prodRepo.saveAndFlush(prodToDel);
+				
+				try {
+					prodRepo.deleteById(pid);
+					return true;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return false;
 	}
 }
-//	GET    	/products    								get all products
-//	GET    	/products/{productId}    					get product by ID
-//	GET    	/products/{name or keyword}   				get product by word search
-//	PUT    	/products/{productId}     					update product by id
-//	PUT    	/products/{productId}     					deactivate product by id
-
-//	GET    	/products/{productId}/reports    			find user updates about product
-//	GET    	/products/{productId}/reports/{reportId}  	find specific report
-//	POST   	/products/{productId}/reports  				create report
-//	PUT    	/products/{productId}/reports/{reportId}   	update specific report
-//	DELETE	/products/{productId}/reports/{reportId}   	delete specific report//
-
-//	GET		/products/{productId}/ingredients   		find all ingredients
-//	GET 	/products/{productId}/ingredients/{ingId}   find specific ingredient
-//	POST	/products/{productId}/ingredients      		create ingredient
-//	PUT 	/products/{productId}/ingredients/{ingId}   update specific ingredient-admin/ store only                                                               
-//	DELETE 	/products/{productId}/ingredient/{ingId}  	delete specific ing-ad/only
-
-//	GET 	/products/{productId}/comments      		find all comments
-//	GET 	/products/{productId}/comments/{commentId}  find specific comment
-//	POST	/products/{productId}/comments     			create comment
-//	PUT 	/products/{productId}/comments/{commentId}  update comment
-//	DELETE 	/products/{productId}/comments/{commentId}  delete comment

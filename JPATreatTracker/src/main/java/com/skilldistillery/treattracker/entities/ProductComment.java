@@ -48,6 +48,13 @@ public class ProductComment {
 	private Set<ProductComment> replyProductComments = new HashSet<>();
 
 	public ProductComment() {
+		
+	}
+	
+	public void removeComment() {
+		if (replyProductComments != null) {
+			replyProductComments.removeAll(replyProductComments);
+		}
 	}
 
 	public int getId() {

@@ -1,5 +1,6 @@
 package com.skilldistillery.treattracker.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +25,23 @@ public class Ingredient {
 	private List<Product> products;
 
 	public Ingredient() {
+	}
+
+	public void removeProduct(Product product) {
+		if (products != null && products.contains(product)) {
+			products.remove(product);
+			product.removeIngredient(this);
+		}
+	}
+
+	public void removeProducts() {
+		if (products != null) {
+			List<Product> productsToRemove = new ArrayList<>(products);
+			for (Product productToRemove : productsToRemove) {
+				productToRemove.removeIngredient(this);
+			}
+			products.clear();
+		}
 	}
 
 	public int getId() {
