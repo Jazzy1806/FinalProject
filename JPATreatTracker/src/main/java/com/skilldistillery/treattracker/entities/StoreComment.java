@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="store_comment")
 public class StoreComment {
@@ -31,6 +33,7 @@ public class StoreComment {
 	private String description;
 	
 	private Integer rating;
+	
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")
@@ -47,7 +50,7 @@ public class StoreComment {
 	@OneToMany(mappedBy = "parentStoreComment")
 	private Set<StoreComment> replyStoreComments = new HashSet<>();
 	
-
+	
 	public StoreComment() {
 	}
 

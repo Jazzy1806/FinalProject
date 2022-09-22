@@ -46,17 +46,17 @@ public class Product {
 	private List<Ingredient> ingredients;
 	
 	@OneToMany(mappedBy="product")
+	private List<Inventory> inventories;
+
+	@OneToMany(mappedBy="product")
 	private List<ProductComment> comments;
+
 
 	@OneToMany(mappedBy="product")
 	private List<ProductReport> reports;
 
 	@OneToMany(mappedBy="product")
 	private List<Inventory> inventoryItems;
-	
-	
-	
-	
 	
 	
 

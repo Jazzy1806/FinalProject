@@ -23,7 +23,7 @@ public class Inventory {
 	private Double price;
 	
 	private Integer quantity;
-	
+
 	@ManyToOne
 	@JoinColumn(name="product_id")
 	private Product product;
