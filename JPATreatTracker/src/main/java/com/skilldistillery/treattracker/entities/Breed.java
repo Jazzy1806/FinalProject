@@ -20,7 +20,6 @@ public class Breed {
 
 	private String name;
 
-	private String color;
 
 //	@ManyToOne
 //	@JoinColumn(name = "pet_id")
@@ -50,13 +49,7 @@ public class Breed {
 		this.name = name;
 	}
 
-	public String getColor() {
-		return color;
-	}
 
-	public void setColor(String color) {
-		this.color = color;
-	}
 
 	public Set<Pet> getPets() {
 		return pets;
@@ -83,9 +76,6 @@ public class Breed {
 		return id == other.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Breed [id=" + id + ", name=" + name + ", color=" + color + "]";
-	}
+
 
 }

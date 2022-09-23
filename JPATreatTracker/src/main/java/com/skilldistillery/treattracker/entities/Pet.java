@@ -30,6 +30,8 @@ public class Pet {
 	private String gender;
 
 	private String image;
+	
+	private String color;
 
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
@@ -139,6 +141,14 @@ public class Pet {
 
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
 	}
 
 	@Override
