@@ -73,8 +73,9 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public Store updateStore(Store store, String username) {
-		Store existingStore = storeRepo.findById(store.getId());
+	public Store updateStore(Store store, int storeId, String username) {
+		System.out.println(store.getName());
+		Store existingStore = storeRepo.findById(storeId);
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
 			if (store.getAddress() != null) {
@@ -86,26 +87,28 @@ public class StoreServiceImpl implements StoreService {
 			if (store.getDescription() != null) {
 				existingStore.setDescription(store.getDescription());
 			}
+			System.out.println("updated name " + store.getName());
 			if (store.getName() != null) {
 				existingStore.setName(store.getName());
 			}
 			if (store.getWebsiteUrl() != null) {
 				existingStore.setWebsiteUrl(store.getWebsiteUrl());
 			}
+			System.out.println("inside stockservice impl" + existingStore);
 			return storeRepo.saveAndFlush(existingStore);
 		}
 		return null;
 	}
 
 	@Override
-	public boolean deleteStore(Store store, String username) {
+	public boolean deleteStore( String username, int storeId) {
 		boolean isDeleted = false;
-		Store existingStore = storeRepo.findById(store.getId());
+		Store existingStore = storeRepo.findById(storeId);
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
 			try {
-				store.setAddress(null);
-				store.setChain(null);
+				existingStore.setAddress(null);
+				existingStore.setChain(null);
 				storeRepo.delete(existingStore);
 			isDeleted = true;
 			} catch (Exception e) {

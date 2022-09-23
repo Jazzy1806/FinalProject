@@ -15,8 +15,8 @@ public interface StoreService {
 	Store findStorebyId(int storeId, String username);
 	List<Store> findStoresByKeyword(String keyword);
 	Store createStore(String username, Store newStore);
-	Store updateStore(Store store, String username);
-	boolean deleteStore(Store store, String username);
+	Store updateStore(Store store, int storeId, String username);
+	boolean deleteStore( String username, int storeId);
 	Set<Product> findProductInventoryByStore(Store store);
 	Product updateProductInventoryByStore(Store store, Inventory inventory, Product product);
 	boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product);

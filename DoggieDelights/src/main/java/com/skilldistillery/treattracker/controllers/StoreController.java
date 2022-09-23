@@ -8,13 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.services.StoreService;
 
@@ -89,13 +90,39 @@ public class StoreController {
 		return storeAdded;
 	}
 //	PUT /stores/{storeId}    update store
-//
+	@PutMapping("stores/{id}")
+	public Store updateStock(@PathVariable("id") Integer id, @RequestBody Store store, HttpServletResponse res, Principal principal) {
+		Store storeToUpdate;
+		try {
+			 storeToUpdate = storeServ.updateStore( store, id, principal.getName());
+			if ( storeToUpdate == null) {
+				res.setStatus(404);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+			storeToUpdate  = null;
+		}
+		
+		return storeToUpdate;
+	}
 //	PUT /stores/{storeId}    update store for deactivation
 //
 //	DELETE /stores/{storeId}  delete store
-//
-//
-//
+	@DeleteMapping("stores/{id}")
+	public void deleteComment(@PathVariable Integer id, HttpServletResponse res, Principal principal) {
+		try {
+			if (storeServ.deleteStore(principal.getName(), id)) {
+				res.setStatus(204);
+			}else {
+				res.setStatus(404);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		
+	}
 //	PUT  /stores/[storeId}/addresses/{addressId}  update address for store
 //
 //	GET /stores/{storeId}/inventory/{inventoryId}    get specific product list
