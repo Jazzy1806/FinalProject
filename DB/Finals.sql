@@ -228,9 +228,11 @@ CREATE TABLE IF NOT EXISTS `store_comment` (
   `store_id` INT NOT NULL,
   `created_on` TIMESTAMP NULL,
   `in_reply_to_id` INT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_comment_store1_idx` (`store_id` ASC),
   INDEX `fk_store_comment_store_comment1_idx` (`in_reply_to_id` ASC),
+  INDEX `fk_store_comment_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_comment_store1`
     FOREIGN KEY (`store_id`)
     REFERENCES `store` (`id`)
@@ -239,6 +241,11 @@ CREATE TABLE IF NOT EXISTS `store_comment` (
   CONSTRAINT `fk_store_comment_store_comment1`
     FOREIGN KEY (`in_reply_to_id`)
     REFERENCES `store_comment` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_store_comment_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -607,9 +614,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (1, 'Store comment 1', 'Description 1', 1, 1, NULL, 1);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (2, 'Store comment 2', 'Description 2', 2, 2, NULL, 1);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`) VALUES (3, 'Store comment 3', 'Description 3', 3, 3, NULL, 1);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`, `user_id`) VALUES (1, 'Store comment 1', 'Description 1', 1, 1, NULL, 1, 1);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`, `user_id`) VALUES (2, 'Store comment 2', 'Description 2', 2, 2, NULL, 1, 2);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`, `user_id`) VALUES (3, 'Store comment 3', 'Description 3', 3, 3, NULL, 1, 3);
 
 COMMIT;
 
