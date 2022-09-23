@@ -137,16 +137,43 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return productInventory;
 	}
-
-	@Override
-	public Product updateProductInventoryByStore(Store store, Inventory inventory, Product product) {
-		// TODO Auto-generated method stub
-		return null;
+	public Double getProductPrice(Product product) {
+		Double price = 0.0;
+		for (Inventory item : product.getInventoryItems()) {
+			price = item.getPrice();
+		}
+		return price;
 	}
 
 	@Override
-	public boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product) {
-		// TODO Auto-generated method stub
+	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product, int updatedQuantity) {
+		User user = userRepo.findByUsername(username);
+		int currentQuantity = product.getInventoryItems().size();
+		Double price = getProductPrice(product);
+		if (user != null) {
+			if (currentQuantity < updatedQuantity) {
+				for(int i =0; i < (updatedQuantity - currentQuantity); i++) {
+					Inventory inventory = new Inventory();
+					inventory.setStore(store);
+					inventory.setProduct(product);
+					inventory.setPrice(price);
+					inventory.setEnabled(true);
+					inventoryRepo.saveAndFlush(inventory);
+				}
+			} 
+		}
+		System.out.println(product.getInventoryItems());
+		return product.getInventoryItems();
+	}
+
+	@Override
+	public boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory) {
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			if (prod.getInventoryItems().contains(inventory)) {
+				inventory.setEnabled(false);
+			}
+		}
 		return true;
 	}
 
