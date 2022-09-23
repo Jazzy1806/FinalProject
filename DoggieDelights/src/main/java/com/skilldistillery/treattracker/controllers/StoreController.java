@@ -38,6 +38,7 @@ public class StoreController {
 	@Autowired
 	private InventoryService inventoryServ;
 
+	
 
 //	GET   /stores     get all stores
 	@RequestMapping("stores")
@@ -169,7 +170,7 @@ public class StoreController {
 //	PUT /stores/{storeId}/inventory/{inventoryId}    deactivate specific product list
 	@PutMapping("stores/{storeId}/product/{prodId}/inventory/{inventoryId}")
 	public void deactivateProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,@PathVariable int inventoryId, Principal principal, HttpServletResponse res) {
-		
+	
 		Product prod = prodServ.findById(principal.getName(), prodId);
 		Inventory inventory = inventoryServ.findInventoryById(inventoryId);
 		Store store = storeServ.findStorebyId(storeId, principal.getName());
@@ -195,7 +196,17 @@ public class StoreController {
 		return store.getComments();
 	}
 //	POST /stores/{storeId}/comments      create new comment
-//
+	@PostMapping("/stores/{storeId}/comments/comment")
+	public StoreComment createStoreComment(@PathVariable int storeId, @RequestBody StoreComment comment, Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		
+		StoreComment storeComment = storeServ.postCommentToStore( principal.getName(), store, comment);
+		System.out.println("Inside post store comment controller");
+		if (storeComment == null) {
+			res.setStatus(404);
+		}
+		return storeComment;
+	}
 //	PUT /stores/{storeId}/comments/{commentId}      update comment
 //
 //	DELETE /stores/{storeId}/comments/{commentId}      delete comment

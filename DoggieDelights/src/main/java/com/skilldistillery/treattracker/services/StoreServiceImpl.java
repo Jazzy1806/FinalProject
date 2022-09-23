@@ -147,11 +147,9 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product, int updatedQuantity) {
 		User user = userRepo.findByUsername(username);
-		int currentQuantity = product.getInventoryItems().size();
 		Double price = getProductPrice(product);
 		if (user != null) {
-			if (currentQuantity < updatedQuantity) {
-				for(int i =0; i < (updatedQuantity - currentQuantity); i++) {
+				for(int i =0; i < updatedQuantity; i++) {
 					Inventory inventory = new Inventory();
 					inventory.setStore(store);
 					inventory.setProduct(product);
@@ -159,7 +157,7 @@ public class StoreServiceImpl implements StoreService {
 					inventory.setEnabled(true);
 					inventoryRepo.saveAndFlush(inventory);
 				}
-			} 
+			 
 		}
 		System.out.println(product.getInventoryItems());
 		return product.getInventoryItems();
@@ -186,9 +184,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public StoreComment postCommentToStore(Store store, StoreComment comment) {
-		// TODO Auto-generated method stub
-		return null;
+	public StoreComment postCommentToStore(String username, Store store, StoreComment comment) {
+		User userLoggined = userRepo.findByUsername(username);
+		if (userLoggined != null) {
+			comment.setStore(store);
+			System.out.println("Inside post store comment service impl");
+			storeCommentRepo.saveAndFlush(comment);
+		}
+		return comment;
 	}
 
 	@Override
