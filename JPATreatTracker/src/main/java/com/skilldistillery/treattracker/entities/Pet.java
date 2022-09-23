@@ -47,7 +47,6 @@ public class Pet {
 			inverseJoinColumns = @JoinColumn(name = "breed_id"))
 	private Set<Breed> breeds;
 
-	@JsonIgnore
 	@ManyToMany
 	@JoinTable(name = "pet_has_dietary_needs", 
 		joinColumns = @JoinColumn(name = "pet_id"), 

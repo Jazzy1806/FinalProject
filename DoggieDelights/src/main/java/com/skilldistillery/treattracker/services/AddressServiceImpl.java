@@ -21,11 +21,14 @@ public class AddressServiceImpl implements AddressService{
 
 	@Override
 	public Address getAddress(String username, int addressId) {
-		Optional<Address> result = addRepo.findById(addressId);
-		if (result.isPresent()) {
-			Address address= result.get();
-			if (address.getUser().getUsername().equals(username)) {
-				return address;
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Optional<Address> result = addRepo.findById(addressId);
+			if (result.isPresent()) {
+				Address address= result.get();
+				if (address.getUser().getUsername().equals(username)) {
+					return address;
+				}
 			}
 		}
 		return null;
@@ -34,25 +37,28 @@ public class AddressServiceImpl implements AddressService{
 	@Override
 	public Address addAddress(String username, Address address) {
 		  User user = userRepo.findByUsername(username);
-		  if (user != null) {
-			  address.setUser(user);
-		    return addRepo.saveAndFlush(address);
-		  }
+			  if (user != null) {
+				  address.setUser(user);
+			    return addRepo.saveAndFlush(address);
+			  }
 		  return null;
 	}
 
 	@Override
 	public Address updateAddress(String username, int addressId, Address address) {
-		Optional<Address> result = addRepo.findById(addressId);
-		if (result.isPresent()) {
-			Address updatedAdd= result.get();
-			if (updatedAdd.getUser().getUsername().equals(username)) {
-				updatedAdd.setAddress(address.getAddress());
-				updatedAdd.setCity(address.getCity());
-				updatedAdd.setState(address.getState());
-				updatedAdd.setPostalCode(address.getPostalCode());
-				updatedAdd.setPhone(address.getPhone());
-				return addRepo.saveAndFlush(updatedAdd);
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Optional<Address> result = addRepo.findById(addressId);
+			if (result.isPresent()) {
+				Address updatedAdd= result.get();
+				if (updatedAdd.getUser().getUsername().equals(username)) {
+					updatedAdd.setAddress(address.getAddress());
+					updatedAdd.setCity(address.getCity());
+					updatedAdd.setState(address.getState());
+					updatedAdd.setPostalCode(address.getPostalCode());
+					updatedAdd.setPhone(address.getPhone());
+					return addRepo.saveAndFlush(updatedAdd);
+				}
 			}
 		}
 		return null;
