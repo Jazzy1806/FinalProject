@@ -9,7 +9,7 @@ import { User } from '../models/user';
 })
 export class AuthService {
   // Set port number to server's port
-  private baseUrl = 'http://localhost:8082/';
+  private baseUrl = 'http://localhost:8090/';
   private url = this.baseUrl;
 
   constructor(private http: HttpClient) {}

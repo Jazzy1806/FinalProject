@@ -1,4 +1,7 @@
 import { Timestamp } from "rxjs";
+import { Address } from "./address";
+import { Pet } from "./pet";
+
 
 export class User {
   id: number;
@@ -13,10 +16,13 @@ export class User {
   role: string | null;
   bio: string | null;
   image: string | null;
+  address: Address | null;
+  pets: Pet[] | null;
+
 
   constructor(  id: number, firstName: string, lastName: string, email: string,
       username: string, password: string, enabled: boolean, dateCreated: Date,
-      dateUpdated: Date, role: string, bio: string, image: string) {
+      dateUpdated: Date, role: string, bio: string, image: string, address: Address, pets: Pet[]) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;
@@ -29,5 +35,7 @@ export class User {
     this.role = role;
     this.bio = bio;
     this.image = image;
+    this.address = address;
+    this.pets = pets;
   }
 }
