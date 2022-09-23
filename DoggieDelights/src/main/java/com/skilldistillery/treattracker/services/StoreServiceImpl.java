@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.stream.events.Comment;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +13,7 @@ import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.repositories.AddressRepository;
 import com.skilldistillery.treattracker.repositories.InventoryRepository;
@@ -172,6 +171,7 @@ public class StoreServiceImpl implements StoreService {
 		if (user != null) {
 			if (prod.getInventoryItems().contains(inventory)) {
 				inventory.setEnabled(false);
+				inventoryRepo.saveAndFlush(inventory);
 				System.out.println("inside if statement for deactive");
 				return true;
 				
@@ -181,25 +181,24 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Comment> findStoreComments(Store store) {
+	public List<StoreComment> findStoreComments(Store store) {
+		return store.getComments();
+	}
+
+	@Override
+	public StoreComment postCommentToStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Comment postCommentToStore(Store store, Comment comment) {
+	public StoreComment updateCommentStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Comment updateCommentStore(Store store, Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deleteCommentStore(Store store, Comment comment) {
+	public boolean deleteCommentStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return false;
 	}
