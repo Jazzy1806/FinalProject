@@ -30,10 +30,21 @@ public class StoreComment {
 	
 	private String title;
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	private String description;
 	
 	private Integer rating;
 	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")

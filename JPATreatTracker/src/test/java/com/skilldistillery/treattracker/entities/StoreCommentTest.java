@@ -49,7 +49,7 @@ class StoreCommentTest {
 	void test_StoreComment_entity_mapping() {
 
 		assertNotNull(storeComment);
-		assertEquals("Store Comment 1", storeComment.getTitle());
+		assertEquals("Store comment 1", storeComment.getTitle());
 	}
 	
 	@Test
@@ -59,6 +59,10 @@ class StoreCommentTest {
 		assertEquals("Store comment 1", storeComment.getTitle());
 		assertEquals("Description 1", storeComment.getDescription());
 		assertEquals(1, storeComment.getRating());
+	}
+	@Test
+	void test_StoreComment_ManyToMany_User_mapping() {
+		assertNotNull(storeComment.getUser());
 	}
 
 	@Test

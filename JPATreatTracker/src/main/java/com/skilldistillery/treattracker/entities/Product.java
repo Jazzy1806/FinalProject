@@ -77,8 +77,8 @@ public class Product {
 	}
 	
 	public void removeInventory(Inventory inventory) {
-		if (inventories != null && inventories.contains(inventory)) {
-			inventories.remove(inventory);
+		if (inventoryItems != null && inventoryItems.contains(inventory)) {
+			inventoryItems.remove(inventory);
 		}
 	}
 	
