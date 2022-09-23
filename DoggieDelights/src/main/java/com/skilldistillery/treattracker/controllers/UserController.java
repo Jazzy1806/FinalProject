@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Pet;
 import com.skilldistillery.treattracker.entities.User;
+import com.skilldistillery.treattracker.services.AddressService;
 import com.skilldistillery.treattracker.services.AuthService;
 import com.skilldistillery.treattracker.services.PetService;
 
@@ -29,6 +31,9 @@ public class UserController {
 
 	@Autowired
 	private PetService petService;
+
+	@Autowired
+	private AddressService addService;
 	
 	@Autowired
 	private AuthService authService;
@@ -129,13 +134,11 @@ public class UserController {
 	}
 	
 
-//	GET   /users/{userId}/pets    get all user pets
 	@GetMapping("pets")
 	public List<Pet> findPetsByUser(HttpServletRequest req, HttpServletResponse res, Principal principal) {
 		return petService.index(principal.getName()); 
 	}
 	
-//	GET    /users/{userId}/pets/{petId}    get specific pet
 	@GetMapping("pets/{petId}")
 	public Pet findPet(@PathVariable int petId, HttpServletRequest req, HttpServletResponse res, Principal principal) {
 		Pet pet = petService.getPet(principal.getName(), petId); 
@@ -145,7 +148,6 @@ public class UserController {
 		return pet;
 	}
 
-//	POST  /users/{userId}/pets          register new pet
 	@PostMapping("pets")
 	public Pet addPet(HttpServletRequest req, HttpServletResponse res, @RequestBody Pet pet, Principal principal) {
 		Pet created = null;
@@ -160,7 +162,6 @@ public class UserController {
 		return created;
 	}
 	
-//	PUT     /users/{userId}/pets/{petId}      update user
 	@PutMapping("pets/{petId}")
 	public Pet update(HttpServletRequest req, HttpServletResponse res, @PathVariable int petId, @RequestBody Pet pet, Principal principal) {
 		Pet updated = null;
@@ -187,18 +188,40 @@ public class UserController {
 	}
 
 	
-//
-//
-//
-//	PUT    /users/{userId}/pets/{petId}      update user to deactivate (delete)-serviceImpl
-//
-//
-//
-//	GET /users/[userId}/addresses/{addressId}  find address for user
-//
-//	POST /users/[userId}/addresses/        create address for user
-//
-//	PUT  /users/[userId}/addresses/{addressId}  update address for user
+	@GetMapping("addresses/{addressId}")
+	public Address getUserAddress(@PathVariable int addressId, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		Address address = addService.getAddress(principal.getName(), addressId); 
+		if (address == null) {
+			res.setStatus(404);
+		}
+		return address;
+	}
+	
+	@PostMapping("addresses")
+	public Address create(HttpServletRequest req, HttpServletResponse res, @RequestBody Address address, Principal principal) {
+		Address created = null;
+		try {
+		created = addService.addAddress(principal.getName(), address); 
+		res.setStatus(201);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return created;
+	}
+	
 
-
+	@PutMapping("addresses/{addressId}")
+	public Address update(HttpServletRequest req, HttpServletResponse res, @PathVariable int addressId, @RequestBody Address address, Principal principal) {
+		Address updated = null;
+		try {
+		updated = addService.updateAddress(principal.getName(), addressId, address); 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return updated;
+	}
 }
