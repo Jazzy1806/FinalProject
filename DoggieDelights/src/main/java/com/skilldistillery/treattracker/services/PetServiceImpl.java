@@ -1,43 +1,84 @@
 package com.skilldistillery.treattracker.services;
 
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skilldistillery.treattracker.entities.Pet;
+import com.skilldistillery.treattracker.entities.User;
+import com.skilldistillery.treattracker.repositories.PetRepository;
+import com.skilldistillery.treattracker.repositories.UserRepository;
 
 @Service
 public class PetServiceImpl implements PetService{
+	
+	@Autowired
+	private PetRepository petRepo;
+
+	@Autowired
+	private UserRepository userRepo;
 
 	@Override
 	public List<Pet> index(String username) {
-		// TODO Auto-generated method stub
+		return petRepo.findByUser_Username(username);
+	}
+
+	@Override
+	public Pet getPet(String username, int petId) {
+		Optional<Pet> result = petRepo.findById(petId);
+		if (result.isPresent()) {
+			Pet pet= result.get();
+			if (pet.getUser().getUsername().equals(username)) {
+				return pet;
+			}
+		}
 		return null;
 	}
 
 	@Override
-	public Pet show(String username, int petId) {
-		// TODO Auto-generated method stub
+	public Pet addPet(String username, Pet pet) {
+		  User user = userRepo.findByUsername(username);
+		  if (user != null) {
+		    pet.setUser(user);
+		    return petRepo.saveAndFlush(pet);
+		  }
+		  return null;
+	}
+
+	@Override
+	public Pet updatePet(String username, int petId, Pet pet) {
+		Optional<Pet> result = petRepo.findById(petId);
+		if (result.isPresent()) {
+			Pet udpatePet= result.get();
+			if (udpatePet.getUser().getUsername().equals(username)) {
+				udpatePet.setName(pet.getName());
+				udpatePet.setWeight(pet.getWeight());
+				udpatePet.setGender(pet.getGender());
+				udpatePet.setImage(pet.getImage());
+				udpatePet.setBirthDate(pet.getBirthDate());
+				return petRepo.saveAndFlush(udpatePet);
+			}
+		}
 		return null;
 	}
 
 	@Override
-	public Pet create(String username, Pet pet) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Pet update(String username, int petId, Pet pet) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean destroy(String username, int petId) {
-		// TODO Auto-generated method stub
+	public boolean deletePet(String username, int petId) {
+		Optional<Pet> result = petRepo.findById(petId);
+		if (result.isPresent()) {
+			Pet pet= result.get();
+			if (pet.getUser().getUsername().equals(username)) {
+				pet.setEnabled(false);
+				petRepo.saveAndFlush(pet);
+				return true;
+			}
+		}
 		return false;
 	}
+
+
 //	@Autowired
 //	private PetRepository petRepo;
 //	
