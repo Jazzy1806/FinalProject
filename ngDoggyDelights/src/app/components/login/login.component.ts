@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
       this.authService.login(loginUser.username, loginUser.password).subscribe({
         next: (loggedInUser) => {
           this.formModal.hide();
-          this.router.navigateByUrl('todo');
+          this.router.navigateByUrl('profile');
         },
         error: (problem) => {
           console.error('RegisterComponent.register(): Error logging in user:');
