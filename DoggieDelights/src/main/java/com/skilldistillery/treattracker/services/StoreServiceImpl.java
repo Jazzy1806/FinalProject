@@ -172,9 +172,12 @@ public class StoreServiceImpl implements StoreService {
 		if (user != null) {
 			if (prod.getInventoryItems().contains(inventory)) {
 				inventory.setEnabled(false);
+				System.out.println("inside if statement for deactive");
+				return true;
+				
 			}
 		}
-		return true;
+		return false;
 	}
 
 	@Override

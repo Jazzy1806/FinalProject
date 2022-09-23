@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.services.InventoryService;
 import com.skilldistillery.treattracker.services.ProductService;
 import com.skilldistillery.treattracker.services.StoreService;
 
@@ -33,6 +34,8 @@ public class StoreController {
 	
 	@Autowired
 	private ProductService prodServ;
+	@Autowired
+	private InventoryService inventoryServ;
 
 
 //	GET   /stores     get all stores
@@ -167,9 +170,10 @@ public class StoreController {
 	public void deactivateProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,@PathVariable int inventoryId, Principal principal, HttpServletResponse res) {
 		
 		Product prod = prodServ.findById(principal.getName(), prodId);
+		Inventory inventory = inventoryServ.findInventoryById(inventoryId);
 		Store store = storeServ.findStorebyId(storeId, principal.getName());
 		try {
-			if (prodServ.deactivateProductInventoryByStore(principal.getName(), store, prod, )) {
+			if (storeServ.deactivateProductInventoryByStore(principal.getName(), store, prod,inventory )) {
 				res.setStatus(204);
 			}else {
 				res.setStatus(404);
