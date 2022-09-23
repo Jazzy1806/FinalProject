@@ -91,6 +91,11 @@ public class ProductServiceImpl implements ProductService {
 					System.out.println(prodToDel);
 					prodToDel.removeIngredients();
 				}
+				
+				// delete inventory from product
+				// delete inventory from store
+				// delete inventory
+				
 				System.out.println(prodToDel);
 				prodRepo.saveAndFlush(prodToDel);
 				

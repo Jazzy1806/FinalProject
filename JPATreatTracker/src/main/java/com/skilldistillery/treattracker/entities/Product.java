@@ -75,6 +75,12 @@ public class Product {
 		}
 	}
 	
+	public void removeInventory(Inventory inventory) {
+		if (inventories != null && inventories.contains(inventory)) {
+			inventories.remove(inventory);
+		}
+	}
+	
 	public void removeIngredient(Ingredient ingredient) {
         if (ingredients != null && ingredients.contains(ingredient)) {
         	ingredients.remove(ingredient);
