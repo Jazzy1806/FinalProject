@@ -2,7 +2,6 @@ package com.skilldistillery.treattracker.services;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javax.xml.stream.events.Comment;
@@ -15,6 +14,7 @@ import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.entities.User;
+import com.skilldistillery.treattracker.repositories.AddressRepository;
 import com.skilldistillery.treattracker.repositories.InventoryRepository;
 import com.skilldistillery.treattracker.repositories.StoreCommentRepository;
 import com.skilldistillery.treattracker.repositories.StoreRepository;
@@ -23,6 +23,9 @@ import com.skilldistillery.treattracker.repositories.UserRepository;
 @Service
 public class StoreServiceImpl implements StoreService {
 
+	@Autowired
+	private AddressRepository addressRepo;
+	
 	@Autowired
 	private StoreRepository storeRepo;
 
@@ -57,11 +60,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public Store createStore(String username, Store newStore, Address address) {
+	public Store createStore(String username, Store newStore) {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
-			newStore.setAddress(address);
+			Address address = newStore.getAddress();
+			addressRepo.saveAndFlush(address);
+			System.out.println("inside createStore serv" + newStore);
 			return storeRepo.saveAndFlush(newStore);
+			
 		}
 		return null;
 	}

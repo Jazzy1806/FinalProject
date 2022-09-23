@@ -14,7 +14,7 @@ public interface StoreService {
 	List<Store> findAllStores();
 	Store findStorebyId(int storeId, String username);
 	List<Store> findStoresByKeyword(String keyword);
-	Store createStore(String username, Store newStore, Address address);
+	Store createStore(String username, Store newStore);
 	Store updateStore(Store store, String username);
 	boolean deleteStore(Store store, String username);
 	Set<Product> findProductInventoryByStore(Store store);

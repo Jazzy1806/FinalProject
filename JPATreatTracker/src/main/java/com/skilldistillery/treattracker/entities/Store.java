@@ -209,6 +209,12 @@ public class Store {
 			comments.remove(comment);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Store [id=" + id + ", name=" + name + ", address=" + address + ", description=" + description
+				+ ", websiteUrl=" + websiteUrl + ", logoUrl=" + logoUrl + ", chain=" + chain + "]";
+	}
 	
 	
 

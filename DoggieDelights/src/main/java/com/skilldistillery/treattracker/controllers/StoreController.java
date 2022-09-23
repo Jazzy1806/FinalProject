@@ -71,10 +71,11 @@ public class StoreController {
 
 //	POST /stores    create new store
 	@PostMapping("stores")
-	public Store createStore(@RequestBody Store store, @RequestBody Address address, Principal principal, HttpServletRequest req, HttpServletResponse res ) {
+	public Store createStore(@RequestBody Store store, Principal principal, HttpServletRequest req, HttpServletResponse res ) {
 		Store storeAdded;
 		try {
-			storeAdded = storeServ.createStore(principal.getName(), store, address);
+			storeAdded = storeServ.createStore(principal.getName(), store);
+			System.out.println("Added " + storeAdded);
 			res.setStatus(201);
 			StringBuffer url = req.getRequestURL();
 			url.append("/").append(store.getId());
