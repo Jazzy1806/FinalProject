@@ -30,10 +30,21 @@ public class StoreComment {
 	
 	private String title;
 	
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	private String description;
 	
 	private Integer rating;
 	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")
@@ -43,10 +54,12 @@ public class StoreComment {
 	@Column(name="created_on")
 	private LocalDateTime createdOn;
 
+	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "in_reply_to_id")
 	private StoreComment parentStoreComment;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "parentStoreComment")
 	private Set<StoreComment> replyStoreComments = new HashSet<>();
 	

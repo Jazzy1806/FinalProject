@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.services.InventoryService;
 import com.skilldistillery.treattracker.services.ProductService;
 import com.skilldistillery.treattracker.services.StoreService;
@@ -37,6 +38,7 @@ public class StoreController {
 	@Autowired
 	private InventoryService inventoryServ;
 
+	
 
 //	GET   /stores     get all stores
 	@RequestMapping("stores")
@@ -168,7 +170,7 @@ public class StoreController {
 //	PUT /stores/{storeId}/inventory/{inventoryId}    deactivate specific product list
 	@PutMapping("stores/{storeId}/product/{prodId}/inventory/{inventoryId}")
 	public void deactivateProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,@PathVariable int inventoryId, Principal principal, HttpServletResponse res) {
-		
+	
 		Product prod = prodServ.findById(principal.getName(), prodId);
 		Inventory inventory = inventoryServ.findInventoryById(inventoryId);
 		Store store = storeServ.findStorebyId(storeId, principal.getName());
@@ -185,9 +187,38 @@ public class StoreController {
 
 	}
 	//	GET /stores/{storeId}/comments      get all comments
-//
+	@RequestMapping("/stores/{storeId}/comments")
+	public List<StoreComment> getAllStoreComments(@PathVariable int storeId,Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		if (store == null) {
+			res.setStatus(404);
+		}
+		return store.getComments();
+	}
 //	POST /stores/{storeId}/comments      create new comment
-//
+	@PostMapping("/stores/{storeId}/comments/comment")
+	public StoreComment createStoreComment(@PathVariable int storeId, @RequestBody StoreComment comment, Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		
+		StoreComment storeComment = storeServ.postCommentToStore( principal.getName(), store, comment);
+		System.out.println("Inside post store comment controller");
+		if (storeComment == null) {
+			res.setStatus(404);
+		}
+		return storeComment;
+	}
+//	POST /stores/{storeId}/comments      create  comment on parent comment
+	@PostMapping("/stores/{storeId}/comments/{parentCommentId}/comment")
+	public StoreComment createStoreCommentToParentComent(@PathVariable int storeId, @PathVariable int parentCommentId, @RequestBody StoreComment comment, Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		
+		StoreComment childComment = storeServ.postCommentToParentCommentToStore( principal.getName(), store,parentCommentId, comment);
+		System.out.println("Inside post  store child comment controller");
+		if (childComment == null) {
+			res.setStatus(404);
+		}
+		return childComment;
+	}
 //	PUT /stores/{storeId}/comments/{commentId}      update comment
 //
 //	DELETE /stores/{storeId}/comments/{commentId}      delete comment
