@@ -6,8 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.xml.stream.events.Comment;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +13,7 @@ import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.repositories.AddressRepository;
 import com.skilldistillery.treattracker.repositories.InventoryRepository;
@@ -137,39 +136,69 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return productInventory;
 	}
+	public Double getProductPrice(Product product) {
+		Double price = 0.0;
+		for (Inventory item : product.getInventoryItems()) {
+			price = item.getPrice();
+		}
+		return price;
+	}
 
 	@Override
-	public Product updateProductInventoryByStore(Store store, Inventory inventory, Product product) {
+	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product, int updatedQuantity) {
+		User user = userRepo.findByUsername(username);
+		int currentQuantity = product.getInventoryItems().size();
+		Double price = getProductPrice(product);
+		if (user != null) {
+			if (currentQuantity < updatedQuantity) {
+				for(int i =0; i < (updatedQuantity - currentQuantity); i++) {
+					Inventory inventory = new Inventory();
+					inventory.setStore(store);
+					inventory.setProduct(product);
+					inventory.setPrice(price);
+					inventory.setEnabled(true);
+					inventoryRepo.saveAndFlush(inventory);
+				}
+			} 
+		}
+		System.out.println(product.getInventoryItems());
+		return product.getInventoryItems();
+	}
+
+	@Override
+	public boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory) {
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			if (prod.getInventoryItems().contains(inventory)) {
+				inventory.setEnabled(false);
+				inventoryRepo.saveAndFlush(inventory);
+				System.out.println("inside if statement for deactive");
+				return true;
+				
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public List<StoreComment> findStoreComments(Store store) {
+		return store.getComments();
+	}
+
+	@Override
+	public StoreComment postCommentToStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public List<Comment> findStoreComments(Store store) {
+	public StoreComment updateCommentStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Comment postCommentToStore(Store store, Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Comment updateCommentStore(Store store, Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deleteCommentStore(Store store, Comment comment) {
+	public boolean deleteCommentStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return false;
 	}

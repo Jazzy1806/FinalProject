@@ -104,4 +104,18 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return false;
 	}
+
+	@Override
+	public Product findById(String username, int prodId) {
+		User user = userRepo.findByUsername(username);
+		Optional<Product> prodOp = prodRepo.findById(prodId);
+		if (prodOp.isPresent()) {
+			Product prod = prodOp.get();
+			if (user != null) {
+				return prod;
+			}
+		}
+		
+		return null;
+	}
 }

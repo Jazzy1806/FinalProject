@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.services.InventoryService;
+import com.skilldistillery.treattracker.services.ProductService;
 import com.skilldistillery.treattracker.services.StoreService;
 
 @RestController
@@ -29,6 +31,11 @@ public class StoreController {
 
 	@Autowired
 	private StoreService storeServ;
+	
+	@Autowired
+	private ProductService prodServ;
+	@Autowired
+	private InventoryService inventoryServ;
 
 
 //	GET   /stores     get all stores
@@ -143,12 +150,41 @@ public class StoreController {
 
 	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    update specific product list
-//
+//	CREATE /stores/{storeId}/inventory/{inventoryId}    add specific product to store => add more inventory to an existing product
+	@PostMapping("stores/{storeId}/product/{prodId}/inventory/{quantity}")
+	public List<Inventory> addProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,@PathVariable int quantity, Principal principal, HttpServletResponse res) {
+		List<Inventory> updatedInventories = null;
+		Product productToUpdateInventory = prodServ.findById(principal.getName(), prodId);
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		try {
+			updatedInventories = storeServ.updateProductInventoryByStore( principal.getName(), store, productToUpdateInventory, quantity);
+		} catch (Exception e) {
+			res.setStatus(400);
+			e.printStackTrace();
+		}
+		return updatedInventories;
+
+	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    deactivate specific product list
-//
-//
-//
-//	GET /stores/{storeId}/comments      get all comments
+	@PutMapping("stores/{storeId}/product/{prodId}/inventory/{inventoryId}")
+	public void deactivateProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,@PathVariable int inventoryId, Principal principal, HttpServletResponse res) {
+		
+		Product prod = prodServ.findById(principal.getName(), prodId);
+		Inventory inventory = inventoryServ.findInventoryById(inventoryId);
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		try {
+			if (storeServ.deactivateProductInventoryByStore(principal.getName(), store, prod,inventory )) {
+				res.setStatus(204);
+			}else {
+				res.setStatus(404);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+
+	}
+	//	GET /stores/{storeId}/comments      get all comments
 //
 //	POST /stores/{storeId}/comments      create new comment
 //

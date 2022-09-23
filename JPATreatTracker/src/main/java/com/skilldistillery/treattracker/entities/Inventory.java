@@ -28,6 +28,8 @@ public class Inventory {
 	@JoinColumn(name="product_id")
 	private Product product;
 	
+	private Boolean enabled;
+	
 	
 
 	public Inventory() {
@@ -72,6 +74,14 @@ public class Inventory {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override

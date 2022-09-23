@@ -2,14 +2,13 @@ package com.skilldistillery.treattracker.services;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.stream.events.Comment;
 
-import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.entities.StoreComment;
 
 public interface StoreService {
 	List<Store> findAllStores();
@@ -19,12 +18,12 @@ public interface StoreService {
 	Store updateStore(Store store, int storeId, String username);
 	boolean deleteStore( String username, int storeId);
 	 Map<Product, Integer>findProductInventoryByStore(String username,Store store);
-	Product updateProductInventoryByStore(Store store, Inventory inventory, Product product);
-	boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product);
-	List<Comment> findStoreComments(Store store);
-	Comment postCommentToStore(Store store, Comment comment);
-	Comment updateCommentStore(Store store, Comment comment);
-	boolean deleteCommentStore(Store store, Comment comment);
+	List<Inventory> updateProductInventoryByStore(String username, Store store, Product prod, int updatedQuantity);
+	boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
+	List<StoreComment> findStoreComments(Store store);
+	StoreComment postCommentToStore(Store store, StoreComment comment);
+	StoreComment updateCommentStore(Store store, StoreComment comment);
+	boolean deleteCommentStore(Store store, StoreComment comment);
 	
 	
 	

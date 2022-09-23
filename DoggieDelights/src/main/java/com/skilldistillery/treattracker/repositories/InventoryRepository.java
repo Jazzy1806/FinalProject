@@ -9,6 +9,7 @@ import com.skilldistillery.treattracker.entities.Store;
 
 public interface InventoryRepository extends JpaRepository<Inventory,Integer> {
 	List<Inventory> findByStore(Store store);
+	Inventory findById (int id);
 
 
 }

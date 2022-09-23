@@ -15,4 +15,6 @@ public interface ProductService {
 	public Product update(String username, int tid, Product product);
 
 	public boolean destroy(String username, int tid);
+	
+	public Product findById(String username, int prodId);
 }
