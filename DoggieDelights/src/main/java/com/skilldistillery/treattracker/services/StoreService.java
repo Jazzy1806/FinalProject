@@ -12,12 +12,11 @@ import com.skilldistillery.treattracker.entities.Store;
 
 public interface StoreService {
 	List<Store> findAllStores();
-	Store findStorebyId(int storeId);
+	Store findStorebyId(int storeId, String username);
 	List<Store> findStoresByKeyword(String keyword);
-	Store createStore(Store newStore);
-	Store updateStore(Store store);
-	boolean deleteStore(Store store);
-	Address updateStoreAddress(Store store);
+	Store createStore(String username, Store newStore, Address address);
+	Store updateStore(Store store, String username);
+	boolean deleteStore(Store store, String username);
 	Set<Product> findProductInventoryByStore(Store store);
 	Product updateProductInventoryByStore(Store store, Inventory inventory, Product product);
 	boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product);
