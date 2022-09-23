@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
 		if (user != null) {
 			return prodRepo.saveAndFlush(product);
 		}
-		return null;
+		return null; 
 	}
 
 	@Override
