@@ -225,9 +225,9 @@ CREATE TABLE IF NOT EXISTS `store_comment` (
   `title` VARCHAR(45) NOT NULL,
   `description` TEXT NULL,
   `rating` INT NULL,
-  `store_id` INT NOT NULL,
   `created_on` TIMESTAMP NULL,
   `in_reply_to_id` INT NULL,
+  `store_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_comment_store1_idx` (`store_id` ASC),
@@ -293,6 +293,7 @@ CREATE TABLE IF NOT EXISTS `pet` (
   `image` VARCHAR(2000) NULL,
   `birth_date` DATE NULL,
   `enabled` TINYINT NULL,
+  `color` VARCHAR(45) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_pet_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_pet_user1`
@@ -311,7 +312,6 @@ DROP TABLE IF EXISTS `breed` ;
 CREATE TABLE IF NOT EXISTS `breed` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NULL,
-  `color` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -614,9 +614,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`, `user_id`) VALUES (1, 'Store comment 1', 'Description 1', 1, 1, NULL, 1, 1);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`, `user_id`) VALUES (2, 'Store comment 2', 'Description 2', 2, 2, NULL, 1, 2);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `store_id`, `created_on`, `in_reply_to_id`, `user_id`) VALUES (3, 'Store comment 3', 'Description 3', 3, 3, NULL, 1, 3);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (1, 'Store comment 1', 'Description 1', 1, NULL, 1, 1, 1);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (2, 'Store comment 2', 'Description 2', 2, NULL, 1, 2, 2);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (3, 'Store comment 3', 'Description 3', 3, NULL, 1, 3, 3);
 
 COMMIT;
 
@@ -638,9 +638,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL, 1);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL, 1);
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL, 1);
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL, 1, 'white-black');
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL, 1, 'brown');
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL, 1, 'brown-white');
 
 COMMIT;
 
@@ -650,9 +650,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `breed` (`id`, `name`, `color`) VALUES (1, 'Husky', 'white-black');
-INSERT INTO `breed` (`id`, `name`, `color`) VALUES (2, 'Staffordshire Terrier', 'brown');
-INSERT INTO `breed` (`id`, `name`, `color`) VALUES (3, 'Brindel Boxer', 'brown-white');
+INSERT INTO `breed` (`id`, `name`) VALUES (1, 'Husky');
+INSERT INTO `breed` (`id`, `name`) VALUES (2, 'Staffordshire Terrier');
+INSERT INTO `breed` (`id`, `name`) VALUES (3, 'Brindel Boxer');
 
 COMMIT;
 
