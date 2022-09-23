@@ -21,6 +21,7 @@ public interface StoreService {
 	boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
 	List<StoreComment> findStoreComments(String username, Store store);
 	StoreComment postCommentToStore(String username,Store store, StoreComment comment);
+	StoreComment postCommentToParentCommentToStore(String username,Store store, int parentStoreComment, StoreComment comment);
 	StoreComment updateCommentStore(Store store, StoreComment comment);
 	boolean deleteCommentStore(Store store, StoreComment comment);
 	

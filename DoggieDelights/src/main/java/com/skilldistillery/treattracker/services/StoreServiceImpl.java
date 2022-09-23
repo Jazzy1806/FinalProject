@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,6 +137,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return productInventory;
 	}
+
 	public Double getProductPrice(Product product) {
 		Double price = 0.0;
 		for (Inventory item : product.getInventoryItems()) {
@@ -145,19 +147,20 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product, int updatedQuantity) {
+	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product,
+			int updatedQuantity) {
 		User user = userRepo.findByUsername(username);
 		Double price = getProductPrice(product);
 		if (user != null) {
-				for(int i =0; i < updatedQuantity; i++) {
-					Inventory inventory = new Inventory();
-					inventory.setStore(store);
-					inventory.setProduct(product);
-					inventory.setPrice(price);
-					inventory.setEnabled(true);
-					inventoryRepo.saveAndFlush(inventory);
-				}
-			 
+			for (int i = 0; i < updatedQuantity; i++) {
+				Inventory inventory = new Inventory();
+				inventory.setStore(store);
+				inventory.setProduct(product);
+				inventory.setPrice(price);
+				inventory.setEnabled(true);
+				inventoryRepo.saveAndFlush(inventory);
+			}
+
 		}
 		System.out.println(product.getInventoryItems());
 		return product.getInventoryItems();
@@ -172,7 +175,7 @@ public class StoreServiceImpl implements StoreService {
 				inventoryRepo.saveAndFlush(inventory);
 				System.out.println("inside if statement for deactive");
 				return true;
-				
+
 			}
 		}
 		return false;
@@ -190,6 +193,24 @@ public class StoreServiceImpl implements StoreService {
 			comment.setStore(store);
 			System.out.println("Inside post store comment service impl");
 			storeCommentRepo.saveAndFlush(comment);
+		}
+		return comment;
+	}
+
+	@Override
+	public StoreComment postCommentToParentCommentToStore(String username, Store store, int parentStoreComment,
+			StoreComment comment) {
+		User userLoggined = userRepo.findByUsername(username);
+		Optional<StoreComment> parentStoreComOp = storeCommentRepo.findById(parentStoreComment);
+		if (parentStoreComOp.isPresent()) {
+			if (userLoggined != null) {
+				StoreComment parentStoreCom = parentStoreComOp.get();
+				comment.setParentStoreComment(parentStoreCom);
+				comment.setStore(store);
+				System.out.println("Inside post comment to parent Store comment service impl");
+				parentStoreCom.getReplyStoreComments().add(comment);
+				storeCommentRepo.saveAndFlush(comment);
+			}
 		}
 		return comment;
 	}

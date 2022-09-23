@@ -207,6 +207,18 @@ public class StoreController {
 		}
 		return storeComment;
 	}
+//	POST /stores/{storeId}/comments      create  comment on parent comment
+	@PostMapping("/stores/{storeId}/comments/{parentCommentId}/comment")
+	public StoreComment createStoreCommentToParentComent(@PathVariable int storeId, @PathVariable int parentCommentId, @RequestBody StoreComment comment, Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		
+		StoreComment childComment = storeServ.postCommentToParentCommentToStore( principal.getName(), store,parentCommentId, comment);
+		System.out.println("Inside post  store child comment controller");
+		if (childComment == null) {
+			res.setStatus(404);
+		}
+		return childComment;
+	}
 //	PUT /stores/{storeId}/comments/{commentId}      update comment
 //
 //	DELETE /stores/{storeId}/comments/{commentId}      delete comment
