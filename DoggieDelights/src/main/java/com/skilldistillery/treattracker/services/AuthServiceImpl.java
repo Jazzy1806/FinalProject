@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.User;
+import com.skilldistillery.treattracker.repositories.AddressRepository;
 import com.skilldistillery.treattracker.repositories.UserRepository;
 
 @Service
@@ -18,12 +20,17 @@ public class AuthServiceImpl implements AuthService {
 
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private AddressRepository addressRepo;
 
 	@Override
 	public User register(User user) {
 		user.setPassword(encoder.encode(user.getPassword()));
 		user.setEnabled(true);
 		user.setRole("standard");
+		Address address = user.getAddress();
+		addressRepo.saveAndFlush(address);
 		return userRepo.saveAndFlush(user);
 	}
 

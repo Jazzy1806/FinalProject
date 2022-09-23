@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Diet {
 
@@ -20,7 +22,7 @@ public class Diet {
 
 	private String name;
 
-	
+	@JsonIgnore
 	@ManyToMany(mappedBy="dietNeeds")
 	private Set<Pet> pets;
 	

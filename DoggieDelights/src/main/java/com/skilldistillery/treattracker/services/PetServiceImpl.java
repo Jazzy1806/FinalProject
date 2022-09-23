@@ -27,11 +27,14 @@ public class PetServiceImpl implements PetService{
 
 	@Override
 	public Pet getPet(String username, int petId) {
-		Optional<Pet> result = petRepo.findById(petId);
-		if (result.isPresent()) {
-			Pet pet= result.get();
-			if (pet.getUser().getUsername().equals(username)) {
-				return pet;
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Optional<Pet> result = petRepo.findById(petId);
+			if (result.isPresent()) {
+				Pet pet= result.get();
+				if (pet.getUser().getUsername().equals(username)) {
+					return pet;
+				}
 			}
 		}
 		return null;
@@ -42,23 +45,26 @@ public class PetServiceImpl implements PetService{
 		  User user = userRepo.findByUsername(username);
 		  if (user != null) {
 		    pet.setUser(user);
-		    return petRepo.saveAndFlush(pet);
+  		    return petRepo.saveAndFlush(pet);
 		  }
 		  return null;
 	}
 
 	@Override
 	public Pet updatePet(String username, int petId, Pet pet) {
-		Optional<Pet> result = petRepo.findById(petId);
-		if (result.isPresent()) {
-			Pet udpatePet= result.get();
-			if (udpatePet.getUser().getUsername().equals(username)) {
-				udpatePet.setName(pet.getName());
-				udpatePet.setWeight(pet.getWeight());
-				udpatePet.setGender(pet.getGender());
-				udpatePet.setImage(pet.getImage());
-				udpatePet.setBirthDate(pet.getBirthDate());
-				return petRepo.saveAndFlush(udpatePet);
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Optional<Pet> result = petRepo.findById(petId);
+			if (result.isPresent()) {
+				Pet udpatePet= result.get();
+				if (udpatePet.getUser().getUsername().equals(username)) {
+					udpatePet.setName(pet.getName());
+					udpatePet.setWeight(pet.getWeight());
+					udpatePet.setGender(pet.getGender());
+					udpatePet.setImage(pet.getImage());
+					udpatePet.setBirthDate(pet.getBirthDate());
+					return petRepo.saveAndFlush(udpatePet);
+				}
 			}
 		}
 		return null;
@@ -66,13 +72,16 @@ public class PetServiceImpl implements PetService{
 
 	@Override
 	public boolean deletePet(String username, int petId) {
-		Optional<Pet> result = petRepo.findById(petId);
-		if (result.isPresent()) {
-			Pet pet= result.get();
-			if (pet.getUser().getUsername().equals(username)) {
-				pet.setEnabled(false);
-				petRepo.saveAndFlush(pet);
-				return true;
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Optional<Pet> result = petRepo.findById(petId);
+			if (result.isPresent()) {
+				Pet pet= result.get();
+				if (pet.getUser().getUsername().equals(username)) {
+					pet.setEnabled(false);
+					petRepo.saveAndFlush(pet);
+					return true;
+				}
 			}
 		}
 		return false;
