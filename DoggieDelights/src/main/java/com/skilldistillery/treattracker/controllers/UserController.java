@@ -11,33 +11,35 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.treattracker.entities.Pet;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.services.AuthService;
+import com.skilldistillery.treattracker.services.PetService;
 
 @RestController
 @RequestMapping("api")
 @CrossOrigin({"*", "http://localhost:4200"})
 public class UserController {
 
-//	@Autowired
-//	private PetService petService;
+	@Autowired
+	private PetService petService;
 	
 	@Autowired
 	private AuthService authService;
 	
 	
-//	GET  /users      get all users
 	@GetMapping("users")
 	public List<User> index(HttpServletRequest req, HttpServletResponse res, Principal principal ) {
 		return authService.index(principal.getName()); 
 	}
 	
-//	GET /users/{userId}      findUserById
+	
 	@GetMapping("users/{userId}")
 	public User findById(@PathVariable int userId, HttpServletRequest req, HttpServletResponse res) {
 		User user = authService.getUserById(userId); 
@@ -47,7 +49,7 @@ public class UserController {
 		return user;
 	}
 	
-//	GET  /users/{username}      find user by username
+	
 	@GetMapping("users/keyword/{username}")
 	public User findByUsername(@PathVariable String username, HttpServletRequest req, HttpServletResponse res) {
 		User user = authService.getUserByUsername(username); 
@@ -58,10 +60,6 @@ public class UserController {
 	}
 
 	
-////	POST  /users          register new user - don't need- duplicate from auth
-
-	
-//	PUT     /users/{userId}      update user
 	@PutMapping("users/{userId}")
 	public User update(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, @RequestBody User user, Principal principal) {
 		User updated = null;
@@ -75,7 +73,7 @@ public class UserController {
 		return updated;
 	}
 	
-//	PUT    /users/{userId}      update user to deactivate (delete)-serviceImpl
+	
 	@PutMapping("users/deactivate/{userId}")
 	public boolean deactivate(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) {
 		boolean result=false;
@@ -89,7 +87,7 @@ public class UserController {
 		return result;
 	}
 	
-//	PUT    /users/{userId}      update user to deactivate (delete)-serviceImpl
+	
 	@PutMapping("users/activate/{userId}")
 	public boolean activate(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) {
 		boolean result=false;
@@ -103,7 +101,7 @@ public class UserController {
 		return result;
 	}
 
-	//	PUT    /users/{userId}      update user credentials
+	
 	@PutMapping("users/credentials/{userId}")
 	public boolean updateCredentials(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, @RequestBody User user, Principal principal) {
 		boolean result=false;
@@ -118,10 +116,8 @@ public class UserController {
 	}
 
 	
-	
-//	DELETE    /users/{userId}       delete user?- -Admin only
 	@DeleteMapping("users/{userId}")
-	public boolean destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) { 
+	public boolean deleteUser(HttpServletRequest req, HttpServletResponse res, @PathVariable int userId, Principal principal) { 
 		boolean deleted = authService.deleteUser(userId, principal);
 		if (deleted) {
 			res.setStatus(200);
@@ -133,79 +129,66 @@ public class UserController {
 	}
 	
 
-////	GET   /users/{userId}/pets    get all user pets
-//	@GetMapping("todos")
-//	public Set<Todo> index(HttpServletRequest req, HttpServletResponse res, Principal principal) {
-//		return todoServe.index(principal.getName()); 
-//	}
-//	
-//	@GetMapping("todos/{tid}")
-//	public Todo show(@PathVariable int tid, HttpServletRequest req, HttpServletResponse res, Principal principal) {
-//		Todo todo = todoServe.show(principal.getName(), tid); 
-//		if (todo == null) {
-//			res.setStatus(404);
-//		}
-//		return todo;
-//	}
-//	
-//	@PostMapping("todos")
-//	public Todo create(HttpServletRequest req, HttpServletResponse res, @RequestBody Todo todo, Principal principal) {
-//		Todo created = null;
-//		try {
-//		created = todoServe.create(principal.getName(), todo); 
-//		res.setStatus(201);
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//			res.setStatus(400);
-//		}
-//		return created;
-//	}
-//	
-//	@PutMapping("todos/{tid}")
-//	public Todo update(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid, @RequestBody Todo todo, Principal principal) {
-//		Todo updated = null;
-//		try {
-//		updated = todoServe.update(principal.getName(), tid, todo); 
-//		}
-//		catch (Exception e) {
-//			e.printStackTrace();
-//			res.setStatus(400);
-//		}
-//		return updated;
-//	}
-//	
-//	@DeleteMapping("todos/{tid}")
-//	public void destroy(HttpServletRequest req, HttpServletResponse res, @PathVariable int tid, Principal principal) { 
-//		boolean deleted = todoServe.destroy(principal.getName(), tid);
-//		if (deleted) {
-//			res.setStatus(200);
-//		}
-//		else {
-//			res.setStatus(400);
-//		}
-//	}
-//	GET  /users      get all users
-//
-//	GET /users/{userId}      findUserById
-//
-//	GET  /users/{username}      find user by username
-//
-//	POST  /users          register new user
-//
-//	PUT     /users/{userId}      update user
-//
-//	PUT    /users/{userId}      update user to deactivate (delete)-serviceImpl
-//
-//	DELETE    /users/{userId}       delete user?- -Admin only
-//
 //	GET   /users/{userId}/pets    get all user pets
-//
+	@GetMapping("pets")
+	public List<Pet> findPetsByUser(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		return petService.index(principal.getName()); 
+	}
+	
 //	GET    /users/{userId}/pets/{petId}    get specific pet
-//
+	@GetMapping("pets/{petId}")
+	public Pet findPet(@PathVariable int petId, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		Pet pet = petService.getPet(principal.getName(), petId); 
+		if (pet == null) {
+			res.setStatus(404);
+		}
+		return pet;
+	}
+
 //	POST  /users/{userId}/pets          register new pet
-//
+	@PostMapping("pets")
+	public Pet addPet(HttpServletRequest req, HttpServletResponse res, @RequestBody Pet pet, Principal principal) {
+		Pet created = null;
+		try {
+		created = petService.addPet(principal.getName(), pet); 
+		res.setStatus(201);
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return created;
+	}
+	
 //	PUT     /users/{userId}/pets/{petId}      update user
+	@PutMapping("pets/{petId}")
+	public Pet update(HttpServletRequest req, HttpServletResponse res, @PathVariable int petId, @RequestBody Pet pet, Principal principal) {
+		Pet updated = null;
+		try {
+		updated = petService.updatePet(principal.getName(), petId, pet); 
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+		return updated;
+	}
+	
+	@DeleteMapping("pets/{petId}")
+	public boolean deletePet(HttpServletRequest req, HttpServletResponse res, @PathVariable int petId, Principal principal) { 
+		boolean deleted = petService.deletePet(principal.getName(), petId);
+		if (deleted) {
+			res.setStatus(200);
+		}
+		else {
+			res.setStatus(400);
+		}
+		return deleted;
+	}
+
+	
+//
+//
 //
 //	PUT    /users/{userId}/pets/{petId}      update user to deactivate (delete)-serviceImpl
 //

@@ -33,20 +33,14 @@ public class Pet {
 
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
+	
+	private boolean enabled;
 
 	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
 
-////	@JsonIgnore
-//	@OneToMany(mappedBy = "pet")
-//	private Set<Breed> breeds;
-
-//	@ManyToOne
-//	@JoinColumn(name = "breed_id")
-//	private Breed breed;
-	
 	@ManyToMany
 	@JoinTable(name = "pet_has_breed",
 			joinColumns = @JoinColumn(name = "pet_id"),
@@ -60,6 +54,9 @@ public class Pet {
 		inverseJoinColumns = @JoinColumn(name = "dietary_needs_id"))
 	private Set<Diet> dietNeeds;
 
+	
+	
+	
 	public Pet() {
 		super();
 	}
@@ -134,6 +131,15 @@ public class Pet {
 
 	public void setDietNeeds(Set<Diet> dietNeeds) {
 		this.dietNeeds = dietNeeds;
+	}
+	
+
+	public boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override
