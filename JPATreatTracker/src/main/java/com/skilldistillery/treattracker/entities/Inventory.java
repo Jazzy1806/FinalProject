@@ -28,6 +28,7 @@ public class Inventory {
 	@JoinColumn(name="product_id")
 	private Product product;
 	
+	
 
 	public Inventory() {
 	

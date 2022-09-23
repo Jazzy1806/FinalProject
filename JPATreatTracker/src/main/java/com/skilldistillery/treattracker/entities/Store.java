@@ -1,5 +1,6 @@
 package com.skilldistillery.treattracker.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -157,6 +158,63 @@ public class Store {
 	}
 
 
+	public void addInventory(Inventory inventory) {
+		if (inventories == null) {
+			inventories = new ArrayList<>();
+		}
+		inventories.add(inventory);
+		inventory.setStore(this);
+	}
+	
+	public void removeInventory(Inventory inventory) {
+		if (inventories != null & inventories.contains(inventory)) {
+			inventory.setStore(null);
+			inventories.remove(inventory);
+		}
+	}
+
+	
+	public void addProductReport(ProductReport prodReport) {
+		if (productReports == null) {
+			productReports = new ArrayList<>();
+		}
+		if (!productReports.contains(prodReport)) {
+		prodReport.setStore(this);
+		productReports.add(prodReport);
+		}
+	}
+	
+	public void removeProductReport(ProductReport prodReport) {
+		if (productReports != null&& productReports.contains(prodReport)) {
+			prodReport.setStore(null);
+			productReports.remove(prodReport);
+		}
+	}
+	
+	public void addComment(StoreComment comment) {
+		if (comments == null) {
+			comments = new ArrayList<>();
+		}
+		if (!comments.contains(comment)) {
+			comment.setStore(this);
+			comments.add(comment);
+		}
+	}
+	public void removeComment(StoreComment comment) {
+		if (comments == null) {
+			comments = new ArrayList<>();
+		}
+		if (!comments.contains(comment)) {
+			comment.setStore(null);
+			comments.remove(comment);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Store [id=" + id + ", name=" + name + ", address=" + address + ", description=" + description
+				+ ", websiteUrl=" + websiteUrl + ", logoUrl=" + logoUrl + ", chain=" + chain + "]";
+	}
 	
 	
 
