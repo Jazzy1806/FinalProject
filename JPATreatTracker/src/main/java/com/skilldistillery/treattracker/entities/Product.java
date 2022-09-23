@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,7 +46,9 @@ public class Product {
 
 //	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "ingredient_has_product", joinColumns = @JoinColumn(name = "ingredient_id"), inverseJoinColumns = @JoinColumn(name = "product_id"))
+	@JoinTable(name = "ingredient_has_product", 
+	joinColumns = @JoinColumn(name = "product_id"), 
+	inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
 
 	@JsonIgnore
@@ -66,6 +69,29 @@ public class Product {
 	public Product() {
 	}
 	
+
+	public void removeComment(ProductComment comment) {
+		if (comments != null && comments.contains(comment)) {
+			comment.removeComment();
+		}
+	}
+	
+	public void removeIngredient(Ingredient ingredient) {
+        if (ingredients != null && ingredients.contains(ingredient)) {
+        	ingredients.remove(ingredient);
+        	ingredient.removeProduct(this);
+        }
+    }
+
+	public void removeIngredients() {
+		if (ingredients != null) {
+            List<Ingredient> ingredientsToRemove = new ArrayList<>(ingredients);
+            for (Ingredient ingredientToRemove : ingredientsToRemove) {
+            	ingredientToRemove.removeProduct(this);
+            }
+            ingredients.clear();
+		}
+	}
 
 	public int getId() {
 		return id;
@@ -178,6 +204,13 @@ public class Product {
 			return false;
 		Product other = (Product) obj;
 		return id == other.id;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", brand=" + brand + ", description=" + description + ", image="
+				+ image + ", dateCreated=" + dateCreated + ", dateUpdated=" + dateUpdated + ", ingredients="
+				+ ingredients + "]";
 	}
 
 }

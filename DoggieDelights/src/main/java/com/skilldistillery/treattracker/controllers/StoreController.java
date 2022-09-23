@@ -26,6 +26,7 @@ public class StoreController {
 	@Autowired
 	private StoreService storeServ;
 
+
 //	GET   /stores     get all stores
 	@RequestMapping("stores")
 	public List<Store> getAllStores(HttpServletResponse res) {
