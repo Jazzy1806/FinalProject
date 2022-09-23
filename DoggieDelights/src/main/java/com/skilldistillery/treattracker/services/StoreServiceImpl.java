@@ -181,7 +181,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<StoreComment> findStoreComments(Store store) {
+	public List<StoreComment> findStoreComments(String username, Store store) {
 		return store.getComments();
 	}
 

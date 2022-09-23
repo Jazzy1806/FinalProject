@@ -43,10 +43,12 @@ public class StoreComment {
 	@Column(name="created_on")
 	private LocalDateTime createdOn;
 
+	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "in_reply_to_id")
 	private StoreComment parentStoreComment;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "parentStoreComment")
 	private Set<StoreComment> replyStoreComments = new HashSet<>();
 	

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.services.InventoryService;
 import com.skilldistillery.treattracker.services.ProductService;
 import com.skilldistillery.treattracker.services.StoreService;
@@ -185,7 +186,14 @@ public class StoreController {
 
 	}
 	//	GET /stores/{storeId}/comments      get all comments
-//
+	@RequestMapping("/stores/{storeId}/comments")
+	public List<StoreComment> getAllStoreComments(@PathVariable int storeId,Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		if (store == null) {
+			res.setStatus(404);
+		}
+		return store.getComments();
+	}
 //	POST /stores/{storeId}/comments      create new comment
 //
 //	PUT /stores/{storeId}/comments/{commentId}      update comment

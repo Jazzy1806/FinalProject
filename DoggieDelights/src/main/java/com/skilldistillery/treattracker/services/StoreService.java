@@ -20,7 +20,7 @@ public interface StoreService {
 	 Map<Product, Integer>findProductInventoryByStore(String username,Store store);
 	List<Inventory> updateProductInventoryByStore(String username, Store store, Product prod, int updatedQuantity);
 	boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
-	List<StoreComment> findStoreComments(Store store);
+	List<StoreComment> findStoreComments(String username, Store store);
 	StoreComment postCommentToStore(Store store, StoreComment comment);
 	StoreComment updateCommentStore(Store store, StoreComment comment);
 	boolean deleteCommentStore(Store store, StoreComment comment);
