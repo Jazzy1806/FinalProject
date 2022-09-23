@@ -1,7 +1,9 @@
 package com.skilldistillery.treattracker.services;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.xml.stream.events.Comment;
@@ -25,7 +27,7 @@ public class StoreServiceImpl implements StoreService {
 
 	@Autowired
 	private AddressRepository addressRepo;
-	
+
 	@Autowired
 	private StoreRepository storeRepo;
 
@@ -67,7 +69,7 @@ public class StoreServiceImpl implements StoreService {
 			addressRepo.saveAndFlush(address);
 			System.out.println("inside createStore serv" + newStore);
 			return storeRepo.saveAndFlush(newStore);
-			
+
 		}
 		return null;
 	}
@@ -101,7 +103,7 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public boolean deleteStore( String username, int storeId) {
+	public boolean deleteStore(String username, int storeId) {
 		boolean isDeleted = false;
 		Store existingStore = storeRepo.findById(storeId);
 		User user = userRepo.findByUsername(username);
@@ -110,24 +112,30 @@ public class StoreServiceImpl implements StoreService {
 				existingStore.setAddress(null);
 				existingStore.setChain(null);
 				storeRepo.delete(existingStore);
-			isDeleted = true;
+				isDeleted = true;
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return isDeleted;
 	}
 
-
 	@Override
-	public Set<Product> findProductInventoryByStore(Store store) {
-		Set<Product> products = new HashSet<>();
-		List<Inventory> inventories = inventoryRepo.findByStore(store);
-		for (Inventory item : inventories) {
-			products.add(item.getProduct());
+	public Map<Product, Integer> findProductInventoryByStore(String username, Store store) {
+		Map<Product, Integer> productInventory = new HashMap<>();
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			Set<Product> products = new HashSet<>();
+			List<Inventory> inventories = inventoryRepo.findByStore(store);
+			for (Inventory item : inventories) {
+				products.add(item.getProduct());
+			}
+			for (Product prod : products) {
+				productInventory.put(prod, prod.getInventoryItems().size());
+			}
 		}
-		return products;
+		return productInventory;
 	}
 
 	@Override

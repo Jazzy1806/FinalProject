@@ -2,6 +2,7 @@ package com.skilldistillery.treattracker.controllers;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.skilldistillery.treattracker.entities.Inventory;
+import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.services.StoreService;
 
@@ -126,7 +129,19 @@ public class StoreController {
 //	PUT  /stores/[storeId}/addresses/{addressId}  update address for store
 //
 //	GET /stores/{storeId}/inventory/{inventoryId}    get specific product list
-//
+	@RequestMapping("stores/{storeId}/inventory")
+	public Map<Product, Integer> getProductInventoryByStore(@PathVariable int storeId,Principal principal, HttpServletResponse res) {
+		Map<Product, Integer> productInventoryByStore = null;
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		try {
+			productInventoryByStore = storeServ.findProductInventoryByStore( principal.getName(), store );
+		} catch (Exception e) {
+			res.setStatus(400);
+			e.printStackTrace();
+		}
+		return productInventoryByStore;
+
+	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    update specific product list
 //
 //	PUT /stores/{storeId}/inventory/{inventoryId}    deactivate specific product list

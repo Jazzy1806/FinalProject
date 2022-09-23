@@ -55,8 +55,8 @@ public class Product {
 	@OneToMany(mappedBy = "product")
 	private List<ProductComment> comments;
 
-	@OneToMany(mappedBy = "product")
-	private List<Inventory> inventories;
+//	@OneToMany(mappedBy = "product")
+//	private List<Inventory> inventories;
 
 	@JsonIgnore
 	@OneToMany(mappedBy = "product")
