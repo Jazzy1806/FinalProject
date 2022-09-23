@@ -5,17 +5,17 @@ import { Pet } from "./pet";
 
 export class User {
   id: number;
-  firstName: string | null;
-  lastName: string | null;
-  email: string | null;
-  username: string | null;
-  password: string | null;
+  firstName: string = '';
+  lastName: string = '';
+  email: string = '';
+  username: string = '';
+  password: string = '';
   enabled: boolean | null;
   dateCreated: Date;
   dateUpdated: Date | null;
-  role: string | null;
-  bio: string | null;
-  image: string | null;
+  role: string = '';
+  bio: string = '';
+  image: string = '';
   address: Address | null;
   pets: Pet[] | null;
 
