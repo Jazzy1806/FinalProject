@@ -45,7 +45,7 @@
   <div *ngIf="storeComments && products">
     <div class="row">
       <div class="col-sm-8">
-        <h1>{{ storeName }}</h1>
+        <h1>{{selectedStore.name}}</h1>
         <div *ngFor="let comment of storeComments">
           <h5>{{ comment.user?.username }}</h5>
           <ngb-rating [max]="5" [(rate)]="comment.rating" [readonly]="true">
@@ -60,6 +60,7 @@
           </ngb-rating>
           <p>{{ comment.title }}</p>
         </div>
+        <!-- form to create store comment -->
         <form *ngIf="newComment">
           <h4>Leave Comment:</h4>
           <div class="rating">
@@ -90,9 +91,13 @@
               placeholder="Write review comment here"
               [(ngModel)]="newComment.title"
             />
+            <input type="hidden" name="store" [(ngModel)]="newComment.store"/>
+            <input type="hidden" name="user" [(ngModel)]="newComment.user"/>
+
           </div>
           <div class="d-flex justify-content-end m-1">
             <button
+              (click)="createStoreComment(selectedStore, newComment)"
               type="submit"
               class="btn btn-warning"
               data-toggle="button"

@@ -123,7 +123,7 @@ public class StoreController {
 //
 //	DELETE /stores/{storeId}  delete store
 	@DeleteMapping("stores/{id}")
-	public void deleteComment(@PathVariable Integer id, HttpServletResponse res, Principal principal) {
+	public void deleteStore(@PathVariable Integer id, HttpServletResponse res, Principal principal) {
 		try {
 			if (storeServ.deleteStore(principal.getName(), id)) {
 				res.setStatus(204);

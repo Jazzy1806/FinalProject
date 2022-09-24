@@ -68,4 +68,15 @@ export class StoreService {
       );
     }
 
+    createStoreComment(storeId: number, storeComment : StoreComment): Observable<StoreComment> {
+      return this.http.post<StoreComment>(this.url + '/' + storeId + '/comments/comment',storeComment, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStoreComment(): error creating Store Comment: ' + err )
+          );
+        })
+      );
+    }
+
 }

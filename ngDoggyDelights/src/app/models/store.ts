@@ -7,17 +7,17 @@ import { Product } from "./product";
 export class Store {
   id: number;
   name: string | null;
-  address: Address | null;
+  address?: Address | null;
   description: string | null;
   inventory: Inventory[] | null;
-  chain: Chain | null;
+  chain?: Chain | null;
   comments: StoreComment[] | null;
   websiteUrl: string | null;
   logoUrl: string | null;
   products: Product[] | null = null;
 
-  constructor(  id: number, name: string, description: string, websiteUrl: string, logoUrl: string,
-                address: Address, inventory: Inventory[], chain: Chain, comments: StoreComment[]) {
+  constructor(  id: number = 0, name: string = "", description: string ="", websiteUrl: string="", logoUrl: string="",
+                address?: Address, inventory: Inventory[] =[], chain?: Chain, comments: StoreComment[]= []) {
     this.id = id;
     this.name = name;
     this.description = description;
