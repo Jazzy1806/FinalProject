@@ -1,0 +1,18 @@
+input {
+  margin: 3px;
+  align-items: right;
+}
+
+label {
+  width: 80px;
+}
+
+.btn {
+  text-align: center;
+  margin-left:50px;
+  margin: 10px;
+  color: darkslateblue;
+  font-weight: bold;
+  background-color:gainsboro;
+  border-color: black;
+}

@@ -1,3 +1,7 @@
+import { Product } from "./product";
+import { Store } from "./store";
+import { User } from "./user";
+
 export class ProductReport {
   id: number;
   createdOn: Date;
@@ -6,8 +10,12 @@ export class ProductReport {
   price: number | null;
   isInStock: boolean | null;
   remark: string | null;
+  user: User | null;
+  store: Store | null;
+  product: Product | null;
 
-  constructor(id: number, createdOn: Date, updatedOn: Date, userQuantity: number, price: number, isInStock: boolean, remark: string; ) {
+  constructor(id: number, createdOn: Date, updatedOn: Date, userQuantity: number, price: number,
+              isInStock: boolean, remark: string, user: User, store: Store, product: Product) {
     this.id = id;
     this.createdOn = createdOn;
     this.updatedOn = updatedOn;
@@ -15,5 +23,8 @@ export class ProductReport {
     this.price = price;
     this.isInStock = isInStock;
     this.remark = remark;
+    this.user = user;
+    this.store = store;
+    this.product = product;
   }
 }

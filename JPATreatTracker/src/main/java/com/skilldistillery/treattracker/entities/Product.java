@@ -80,6 +80,7 @@ public class Product {
 	}
 
 	public void removeInventory(Inventory inventory) {
+
 //		if (inventories != null && inventories.contains(inventory)) {
 //			inventories.remove(inventory);
 //		}
@@ -89,7 +90,7 @@ public class Product {
 		if (ingredients != null && ingredients.contains(ingredient)) {
 			ingredients.remove(ingredient);
 			ingredient.removeProduct(this);
-		}
+		}		
 	}
 
 	public void removeIngredients() {

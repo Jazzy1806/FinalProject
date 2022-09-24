@@ -3,13 +3,13 @@ export class StoreComment {
   title: string | null;
   description: string | null;
   rating: number | null;
-  dateCreated: Date;
+  createdOn: Date;
 
-  constructor(id: number, title: string, description: string, rating: number, dateCreated: Date;) {
+  constructor(id: number, title: string, description: string, rating: number, createdOn: Date) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.rating = rating;
-    this.dateCreated = dateCreated;
+    this.createdOn = createdOn;
   }
 }

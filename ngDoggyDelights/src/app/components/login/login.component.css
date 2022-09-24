@@ -1,0 +1,37 @@
+.modal-dialog {
+  width: 300px;
+  text-align: center;
+  margin: 0;
+  top: 30%;
+  left: 30%;
+  position:relative;
+  transform: translate(-50%, -50%);
+}
+
+.modal-header, .modal-title {
+  background-color:darkslateblue;
+  color: white;
+  text-align: center;
+  font-family: arial;
+  font-weight: bold;
+  font-size: 25px;
+}
+
+#loginBtn {
+  text-align: center;
+  margin: 10px;
+  color: darkslateblue;
+  font-weight: bold;
+  background-color:gainsboro;
+  border-color: black;
+}
+
+input {
+  margin: 5px;
+}
+
+label {
+  font-family: arial;
+  font-weight: bold;
+
+}

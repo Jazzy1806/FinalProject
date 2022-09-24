@@ -9,7 +9,7 @@ import { User } from '../models/user';
 })
 export class AuthService {
   // Set port number to server's port
-  private baseUrl = 'http://localhost:8082/';
+  private baseUrl = 'http://localhost:8090/';
   private url = this.baseUrl;
 
   constructor(private http: HttpClient) {}
@@ -70,9 +70,7 @@ export class AuthService {
         'X-Requested-with': 'XMLHttpRequest',
       },
     };
-    return this.http
-      .get<User>(this.baseUrl + 'authenticate', httpOptions)
-      .pipe(
+    return this.http.get<User>(this.baseUrl + 'authenticate', httpOptions).pipe(
         catchError((err: any) => {
           console.log(err);
           return throwError(

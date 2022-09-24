@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
-
-import javax.xml.stream.events.Comment;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,7 @@ import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.Store;
+import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.repositories.AddressRepository;
 import com.skilldistillery.treattracker.repositories.InventoryRepository;
@@ -137,39 +137,107 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return productInventory;
 	}
+	
+	@Override
+	public Set<Product> findProductsByStore(String username, Store store) {
+		User user = userRepo.findByUsername(username);
+		Set<Product> products = new HashSet<>();
+		if (user != null) {
+			
+			List<Inventory> inventories = inventoryRepo.findByStore(store);
+			for (Inventory item : inventories) {
+				products.add(item.getProduct());
+			}
+		}
+		
+		return products;
+	}
+
+	public Double getProductPrice(Product product) {
+		Double price = 0.0;
+		for (Inventory item : product.getInventoryItems()) {
+			price = item.getPrice();
+		}
+		return price;
+	}
 
 	@Override
-	public Product updateProductInventoryByStore(Store store, Inventory inventory, Product product) {
+	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product,
+			int updatedQuantity) {
+		User user = userRepo.findByUsername(username);
+		Double price = getProductPrice(product);
+		if (user != null) {
+			for (int i = 0; i < updatedQuantity; i++) {
+				Inventory inventory = new Inventory();
+				inventory.setStore(store);
+				inventory.setProduct(product);
+				inventory.setPrice(price);
+				inventory.setEnabled(true);
+				inventoryRepo.saveAndFlush(inventory);
+			}
+
+		}
+		System.out.println(product.getInventoryItems());
+		return product.getInventoryItems();
+	}
+
+	@Override
+	public boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory) {
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			if (prod.getInventoryItems().contains(inventory)) {
+				inventory.setEnabled(false);
+				inventoryRepo.saveAndFlush(inventory);
+				System.out.println("inside if statement for deactive");
+				return true;
+
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public List<StoreComment> findStoreComments(String username, Store store) {
+		return store.getComments();
+	}
+
+	@Override
+	public StoreComment postCommentToStore(String username, Store store, StoreComment comment) {
+		User userLoggined = userRepo.findByUsername(username);
+		if (userLoggined != null) {
+			comment.setStore(store);
+			System.out.println("Inside post store comment service impl");
+			storeCommentRepo.saveAndFlush(comment);
+		}
+		return comment;
+	}
+
+	@Override
+	public StoreComment postCommentToParentCommentToStore(String username, Store store, int parentStoreComment,
+			StoreComment comment) {
+		User userLoggined = userRepo.findByUsername(username);
+		Optional<StoreComment> parentStoreComOp = storeCommentRepo.findById(parentStoreComment);
+		if (parentStoreComOp.isPresent()) {
+			if (userLoggined != null) {
+				StoreComment parentStoreCom = parentStoreComOp.get();
+				comment.setParentStoreComment(parentStoreCom);
+				comment.setStore(store);
+				System.out.println("Inside post comment to parent Store comment service impl");
+				parentStoreCom.getReplyStoreComments().add(comment);
+				storeCommentRepo.saveAndFlush(comment);
+			}
+		}
+		return comment;
+	}
+
+	@Override
+	public StoreComment updateCommentStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean deactivateProductListInventoryByStore(Store store, Inventory inventory, Product product) {
-		// TODO Auto-generated method stub
-		return true;
-	}
-
-	@Override
-	public List<Comment> findStoreComments(Store store) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Comment postCommentToStore(Store store, Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Comment updateCommentStore(Store store, Comment comment) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean deleteCommentStore(Store store, Comment comment) {
+	public boolean deleteCommentStore(Store store, StoreComment comment) {
 		// TODO Auto-generated method stub
 		return false;
 	}

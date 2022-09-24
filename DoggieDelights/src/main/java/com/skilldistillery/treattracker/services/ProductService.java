@@ -17,4 +17,6 @@ public interface ProductService {
 	public boolean destroy(String username, int tid);
 	
 	List<Product> findByKeyword(String username, String keyword);
+	
+	public Product findById(String username, int prodId);
 }

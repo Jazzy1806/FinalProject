@@ -159,6 +159,9 @@ public class UserController {
 			e.printStackTrace();
 			res.setStatus(400);
 		}
+		if (created == null) {
+			res.setStatus(404);
+		}
 		return created;
 	}
 	
@@ -172,20 +175,35 @@ public class UserController {
 			e.printStackTrace();
 			res.setStatus(400);
 		}
+		if (updated == null) {
+			res.setStatus(404);
+		}
 		return updated;
 	}
 	
-	@DeleteMapping("pets/{petId}")
+	@PutMapping("pets/deactivate/{petId}")
 	public boolean deletePet(HttpServletRequest req, HttpServletResponse res, @PathVariable int petId, Principal principal) { 
-		boolean deleted = petService.deletePet(principal.getName(), petId);
-		if (deleted) {
+		boolean deactivated = petService.deletePet(principal.getName(), petId);
+		if (deactivated) {
 			res.setStatus(200);
 		}
 		else {
 			res.setStatus(400);
 		}
-		return deleted;
+		if (!deactivated) {
+			res.setStatus(404);
+		}
+		return deactivated;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 	
 	@GetMapping("addresses/{addressId}")
