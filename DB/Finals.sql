@@ -312,6 +312,7 @@ DROP TABLE IF EXISTS `breed` ;
 CREATE TABLE IF NOT EXISTS `breed` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NULL,
+  `color` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -548,7 +549,13 @@ USE `doggydb`;
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (1, 'Pacific Catch Recipe', 'Merrick', NULL, NULL, NULL, NULL, 1);
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (2, 'Some type', 'Iams', NULL, NULL, NULL, NULL, 1);
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (3, 'Generic name here', 'Generic brand here', NULL, NULL, NULL, NULL, 1);
-INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (4, 'Green food', 'Yam', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (5, 'Stochmas pamper', 'Yan', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (6, 'easy bean', 'Merrick', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (7, 'salmon grill', 'Petpamper', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (8, 'pork bean deli', 'Petpamper', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (9, 'green stotch', 'Meri', NULL, NULL, NULL, NULL, 1);
+INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (10, 'lick and chew', 'Yam', NULL, NULL, NULL, NULL, 1);
 
 COMMIT;
 
@@ -615,8 +622,11 @@ COMMIT;
 START TRANSACTION;
 USE `doggydb`;
 INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (1, 'Store comment 1', 'Description 1', 1, NULL, 1, 1, 1);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (2, 'Store comment 2', 'Description 2', 2, NULL, 1, 2, 2);
-INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (3, 'Store comment 3', 'Description 3', 3, NULL, 1, 3, 3);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (2, 'Store comment 2 in reply to 1', 'Description 2', 2, NULL, 1, 1, 2);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (3, 'Store comment 3 in reply to 2', 'Description 3', 3, NULL, 1, 1, 2);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (4, 'Store comment 4', 'Description 4', 1, NULL, NULL, 2, 2);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (5, 'Store comment 5 in reply to 4', 'Description 5', 2, NULL, 4, 2, 3);
+INSERT INTO `store_comment` (`id`, `title`, `description`, `rating`, `created_on`, `in_reply_to_id`, `store_id`, `user_id`) VALUES (6, 'Store comment 3 in reply to 4', 'Description 6', 3, NULL, 4, 2, 3);
 
 COMMIT;
 
@@ -626,9 +636,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 1, 1, NULL, NULL, 1);
-INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (2, 2, 2, NULL, NULL, 1);
-INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (3, 3, 3, NULL, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 1, 1, 12.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (2, 2, 2, 25.45, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (3, 3, 3, 10.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (4, 1, 4, 11.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (5, 1, 5, 8.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (6, 1, 6, 15.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (7, 1, 7, 32.50, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (8, 1, 8, 12.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (9, 1, 9, 13.99, NULL, 1);
+INSERT INTO `inventory` (`id`, `store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (10, 1, 10, 14.99, NULL, 1);
 
 COMMIT;
 
@@ -650,9 +667,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `breed` (`id`, `name`) VALUES (1, 'Husky');
-INSERT INTO `breed` (`id`, `name`) VALUES (2, 'Staffordshire Terrier');
-INSERT INTO `breed` (`id`, `name`) VALUES (3, 'Brindel Boxer');
+INSERT INTO `breed` (`id`, `name`, `color`) VALUES (1, 'Husky', 'white-black');
+INSERT INTO `breed` (`id`, `name`, `color`) VALUES (2, 'Staffordshire Terrier', 'brown');
+INSERT INTO `breed` (`id`, `name`, `color`) VALUES (3, 'Brindel Boxer', 'brown-white');
 
 COMMIT;
 
@@ -729,9 +746,12 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (1, 'Product comment 1', 'Description 1', 1, NULL, 1, 1);
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (2, 'Product comment 2', 'Description 2', 2, NULL, 1, 1);
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Product comment 3', 'Description 3', 3, NULL, 1, 2);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (1, 'Product comment 1', 'Description 1', 1, NULL, 1, NULL);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (2, 'Product comment 2 in reply to 1', 'Description 2', 2, NULL, 1, 1);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Product comment 3 in reply to 2', 'Description 3', 3, NULL, 1, 2);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (4, 'Product comment 4', 'Description 4', 1, NULL, 2, NULL);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (5, 'Product comment 5 in reply to 4', 'Description 5', 2, NULL, 2, 4);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (6, 'Product comment 6 in reply to 4', 'Description 6', 3, NULL, 2, 4);
 
 COMMIT;
 
