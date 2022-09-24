@@ -1,3 +1,4 @@
+import { Product } from './../models/product';
 import { Store } from './../models/store';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -35,4 +36,20 @@ export class StoreService {
       })
       );
     }
+
+    productsByStore(storeId :number): Observable<Product[]>{
+      return this.http.get<Product[]>(this.url + '/' + storeId + '/products ').pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                'storeService.productsByStore(): error retrieving products by store: ' +
+                  err
+              )
+          );
+        })
+      );
+    }
+
 }

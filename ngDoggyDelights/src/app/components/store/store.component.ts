@@ -16,12 +16,16 @@ export class StoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.reload();
+
   }
   reload() {
     this.storeService.index().subscribe(
       {
         next: (stores) => {
           this.stores = stores;
+          for (let store of stores) {
+            this.productsByStore(store);
+          }
           console.log(stores);
 
         },
@@ -33,5 +37,15 @@ export class StoreComponent implements OnInit {
     );
   }
 
- // productsByStore()
+  productsByStore(store : Store){
+    this.storeService.productsByStore(store.id).subscribe({
+      next: (products) => {
+        this.products = products;
+      },
+      error: (problem) => {
+        console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');
+        console.error(problem);
+      }
+  })
+  }
 }
