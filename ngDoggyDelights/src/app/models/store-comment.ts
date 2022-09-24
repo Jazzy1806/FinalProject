@@ -1,23 +1,26 @@
 import { Store } from "./store";
+import { User } from "./user";
 
 export class StoreComment {
   id: number;
   title: string | null;
   description: string | null;
-  rating: number | null;
-  createdOn: Date;
-  store: Store | null;
-  parentStoreComment: StoreComment | null;
-  replyStoreComments: StoreComment[] | null;
+  rating: number;
+  createdOn?: Date;
+  store?: Store | null;
+  user?: User | null;
+  // parentStoreComment: StoreComment | null;
+  // replyStoreComments: StoreComment[] | null;
 
-  constructor(id: number, title: string, description: string, rating: number, createdOn: Date, store : Store, parentStoreComment : StoreComment, replyStoreComments : StoreComment[]) {
+  constructor(id: number = 0, title: string ="", description: string ="", rating: number = 0, createdOn?: Date , store?: Store , user? : User) {
     this.id = id;
     this.title = title;
     this.description = description;
     this.rating = rating;
     this.createdOn = createdOn;
     this.store = store;
-    this.parentStoreComment = parentStoreComment;
-    this.replyStoreComments = replyStoreComments;
+    this.user = user;
+    // this.parentStoreComment = parentStoreComment;
+    // this.replyStoreComments = replyStoreComments;
   }
 }

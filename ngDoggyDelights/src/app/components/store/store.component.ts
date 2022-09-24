@@ -14,9 +14,8 @@ export class StoreComponent implements OnInit {
   stores: Store [] | null = null;
   storeName: string | null = '';
   products: Product [] | null = null;
-  storeParentComments: StoreComment [] | null = null;
-  //comments: StoreComment [] [] | null = null;
-  repliesToComment: StoreComment [] | null = null;
+  newComment = new StoreComment();
+  storeComments: StoreComment [] | null = null;
   constructor(private storeService : StoreService ) {}
 
   ngOnInit(): void {
@@ -46,7 +45,8 @@ export class StoreComponent implements OnInit {
   productsByStore(store : Store){
     this.storeService.productsByStore(store.id).subscribe({
       next: (products) => {
-        store.products = products
+        store.products = products;
+        this.products = products;
 
         console.log(store.products);
       },
@@ -61,22 +61,13 @@ export class StoreComponent implements OnInit {
     this.storeService.commentsByStore(store.id).subscribe({
       next: (comments) => {
         console.log(comments);
-         this.storeParentComments = comments;
+         this.storeComments = comments;
 
          this.storeName = store.name;
+         for(let comment of comments){
+         }
 
-      //   for (let comment of comments) {
-      //     if (!comment.parentStoreComment) {
-      //       console.log(!comment.replyStoreComments);
-      //     this.storeParentComments?.push(comment);
-      //     //console.log(this.storeComments);
-      //   //this.repliesToComment = comment.replyStoreComments;
-      // }
-      //  // console.log("reply" + this.repliesToComment);
 
-      //  }
-
-       //console.log(this.storeParentComments);
       },
       error: (problem) => {
         console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');

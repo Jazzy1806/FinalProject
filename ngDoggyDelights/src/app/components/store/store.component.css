@@ -1,0 +1,30 @@
+.rating {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: center;
+}
+
+/* ngb-rating {
+  font-size: 20px;
+  color:brown;
+} */
+.star {
+  font-size: 1.5rem;
+  color: #b0c4de;
+}
+.filled.color1 {
+  color: red;
+}
+.filled.color2 {
+  color: orange;
+}
+.filled.color3 {
+  color: grey;
+}
+.filled.color4 {
+  color: green;
+}
+.filled.color5 {
+  color: green;
+}
+
