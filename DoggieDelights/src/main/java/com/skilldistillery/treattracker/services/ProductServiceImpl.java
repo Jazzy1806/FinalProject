@@ -1,5 +1,6 @@
 package com.skilldistillery.treattracker.services;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,12 +46,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
+	public List<Product> findByKeyword(String username, String keyword) {
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			return prodRepo.findByNameIgnoreCaseLikeOrBrandIgnoreCaseLikeOrDescriptionIgnoreCaseLikeOrderByNameAsc(
+					"%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%");
+		}
+		return null;
+	}
+
+	@Override
 	public Product create(String username, Product product) {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
 			return prodRepo.saveAndFlush(product);
 		}
-		return null; 
+		return null;
 	}
 
 	@Override
@@ -64,6 +75,9 @@ public class ProductServiceImpl implements ProductService {
 				prodUpdate.setBrand(product.getBrand());
 				prodUpdate.setDescription(product.getDescription());
 				prodUpdate.setImage(product.getImage());
+				prodUpdate.setDateUpdated(LocalDateTime.now());
+				prodUpdate.setEnabled(product.getEnabled());
+
 				prodRepo.save(prodUpdate);
 				return prodUpdate;
 			}
@@ -82,23 +96,21 @@ public class ProductServiceImpl implements ProductService {
 				List<ProductComment> comments = prodToDel.getComments();
 				if (comments.size() > 0) {
 					for (ProductComment comment : comments) {
-						comment.removeComment();
+						comment.removeComments();
 					}
 				}
-				
+
 				List<Ingredient> ingredients = prodToDel.getIngredients();
 				if (ingredients.size() > 0) {
-					System.out.println(prodToDel);
 					prodToDel.removeIngredients();
 				}
-				
+
 				// delete inventory from product
 				// delete inventory from store
 				// delete inventory
-				
-				System.out.println(prodToDel);
+
 				prodRepo.saveAndFlush(prodToDel);
-				
+
 				try {
 					prodRepo.deleteById(pid);
 					return true;
