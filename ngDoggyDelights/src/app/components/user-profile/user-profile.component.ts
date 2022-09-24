@@ -23,22 +23,22 @@ export class UserProfileComponent implements OnInit {
     // if (idStr) {
     //   let userId = Number.parseInt(idStr);
     //   if (!isNaN(userId)) {
-        this.auth.getLoggedInUser().subscribe({
-          next: (userData) => {
-            this.loggedInUser = userData;
-          },
-          error: (err) => {
-            console.error("Error retrieving todo:");
-            console.error(err);
-            //if todo id doesn't exist, will direct user to notFound page
-            this.router.navigateByUrl('noSuchTodo');
-          }
-        })
-      // }
-      else {
-        console.error("No such user: " + idStr);
-      }
-    }
-  // }
+    //     this.auth.getLoggedInUser().subscribe({
+    //       next: (userData) => {
+    //         this.loggedInUser = userData;
+    //       },
+    //       error: (err) => {
+    //         console.error("Error retrieving todo:");
+    //         console.error(err);
+    //         //if todo id doesn't exist, will direct user to notFound page
+    //         this.router.navigateByUrl('noSuchTodo');
+    //       }
+    //     })
+    //   // }
+    //   else {
+    //     console.error("No such user: " + idStr);
+    //   }
+    // }
+   }
 
 }

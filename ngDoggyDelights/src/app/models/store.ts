@@ -2,6 +2,7 @@ import { Address } from "./address";
 import { Inventory } from "./inventory";
 import { Chain } from "./chain";
 import { StoreComment } from "./store-comment";
+import { Product } from "./product";
 
 export class Store {
   id: number;
@@ -13,6 +14,7 @@ export class Store {
   comments: StoreComment[] | null;
   websiteUrl: string | null;
   logoUrl: string | null;
+  products: Product[] | null = null;
 
   constructor(  id: number, name: string, description: string, websiteUrl: string, logoUrl: string,
                 address: Address, inventory: Inventory[], chain: Chain, comments: StoreComment[]) {
@@ -25,6 +27,7 @@ export class Store {
     this.inventory = inventory;
     this.chain = chain;
     this.comments = comments;
+
 
   }
 }

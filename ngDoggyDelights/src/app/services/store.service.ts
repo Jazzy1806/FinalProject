@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
+import { StoreComment } from '../models/store-comment';
 
 @Injectable({
   providedIn: 'root'
@@ -38,13 +39,28 @@ export class StoreService {
     }
 
     productsByStore(storeId :number): Observable<Product[]>{
-      return this.http.get<Product[]>(this.url + '/' + storeId + '/products ').pipe(
+      return this.http.get<Product[]>(this.url + '/' + storeId + '/products', this.getHttpOptions()).pipe(
         catchError((err: any) => {
           console.log(err);
           return throwError(
             () =>
               new Error(
                 'storeService.productsByStore(): error retrieving products by store: ' +
+                  err
+              )
+          );
+        })
+      );
+    }
+
+    commentsByStore(storeId: number): Observable<StoreComment[]>{
+      return this.http.get<StoreComment[]>(this.url + '/' + storeId + '/comments', this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                'storeService.commentsByStore(): error retrieving comments by store: ' +
                   err
               )
           );

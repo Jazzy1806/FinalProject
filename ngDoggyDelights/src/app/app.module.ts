@@ -31,7 +31,7 @@ import { ProductComponent } from './components/product/product.component';
     StoreComponent,
     PetComponent,
     UserProfileComponent,
-    ProductComponent
+    ProductComponent,
 
   ],
   imports: [

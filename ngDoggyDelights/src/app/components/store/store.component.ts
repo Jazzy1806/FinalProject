@@ -1,3 +1,4 @@
+import { StoreComment } from './../../models/store-comment';
 import { StoreService } from './../../services/store.service';
 import { Component, OnInit } from '@angular/core';
 import { Store } from 'src/app/models/store';
@@ -12,6 +13,7 @@ export class StoreComponent implements OnInit {
   selected : Store | null = null;
   stores: Store [] | null = null;
   products: Product [] | null = null;
+  storeComments: StoreComment [] | null = null;
   constructor(private storeService : StoreService ) {}
 
   ngOnInit(): void {
@@ -24,10 +26,11 @@ export class StoreComponent implements OnInit {
         next: (stores) => {
           this.stores = stores;
           for (let store of stores) {
+            console.log("store" + store.name);
             this.productsByStore(store);
-          }
-          console.log(stores);
+            console.log("products " + this.products);
 
+          }
         },
         error: (problem) => {
           console.error('StoreListHttpComponent.reload(): error loading store list');
@@ -40,7 +43,22 @@ export class StoreComponent implements OnInit {
   productsByStore(store : Store){
     this.storeService.productsByStore(store.id).subscribe({
       next: (products) => {
-        this.products = products;
+        store.products = products
+
+        console.log(store.products);
+      },
+      error: (problem) => {
+        console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');
+        console.error(problem);
+      }
+  })
+  }
+
+  commentsByStore(store: Store) {
+    this.storeService.commentsByStore(store.id).subscribe({
+      next: (comments) => {
+       this.storeComments = comments
+        console.log(this.storeComments);
       },
       error: (problem) => {
         console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');

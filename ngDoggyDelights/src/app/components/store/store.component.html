@@ -1,54 +1,49 @@
-<div *ngFor="let store of stores">
-  <div class="row">
-    <div class="col">
-      <div ngbDropdown class="d-inline-block">
-        <button
-          type="button"
-          class="btn btn-outline-primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
-        >
-          {{ store.name }}
-        </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Details</button>
-          <button ngbDropdownItem>Address:</button>
+<div *ngIf="!storeComments">
+  <div *ngFor="let store of stores">
+    <div class="row">
+      <div class="col">
+        <div ngbDropdown class="d-inline-block">
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            id="dropdownBasic1"
+            ngbDropdownToggle
+          >
+            {{ store.name }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <button ngbDropdownItem (click)="commentsByStore(store)">
+              Details
+            </button>
+            <button ngbDropdownItem>Address: {{store.address?.address}}, {{store.address?.city}}, {{store.address?.state}} {{store.address?.postalCode}}</button>
+            <button ngbDropdownItem>Contact: {{store.address?.phone}}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="store.products">
+      <div class="d-flex flex-row">
+        <div class="m-2" *ngFor="let product of store.products">
+          <img style="width: 140px; height: 120px" src="{{ product.image }}" />
+          <p>{{ product.name }}</p>
         </div>
       </div>
     </div>
   </div>
-  <ngb-carousel *ngIf="products">
-    <div *ngFor="let product of products">
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <p>{{product.name}}</p>
-          <!-- <img [src]="images[0]" alt="Random first slide"> -->
-        </div>
-        <div class="carousel-caption">
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <!-- <img [src]="images[1]" alt="Random second slide"> -->
-        </div>
-        <div class="carousel-caption">
-          <h3>Second slide label</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        </div>
-      </ng-template>
-      <ng-template ngbSlide>
-        <div class="picsum-img-wrapper">
-          <!-- <img [src]="images[2]" alt="Random third slide"> -->
-        </div>
-        <div class="carousel-caption">
-          <h3>Third slide label</h3>
-          <p>
-            Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-          </p>
-        </div>
-      </ng-template>
+</div>
+
+<div *ngIf="storeComments">
+  <div *ngFor="let comment of storeComments">
+    <h1>{{comment.store?.name}}</h1>
+  </div>
+  <div *ngFor="let comment of storeComments">
+
+    <p>{{ comment.title }}</p>
+    <p>{{ comment.parentStoreComment }}</p>
+    <div *ngIf="comment.replyStoreComments">
+      <!-- <p *ngFor="let childComment of comment.replyStoreComments">
+        {{ childComment.title }}
+      </p> -->
     </div>
-  </ngb-carousel>
+  </div>
 </div>
