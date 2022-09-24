@@ -1,1 +1,47 @@
-<p>user-profile works!</p>
+<div class="userProfile">
+  <div class="container" *ngIf="loggedInUser">
+    <div class="row">
+      <div class="col-4">
+        <h1>{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h1>
+      </div>
+      <div class="col-2"></div>
+      <div class="col-6">
+        <h1>Your Pets</h1>
+      </div>
+    <div class="row">
+      <div class="col-2">
+        <img [src]="loggedInUser.image"/>
+      </div>
+      <div class="col-2">
+        <ul>
+          <label>Username: </label><li>{{loggedInUser.username}}</li>
+          <label>Email: </label><li>{{loggedInUser.email}}</li>
+          <label>Address: </label><li *ngIf="">{{loggedInUser.address.address}}</li>
+        </ul>
+      </div>
+
+          <label for="firstName">Name: </label><input type="text" name="firstName" placeholder="First Name"[(ngModel)]="newUser.firstName" required/>
+          <input placeholder="Last Name" type="text" name="lastName" [(ngModel)]="newUser.lastName"/><br>
+          <label for="username">Username: </label><input type="text" name="username" [(ngModel)]="newUser.username" required/><br>
+          <label for="password">Password: </label><input type="password" name="password" [(ngModel)]="newUser.password" required/><br>
+          <br><br><button class="btn btn-outline-primary" (click)="register(newUser)" >Register</button>
+        </div>
+
+        <div class="col-7">
+          <label for="email">Email: </label><input type="email" name="email" [(ngModel)]="newUser.email" required/><br>
+          <label for="phone">Phone: </label><input type="text" name="phone" [(ngModel)]="newAddress.phone" /><br>
+          <label for="image">Image: </label><input type="text" name="image" [(ngModel)]="newUser.image" /><br>
+          <label for="address">Street: </label><input type="text" name="address" [(ngModel)]="newAddress.address" /><br>
+          <label for="city">City: </label><input type="text" name="city" [(ngModel)]="newAddress.city" required/><br>
+          <label for="state">State: </label><input type="text" name="state" [(ngModel)]="newAddress.state" required/><br>
+          <label for="postalCode">Zip Code: </label><input type="text" name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
+          <br>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-2">
+        </div>
+      </div>
+    </div>
+</div>

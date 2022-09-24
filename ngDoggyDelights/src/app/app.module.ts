@@ -16,6 +16,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
+import { ProductComponent } from './components/product/product.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { UserProfileComponent } from './components/user-profile/user-profile.com
     NotFoundComponent,
     PetComponent,
     UserProfileComponent,
+    ProductComponent,
   ],
   imports: [
     BrowserModule,

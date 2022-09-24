@@ -70,9 +70,7 @@ export class AuthService {
         'X-Requested-with': 'XMLHttpRequest',
       },
     };
-    return this.http
-      .get<User>(this.baseUrl + 'authenticate', httpOptions)
-      .pipe(
+    return this.http.get<User>(this.baseUrl + 'authenticate', httpOptions).pipe(
         catchError((err: any) => {
           console.log(err);
           return throwError(
