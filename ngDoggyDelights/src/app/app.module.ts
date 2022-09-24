@@ -15,6 +15,8 @@ import { RegisterComponent } from './components/register/register.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { LogoutComponent } from './components/logout/logout.component';
 import { StoreComponent } from './components/store/store.component';
+import { PetComponent } from './components/pet/pet.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { StoreComponent } from './components/store/store.component';
     RegisterComponent,
     NotFoundComponent,
     StoreComponent,
+    PetComponent,
+    UserProfileComponent
   ],
   imports: [
     BrowserModule,

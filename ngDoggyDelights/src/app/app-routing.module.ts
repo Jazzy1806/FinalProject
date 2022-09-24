@@ -1,3 +1,5 @@
+import { PetComponent } from './components/pet/pet.component';
+import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
@@ -14,6 +16,10 @@ const routes: Routes = [
   { path: 'logout', component: LogoutComponent },
   { path: 'store', component: StoreComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'profile', component: UserProfileComponent },
+  { path: 'pet', component: PetComponent },
+
+
   { path: '**', component: NotFoundComponent }
 ];
 
