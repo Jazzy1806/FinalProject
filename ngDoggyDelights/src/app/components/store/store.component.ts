@@ -12,8 +12,11 @@ import { Product } from 'src/app/models/product';
 export class StoreComponent implements OnInit {
   selected : Store | null = null;
   stores: Store [] | null = null;
+  storeName: string | null = '';
   products: Product [] | null = null;
-  storeComments: StoreComment [] | null = null;
+  storeParentComments: StoreComment [] | null = null;
+  //comments: StoreComment [] [] | null = null;
+  repliesToComment: StoreComment [] | null = null;
   constructor(private storeService : StoreService ) {}
 
   ngOnInit(): void {
@@ -57,8 +60,23 @@ export class StoreComponent implements OnInit {
   commentsByStore(store: Store) {
     this.storeService.commentsByStore(store.id).subscribe({
       next: (comments) => {
-       this.storeComments = comments
-        console.log(this.storeComments);
+        console.log(comments);
+         this.storeParentComments = comments;
+
+         this.storeName = store.name;
+
+      //   for (let comment of comments) {
+      //     if (!comment.parentStoreComment) {
+      //       console.log(!comment.replyStoreComments);
+      //     this.storeParentComments?.push(comment);
+      //     //console.log(this.storeComments);
+      //   //this.repliesToComment = comment.replyStoreComments;
+      // }
+      //  // console.log("reply" + this.repliesToComment);
+
+      //  }
+
+       //console.log(this.storeParentComments);
       },
       error: (problem) => {
         console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');

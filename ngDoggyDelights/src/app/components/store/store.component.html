@@ -1,49 +1,52 @@
-<div *ngIf="!storeComments">
-  <div *ngFor="let store of stores">
-    <div class="row">
-      <div class="col">
-        <div ngbDropdown class="d-inline-block">
-          <button
-            type="button"
-            class="btn btn-outline-primary"
-            id="dropdownBasic1"
-            ngbDropdownToggle
-          >
-            {{ store.name }}
-          </button>
-          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-            <button ngbDropdownItem (click)="commentsByStore(store)">
-              Details
+<div class="container">
+  <div *ngIf="!storeParentComments">
+    <div *ngFor="let store of stores">
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              {{ store.name }}
             </button>
-            <button ngbDropdownItem>Address: {{store.address?.address}}, {{store.address?.city}}, {{store.address?.state}} {{store.address?.postalCode}}</button>
-            <button ngbDropdownItem>Contact: {{store.address?.phone}}</button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="commentsByStore(store)">
+                Details
+              </button>
+              <button ngbDropdownItem>
+                Address: {{ store.address?.address }},
+                {{ store.address?.city }}, {{ store.address?.state }}
+                {{ store.address?.postalCode }}
+              </button>
+              <button ngbDropdownItem>
+                Contact: {{ store.address?.phone }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="store.products">
+        <div class="d-flex flex-row">
+          <div class="m-2" *ngFor="let product of store.products">
+            <img
+              style="width: 140px; height: 120px"
+              src="{{ product.image }}"
+            />
+            <p>{{ product.name }}</p>
           </div>
         </div>
       </div>
     </div>
-    <div *ngIf="store.products">
-      <div class="d-flex flex-row">
-        <div class="m-2" *ngFor="let product of store.products">
-          <img style="width: 140px; height: 120px" src="{{ product.image }}" />
-          <p>{{ product.name }}</p>
-        </div>
-      </div>
-    </div>
   </div>
-</div>
 
-<div *ngIf="storeComments">
-  <div *ngFor="let comment of storeComments">
-    <h1>{{comment.store?.name}}</h1>
-  </div>
-  <div *ngFor="let comment of storeComments">
-
-    <p>{{ comment.title }}</p>
-    <p>{{ comment.parentStoreComment }}</p>
-    <div *ngIf="comment.replyStoreComments">
-      <!-- <p *ngFor="let childComment of comment.replyStoreComments">
-        {{ childComment.title }}
-      </p> -->
+  <div *ngIf="storeParentComments">
+    <h1>{{ storeName }}</h1>
+    <div *ngFor="let comment of storeParentComments">
+      <p>{{ comment.title }}</p>
+      <form></form>
     </div>
   </div>
 </div>

@@ -8,9 +8,9 @@ export class StoreComment {
   createdOn: Date;
   store: Store | null;
   parentStoreComment: StoreComment | null;
-  replyStoreComments: StoreComment | null;
+  replyStoreComments: StoreComment[] | null;
 
-  constructor(id: number, title: string, description: string, rating: number, createdOn: Date, store : Store, parentStoreComment : StoreComment, replyStoreComments : StoreComment) {
+  constructor(id: number, title: string, description: string, rating: number, createdOn: Date, store : Store, parentStoreComment : StoreComment, replyStoreComments : StoreComment[]) {
     this.id = id;
     this.title = title;
     this.description = description;
