@@ -18,6 +18,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "product_comment")
 public class ProductComment {
@@ -25,13 +27,13 @@ public class ProductComment {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	private String title;
-	
+
 	private String description;
-	
+
 	private Integer rating;
-	
+
 	@CreationTimestamp
 	@Column(name = "created_on")
 	private LocalDateTime dateCreated;
@@ -39,7 +41,8 @@ public class ProductComment {
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
-	
+
+	@JsonIgnore
 	@ManyToOne(cascade = { CascadeType.ALL })
 	@JoinColumn(name = "in_reply_to_id")
 	private ProductComment parentProductComment;
@@ -48,10 +51,21 @@ public class ProductComment {
 	private Set<ProductComment> replyProductComments = new HashSet<>();
 
 	public ProductComment() {
-		
+
 	}
-	
-	public void removeComment() {
+
+	public void addComment(ProductComment comment) {
+		if (parentProductComment != null) {
+			if (replyProductComments == null) {
+				replyProductComments = new HashSet<>();
+			}
+			if (!replyProductComments.contains(comment)) {
+				replyProductComments.add(comment);
+			}
+		}
+	}
+
+	public void removeComments() {
 		if (replyProductComments != null) {
 			replyProductComments.removeAll(replyProductComments);
 		}
