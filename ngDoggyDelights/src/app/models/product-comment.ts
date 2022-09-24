@@ -5,7 +5,7 @@ export class ProductComment {
   rating: number | null;
   dateCreated: Date | null;
 
-  constructor(id: number, title: string, description: string, rating: number, dateCreated: Date;) {
+  constructor(id: number, title: string, description: string, rating: number, dateCreated: Date) {
     this.id = id;
     this.title = title;
     this.description = description;

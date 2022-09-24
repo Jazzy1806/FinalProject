@@ -137,6 +137,21 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return productInventory;
 	}
+	
+	@Override
+	public Set<Product> findProductsByStore(String username, Store store) {
+		User user = userRepo.findByUsername(username);
+		Set<Product> products = new HashSet<>();
+		if (user != null) {
+			
+			List<Inventory> inventories = inventoryRepo.findByStore(store);
+			for (Inventory item : inventories) {
+				products.add(item.getProduct());
+			}
+		}
+		
+		return products;
+	}
 
 	public Double getProductPrice(Product product) {
 		Double price = 0.0;
