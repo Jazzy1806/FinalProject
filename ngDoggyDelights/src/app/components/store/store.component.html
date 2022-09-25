@@ -1,5 +1,166 @@
 <div class="container-fluid">
   <div *ngIf="!storeComments">
+    <p class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="collapse.toggle()"
+        [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample"
+      >
+        Create Store
+      </button>
+    </p>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="card">
+        <div class="card-body">
+          <form>
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Store Name*</span>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                required
+                name="name"
+                [(ngModel)]="newStore.name"
+                placeholder="Enter Store Name"
+              />
+            </div>
+            <br />
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Description*</span>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                required
+                name="description"
+                [(ngModel)]="newStore.description"
+                placeholder="Enter description"
+              />
+            </div>
+            <br />
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Website*</span>
+              </div>
+              <input
+                class="form-control"
+                type="password"
+                required
+                name="websiteUrl"
+                [(ngModel)]="newStore.websiteUrl"
+                placeholder="Enter website"
+              />
+            </div>
+            <br />
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Logo</span>
+              </div>
+              <input
+                class="form-control"
+                type="logoUrl"
+                name="logoUrl"
+                [(ngModel)]="newStore.logoUrl"
+                placeholder="Enter Logo (optional)"
+              />
+            </div>
+            <br />
+            <!-- <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Chain</span>
+              </div>
+              <input class="form-control" type="text" name="name" [(ngModel)] = "newStore.chain.name"
+              placeholder="Enter Chain (if applicable)">
+            </div>
+            <br> -->
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Address*</span>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                required
+                name="address"
+                [(ngModel)]="newAddress.address"
+                placeholder="Enter Address"
+              />
+            </div>
+            <br />
+            <div class="input-group row mb-1">
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example3"
+                    class="form-control input-custom"
+                    name="city"
+                    [(ngModel)]="newAddress.city"
+                  />
+                  <label class="form-label" for="form9Example3">City</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example4"
+                    class="form-control input-custom"
+                    name="state"
+                    [(ngModel)]="newAddress.state"
+                  />
+                  <label class="form-label" for="form9Example4">State</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example4"
+                    class="form-control input-custom"
+                    name="postalCode"
+                    [(ngModel)]="newAddress.postalCode"
+                  />
+                  <label class="form-label" for="form9Example4">Zip</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example4"
+                    class="form-control input-custom"
+                    name="phone"
+                    [(ngModel)]="newAddress.phone"
+                  />
+                  <label class="form-label" for="form9Example4">Phone</label>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="hidden"
+                  name="enabled"
+                  [(ngModel)]="newStore.enabled"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button
+                class="btn btn-info btn-sm btn-block text-center"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <div *ngFor="let store of stores">
       <div class="row">
         <div class="col">
@@ -45,7 +206,7 @@
   <div *ngIf="storeComments && products">
     <div class="row">
       <div class="col-sm-8">
-        <h1>{{selectedStore.name}}</h1>
+        <h1>{{ selectedStore.name }}</h1>
         <div *ngFor="let comment of storeComments">
           <h5>{{ comment.user?.username }}</h5>
           <ngb-rating [max]="5" [(rate)]="comment.rating" [readonly]="true">
@@ -58,9 +219,18 @@
               >
             </ng-template>
           </ngb-rating>
-          <p>{{ comment.title }}</p>
+          <p>
+            {{ comment.title }}
+            <cite class="text-muted small">{{ comment.createdOn }}</cite>
+          </p>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-sm btn-danger" type="submit" (click)="deleteStoreComment(selectedStore, comment.id)">Delete</button>
+            <button
+              class="btn btn-sm btn-danger"
+              type="submit"
+              (click)="deleteStoreComment(selectedStore, comment.id)"
+            >
+              Delete
+            </button>
           </div>
         </div>
         <!-- form to create store comment -->
@@ -94,9 +264,8 @@
               placeholder="Write review comment here"
               [(ngModel)]="newComment.title"
             />
-            <input type="hidden" name="store" [(ngModel)]="newComment.store"/>
-            <input type="hidden" name="user" [(ngModel)]="newComment.user"/>
-
+            <input type="hidden" name="store" [(ngModel)]="newComment.store" />
+            <input type="hidden" name="user" [(ngModel)]="newComment.user" />
           </div>
           <div class="d-flex justify-content-end m-1">
             <button
@@ -113,9 +282,26 @@
       </div>
       <div class="col-sm-4 mt-3">
         <h3>Products:</h3>
-        <div *ngFor="let product of products">
-          <img style="width: 140px; height: 120px" src="{{ product.image }}" />
-          <p>{{ product.name }}</p>
+        <div *ngIf="selectedStore.products">
+          <div *ngFor="let product of selectedStore.products">
+            <div class="d-flex flex-row">
+              <div>
+                <img
+                  style="width: 140px; height: 120px"
+                  src="{{ product.image }}"
+                />
+                <p>{{ product.name }}</p>
+              </div>
+              <div class="my-0 py-0">
+                <p>Brand: {{ product.brand }}</p>
+                <p>Description: {{ product.description }}</p>
+                <span *ngFor="let ingredient of product.ingredients">
+                  <p>Ingredients: {{ ingredient.name }}</p>
+                </span>
+                <p>Inventory: {{ product.inventoryItems?.length }}</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

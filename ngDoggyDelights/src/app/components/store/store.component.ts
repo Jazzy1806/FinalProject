@@ -1,3 +1,4 @@
+import { Address } from './../../models/address';
 import { StoreComment } from './../../models/store-comment';
 import { StoreService } from './../../services/store.service';
 import { Component, OnInit } from '@angular/core';
@@ -19,6 +20,11 @@ export class StoreComponent implements OnInit {
   newComment = new StoreComment();
   storeComments: StoreComment [] | null = null;
   loggedInUser : any;
+  selectedProductPrice = 0;
+  isCollapsed = false;
+  newStore = new Store();
+  newAddress = new Address();
+
   constructor(private storeService : StoreService , private authService: AuthService) {}
 
   ngOnInit(): void {
@@ -67,6 +73,10 @@ export class StoreComponent implements OnInit {
       next: (products) => {
         store.products = products;
         this.products = products;
+        for(let product of this.products) {
+        console.log("inventory " + product.inventoryItems?.length);
+        console.log("inventory " + product.name);
+      }
 
         console.log(store.products);
       },

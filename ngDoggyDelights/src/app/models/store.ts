@@ -15,9 +15,10 @@ export class Store {
   websiteUrl: string | null;
   logoUrl: string | null;
   products: Product[] | null = null;
+  enabled: boolean = true;
 
   constructor(  id: number = 0, name: string = "", description: string ="", websiteUrl: string="", logoUrl: string="",
-                address?: Address, inventory: Inventory[] =[], chain?: Chain, comments: StoreComment[]= []) {
+                address?: Address, inventory: Inventory[] =[], chain?: Chain, comments: StoreComment[]= [], enabled : boolean = true) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -27,6 +28,7 @@ export class Store {
     this.inventory = inventory;
     this.chain = chain;
     this.comments = comments;
+    this.enabled = enabled;
 
 
   }

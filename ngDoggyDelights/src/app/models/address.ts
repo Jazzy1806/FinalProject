@@ -6,7 +6,7 @@ export class Address {
   postalCode: string | null;
   phone: string | null;
 
-  constructor(  id: number, address: string, city: string, state: string, postalCode: string, phone: string) {
+  constructor(  id: number =0, address: string ="", city: string="", state: string="", postalCode: string="", phone: string="") {
     this.id = id;
     this.address = address;
     this.city = city;
