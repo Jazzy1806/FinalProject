@@ -28,3 +28,69 @@
   color: green;
 }
 
+ul {
+  list-style: none;
+}
+
+p {
+  font-family: Lato;
+}
+
+.product {
+  padding: 20px 0;
+
+}
+
+.slider-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 150px;
+  right: 100px;
+  left: 100px;
+  margin-right: 300px;
+  padding: auto;
+}
+
+.slider-main {
+  /* position: absolute; */
+  width: 200%;
+  margin-right: 2px
+
+}
+
+.item {
+  display: inline-block;
+  width: 150px;
+  height: 150px;
+  position: relative;
+  margin: 0 12px;
+}
+
+.text {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  font-size: 15px;
+  text-align: center;
+  font-weight: bolder;
+
+}
+
+.prev {
+  position: absolute;
+  left: 33px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.button-area {
+  margin-right: 5px;
+}
+.next {
+  position: absolute;
+  right: -35px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin-right: 10px;
+}
+

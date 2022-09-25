@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/services/auth.service';
 export class StoreComponent implements OnInit {
   selected : Store | null = null;
   stores: Store [] | null = null;
+  activeStores: Store [] | null = null;
   selectedStore = new Store();
   storeName: string | null = '';
   products: Product [] | null = null;
@@ -57,7 +58,12 @@ export class StoreComponent implements OnInit {
             console.log("store" + store.name);
             this.productsByStore(store);
             console.log("products " + this.products);
+            console.log("enable status in reload" + store.enabled)
+            if (store.enabled) {
+              this.activeStores?.push(store);
+              console.log("size of active stores: " + this.activeStores?.length);
 
+            }
           }
         },
         error: (problem) => {
@@ -66,6 +72,9 @@ export class StoreComponent implements OnInit {
         }
       }
     );
+  }
+  deactivateStore(store: Store) {
+    store.enabled = false;
   }
 
   productsByStore(store : Store){
@@ -138,6 +147,7 @@ export class StoreComponent implements OnInit {
   }
   createStore(store: Store): void {
     store.address = this.newAddress;
+    store.enabled = true;
     this.storeService.createStore(store).subscribe({
       next: (result) => {
         console.log("inside createStorecomponent ts");
@@ -148,5 +158,7 @@ export class StoreComponent implements OnInit {
         console.error(nojoy);
       },
     });
+    this.isCollapsed = true;
+    this.reload();
   }
 }

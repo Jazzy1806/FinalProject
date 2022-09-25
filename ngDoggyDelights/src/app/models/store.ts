@@ -15,10 +15,10 @@ export class Store {
   websiteUrl: string | null;
   logoUrl: string | null;
   products: Product[] | null = null;
-  enabled: boolean = true;
+  enabled: boolean = false;
 
   constructor(  id: number = 0, name: string = "", description: string ="", websiteUrl: string="", logoUrl: string="",
-                address?: Address, inventory: Inventory[] =[], chain?: Chain, comments: StoreComment[]= [], enabled : boolean = true) {
+                address?: Address, inventory: Inventory[] =[], chain?: Chain, comments: StoreComment[]= [], enabled : boolean = false) {
     this.id = id;
     this.name = name;
     this.description = description;

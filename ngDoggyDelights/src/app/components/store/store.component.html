@@ -149,7 +149,8 @@
               </div>
             </div>
             <div class="d-flex justify-content-end">
-              <button (click)="createStore(newStore)"
+              <button
+                (click)="createStore(newStore)"
                 class="btn btn-info btn-sm btn-block text-center"
                 type="submit"
               >
@@ -160,6 +161,7 @@
         </div>
       </div>
     </div>
+    <!-- show list of active stores -->
     <div *ngFor="let store of stores">
       <div class="row">
         <div class="col">
@@ -188,8 +190,28 @@
           </div>
         </div>
       </div>
-      <div *ngIf="store.products">
-        <div class="d-flex flex-row">
+      <div *ngIf="store.products" class="my-0">
+        <div class="container-fluid py-2">
+          <div class="slider-wrap d-flex flex-row">
+            <div class="slider-main" >
+                <div class="item" *ngFor="let product of store.products">
+                  <div class="text">
+                    <img
+                      style="width: 140px; height: 120px"
+                      src="{{ product.image }}"
+                    />
+                    <p>{{ product.name }}</p>
+                  </div>
+              </div>
+            </div>
+            <div class="button-area">
+              <button class="btn btn-sm btn-info prev" appPrev>Prev</button>
+              <button class="btn btn-sm btn-info next" appNext>Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="d-flex flex-row">
           <div class="m-2" *ngFor="let product of store.products">
             <img
               style="width: 140px; height: 120px"
@@ -197,7 +219,16 @@
             />
             <p>{{ product.name }}</p>
           </div>
-        </div>
+        </div> -->
+      </div>
+      <div class="d-flex justify-content-end my-0">
+        <button
+          class="btn btn-sm btn-danger"
+          type="submit"
+          (click)="deactivateStore(store)"
+        >
+          Deactive Store
+        </button>
       </div>
     </div>
   </div>
@@ -292,12 +323,20 @@
                 <p>{{ product.name }}</p>
               </div>
               <div class="my-0 py-0">
-                <p>Brand: {{ product.brand }}</p>
-                <p>Description: {{ product.description }}</p>
-                <span *ngFor="let ingredient of product.ingredients">
-                  <p>Ingredients: {{ ingredient.name }}</p>
-                </span>
-                <p>Inventory: {{ product.inventoryItems?.length }}</p>
+                <ul style="font-size: 0.5 em">
+                  <li>
+                    <span style="font-weight: bold">Brand: </span>
+                    {{ product.brand }}
+                  </li>
+                  <li>Description: {{ product.description }}</li>
+                  <li>
+                    <span style="font-weight: bold">Ingredients:</span>
+                    <span *ngFor="let ingredient of product.ingredients">{{
+                      ingredient.name
+                    }}</span>
+                  </li>
+                  <li>Quantity: {{ product.inventoryItems?.length }}</li>
+                </ul>
               </div>
             </div>
           </div>

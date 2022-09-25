@@ -18,6 +18,9 @@ import { StoreComponent } from './components/store/store.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductComponent } from './components/product/product.component';
+import { TestslideComponent } from './components/testslide/testslide.component';
+import { NextDirective } from './next.directive';
+import { PrevDirective } from './prev.directive';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { ProductComponent } from './components/product/product.component';
     PetComponent,
     UserProfileComponent,
     ProductComponent,
+    TestslideComponent,
+    NextDirective,
+    PrevDirective,
 
   ],
   imports: [
