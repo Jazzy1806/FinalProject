@@ -1,7 +1,7 @@
 export class ProductComment {
   id: number;
-  title: string | null;
-  description: string | null;
+  title: string = '';
+  description: string = '';
   rating: number | null;
   dateCreated: Date | null;
 

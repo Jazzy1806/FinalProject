@@ -1,47 +1,243 @@
-<div class="userProfile">
+<!-- <div class="userProfile">
   <div class="container" *ngIf="loggedInUser">
     <div class="row">
-      <div class="col-4">
+      <div class="col-5">
         <h1>{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h1>
       </div>
-      <div class="col-2"></div>
+      <div class="col-1"></div>
       <div class="col-6">
         <h1>Your Pets</h1>
       </div>
     <div class="row">
-      <div class="col-2">
-        <img [src]="loggedInUser.image"/>
+      <div class="col-3">
+        <img id="userImage" [src]="loggedInUser.image"/>
       </div>
       <div class="col-2">
         <ul>
-          <label>Username: </label><li>{{loggedInUser.username}}</li>
-          <label>Email: </label><li>{{loggedInUser.email}}</li>
-          <label>Address: </label><li *ngIf="">{{loggedInUser.address.address}}</li>
+          <li><label>Username: </label>{{loggedInUser.username}}</li>
+          <li><label>Email: </label>{{loggedInUser.email}}</li>
+          <li *ngIf="loggedInUser.address"><label>Address: </label>{{loggedInUser.address.address}}</li>
+          <li><label>Bio: </label>{{loggedInUser.bio}}</li>
         </ul>
       </div>
+      <div class="col-1"></div>
 
-          <label for="firstName">Name: </label><input type="text" name="firstName" placeholder="First Name"[(ngModel)]="newUser.firstName" required/>
-          <input placeholder="Last Name" type="text" name="lastName" [(ngModel)]="newUser.lastName"/><br>
-          <label for="username">Username: </label><input type="text" name="username" [(ngModel)]="newUser.username" required/><br>
-          <label for="password">Password: </label><input type="password" name="password" [(ngModel)]="newUser.password" required/><br>
-          <br><br><button class="btn btn-outline-primary" (click)="register(newUser)" >Register</button>
-        </div>
-
-        <div class="col-7">
-          <label for="email">Email: </label><input type="email" name="email" [(ngModel)]="newUser.email" required/><br>
-          <label for="phone">Phone: </label><input type="text" name="phone" [(ngModel)]="newAddress.phone" /><br>
-          <label for="image">Image: </label><input type="text" name="image" [(ngModel)]="newUser.image" /><br>
-          <label for="address">Street: </label><input type="text" name="address" [(ngModel)]="newAddress.address" /><br>
-          <label for="city">City: </label><input type="text" name="city" [(ngModel)]="newAddress.city" required/><br>
-          <label for="state">State: </label><input type="text" name="state" [(ngModel)]="newAddress.state" required/><br>
-          <label for="postalCode">Zip Code: </label><input type="text" name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
-          <br>
-        </div>
-
+      <div class="col-6" id="petProfile">
+        <div class="col-3">
+            <img [src]="loggedInUser.pets"/>
+          </div>
+          <div class="col-3">
+            <ul>
+              <label>Username: </label><li>{{loggedInUser.username}}</li>
+              <label>Email: </label><li>{{loggedInUser.email}}</li>
+              <label>Address: </label><li *ngIf="loggedInUser.address">{{loggedInUser.address.address}}</li>
+              <label>Bio: </label><li *ngIf="loggedInUser.bio">{{loggedInUser.bio}}</li>
+            </ul>
+          </div>
       </div>
       <div class="row">
         <div class="col-2">
         </div>
       </div>
     </div>
-</div>
+</div> -->
+
+
+<div class="container">
+  <div class="main-body">
+
+        <!-- Breadcrumb Little navbar showing path-->
+        <!-- <nav aria-label="breadcrumb" class="main-breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+            <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
+            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+          </ol>
+        </nav> -->
+        <!-- /Breadcrumb -->
+
+        <div class="row gutters-sm">
+          <div class="col-md-4 mb-3"> <!--left column of profile-->
+            <div class="card">
+              <div class="card-body"> <!--start user info section/left-->
+                <div class="d-flex flex-column align-items-center text-center" *ngIf="loggedInUser">
+                  <img [src]="loggedInUser.image" alt="User Image" id="userImage" />
+                  <div class="mt-3"> <!--start user info below image-->
+                    <h4>{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h4>
+                    <p class="text-secondary mb-1"><strong>({{loggedInUser.username}})</strong></p>
+                    <p *ngIf="loggedInUser.address" class="text-muted font-size-sm">{{loggedInUser.address.address}} <br>
+                      {{loggedInUser.address.city}}, {{loggedInUser.address.state}}</p>
+                    <button class="btn btn-info">Edit</button>
+                    <button class="btn btn-outline-primary">Change Password</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card mt-3"> <!--start card below user image block-->
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>My Store</h6>
+                  <span class="text-secondary">www.petsco.com</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Search</h6>
+                  <span class="text-secondary">www.DoggieDelights.com</span>
+                </li>
+                <!-- <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>Github</h6>
+                  <span class="text-secondary">bootdey</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-twitter mr-2 icon-inline text-info"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path></svg>Twitter</h6>
+                  <span class="text-secondary">@bootdey</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram mr-2 icon-inline text-danger"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>Instagram</h6>
+                  <span class="text-secondary">bootdey</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook mr-2 icon-inline text-primary"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>Facebook</h6>
+                  <span class="text-secondary">bootdey</span>
+                </li> -->
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-8"> <!--right had column of profile-->
+            <div class="registrationForm" *ngIf="pets.length > 0;else listPets">
+
+            </div>
+            <ng-template #listPets>
+            <div class="card mb-3"> <!--top right hand column of profile block-->
+              <!-- <div class="card-body"> -->
+
+                <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-one" >
+                  <div *ngFor = "let pet of pets">
+                  <ngb-panel title="{{pet.name}}" id="config-panel-one">
+                    <ng-template ngbPanelContent>
+                      <app-pet></app-pet>
+                    </ng-template>
+                  </ngb-panel>
+                 </div>
+                </ngb-accordion>
+
+                <app-pet></app-pet>
+              </div>
+            </ng-template>
+
+
+                <!-- <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Full Name</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    Kenneth Valdez
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Email</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    fip@jukmuh.al
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Phone</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    (239) 816-9029
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Mobile</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    (320) 380-4539
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-3">
+                    <h6 class="mb-0">Address</h6>
+                  </div>
+                  <div class="col-sm-9 text-secondary">
+                    Bay Area, San Francisco, CA
+                  </div>
+                </div>
+                <hr>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                  </div>
+                </div> -->
+              <!-- </div> -->
+
+            <div class="row gutters-sm"> <!--start bottom right block under user info/edit-->
+              <div class="col-sm-6 mb-3"> <!--start left hand block within lower section-->
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
+                    <small>Web Design</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>Website Markup</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>One Page</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>Mobile Template</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>Backend API</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 mb-3"> <!--start right hand block of lower section under user edit-->
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h6 class="d-flex align-items-center mb-3"><i class="material-icons text-info mr-2">assignment</i>Project Status</h6>
+                    <small>Web Design</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>Website Markup</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 72%" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>One Page</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 89%" aria-valuenow="89" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>Mobile Template</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 55%" aria-valuenow="55" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <small>Backend API</small>
+                    <div class="progress mb-3" style="height: 5px">
+                      <div class="progress-bar bg-primary" role="progressbar" style="width: 66%" aria-valuenow="66" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+
+      </div>
+  </div>

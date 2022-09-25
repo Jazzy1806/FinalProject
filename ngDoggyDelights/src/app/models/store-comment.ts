@@ -1,7 +1,7 @@
 export class StoreComment {
   id: number;
-  title: string | null;
-  description: string | null;
+  title: string = '';
+  description: string = '';
   rating: number | null;
   createdOn: Date;
 

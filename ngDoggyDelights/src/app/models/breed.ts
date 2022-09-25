@@ -1,6 +1,6 @@
 export class Breed {
   id: number;
-  name: string | null;
+  name: string = '';
 
   constructor(id: number, name: string) {
     this.id = id;

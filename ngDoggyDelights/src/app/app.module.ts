@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -17,6 +17,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductComponent } from './components/product/product.component';
+import { EnabledPipe } from './pipes/enabled.pipe';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { ProductComponent } from './components/product/product.component';
     PetComponent,
     UserProfileComponent,
     ProductComponent,
+    EnabledPipe,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,7 @@ import { ProductComponent } from './components/product/product.component';
     NgbModule,
     HttpClientModule
   ],
-  providers: [NgbActiveModal, AuthService],
+  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

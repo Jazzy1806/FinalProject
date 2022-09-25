@@ -4,10 +4,10 @@ import { User } from "./user";
 
 export class Pet {
   id: number;
-  name: string | null;
+  name: string = '';
   weight: number | null;
-  gender: string | null;
-  image: string | null;
+  gender: string = '';
+  image: string = '';
   birthDate: Date | null;
   enabled: boolean;
   user: User;
