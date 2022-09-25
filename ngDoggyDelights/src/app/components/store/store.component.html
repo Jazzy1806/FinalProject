@@ -45,12 +45,11 @@
             <br />
             <div class="input-group mb-1">
               <div class="input-group-prepend">
-                <span class="input-group-text">Website*</span>
+                <span class="input-group-text">Website</span>
               </div>
               <input
                 class="form-control"
                 type="password"
-                required
                 name="websiteUrl"
                 [(ngModel)]="newStore.websiteUrl"
                 placeholder="Enter website"
@@ -121,24 +120,24 @@
                 <div class="form-outline">
                   <input
                     type="text"
-                    id="form9Example4"
+                    id="form9Example5"
                     class="form-control input-custom"
                     name="postalCode"
                     [(ngModel)]="newAddress.postalCode"
                   />
-                  <label class="form-label" for="form9Example4">Zip</label>
+                  <label class="form-label" for="form9Example5">Zip</label>
                 </div>
               </div>
               <div class="col">
                 <div class="form-outline">
                   <input
                     type="text"
-                    id="form9Example4"
+                    id="form9Example6"
                     class="form-control input-custom"
                     name="phone"
                     [(ngModel)]="newAddress.phone"
                   />
-                  <label class="form-label" for="form9Example4">Phone</label>
+                  <label class="form-label" for="form9Example6">Phone</label>
                 </div>
               </div>
               <div class="input-group mb-3">
@@ -150,7 +149,7 @@
               </div>
             </div>
             <div class="d-flex justify-content-end">
-              <button
+              <button (click)="createStore(newStore)"
                 class="btn btn-info btn-sm btn-block text-center"
                 type="submit"
               >

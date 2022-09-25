@@ -21,7 +21,7 @@ export class StoreComponent implements OnInit {
   storeComments: StoreComment [] | null = null;
   loggedInUser : any;
   selectedProductPrice = 0;
-  isCollapsed = false;
+  isCollapsed = true;
   newStore = new Store();
   newAddress = new Address();
 
@@ -132,6 +132,19 @@ export class StoreComponent implements OnInit {
       },
       error: (nojoy) => {
         console.error('StoreHttpComponent.deleteStoreComment(): error deleting store comment:');
+        console.error(nojoy);
+      },
+    });
+  }
+  createStore(store: Store): void {
+    store.address = this.newAddress;
+    this.storeService.createStore(store).subscribe({
+      next: (result) => {
+        console.log("inside createStorecomponent ts");
+
+      },
+      error: (nojoy) => {
+        console.error('StoreHttpComponent.createStore(): error creating store:');
         console.error(nojoy);
       },
     });

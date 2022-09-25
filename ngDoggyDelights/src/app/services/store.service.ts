@@ -90,4 +90,15 @@ export class StoreService {
       );
     }
 
+    createStore(store : Store): Observable<Store> {
+      return this.http.post<Store>(this.url ,store, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
+          );
+        })
+      );
+    }
+
 }
