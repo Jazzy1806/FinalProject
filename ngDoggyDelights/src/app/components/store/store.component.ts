@@ -116,6 +116,8 @@ export class StoreComponent implements OnInit {
   deleteStoreComment(store: Store, storeCommentId: number){
     this.storeService.destroyStoreComment(store.id, storeCommentId).subscribe({
       next: () => {
+        console.log("comment being deleted " + storeCommentId);
+
         this.commentsByStore(store);
       },
       error: (nojoy) => {

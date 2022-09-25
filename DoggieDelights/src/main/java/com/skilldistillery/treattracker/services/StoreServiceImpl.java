@@ -253,6 +253,7 @@ public class StoreServiceImpl implements StoreService {
 		User userLoggedIn = userRepo.findByUsername(username);
 		if (userLoggedIn != null) {
 			StoreComment commentToDelete = storeCommentRepo.findByIdAndStoreId(comment.getId(), store.getId());
+			commentToDelete.removeComments();
 			commentToDelete.setParentStoreComment(null);
 			storeCommentRepo.delete(commentToDelete);
 			isDeleted = true;
