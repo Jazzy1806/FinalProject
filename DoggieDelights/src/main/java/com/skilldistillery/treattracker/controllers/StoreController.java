@@ -3,6 +3,7 @@ package com.skilldistillery.treattracker.controllers;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +28,7 @@ import com.skilldistillery.treattracker.services.StoreService;
 
 @RestController
 @RequestMapping("api")
-@CrossOrigin({ "*", "http://localhost:4200" })
+@CrossOrigin({ "*", "http://localhost:4300" })
 public class StoreController {
 
 	@Autowired
@@ -150,6 +151,20 @@ public class StoreController {
 		}
 		return productInventoryByStore;
 
+	}
+//	GET /stores/{storeId}/products   get  product list by store
+	@RequestMapping("stores/{storeId}/products")
+	public  Set<Product> getProductsByStore(@PathVariable int storeId,Principal principal, HttpServletResponse res) {
+		Set<Product> products = null;
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		try {
+			products = storeServ.findProductsByStore( principal.getName(), store );
+		} catch (Exception e) {
+			res.setStatus(400);
+			e.printStackTrace();
+		}
+		return products;
+		
 	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    update specific product list
 //	CREATE /stores/{storeId}/inventory/{inventoryId}    add specific product to store => add more inventory to an existing product
