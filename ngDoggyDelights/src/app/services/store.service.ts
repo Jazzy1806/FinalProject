@@ -79,4 +79,15 @@ export class StoreService {
       );
     }
 
+    destroyStoreComment(storeId: number, storeCommentId: number): Observable<void> {
+      return this.http.delete<void>(this.url +'/'+ storeId + '/comments/' + storeCommentId).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'StoreService.destroyStoreComment(): error deleting Store Comment: ' + err )
+          );
+        })
+      );
+    }
+
 }

@@ -59,6 +59,9 @@
             </ng-template>
           </ngb-rating>
           <p>{{ comment.title }}</p>
+          <div class="d-flex justify-content-end">
+            <button class="btn btn-sm btn-danger" type="submit" (click)="deleteStoreComment(selectedStore, comment.id)">Delete</button>
+          </div>
         </div>
         <!-- form to create store comment -->
         <form *ngIf="newComment">
