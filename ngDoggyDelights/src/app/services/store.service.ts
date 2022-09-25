@@ -80,7 +80,7 @@ export class StoreService {
     }
 
     destroyStoreComment(storeId: number, storeCommentId: number): Observable<void> {
-      return this.http.delete<void>(this.url +'/'+ storeId + '/comments/' + storeCommentId).pipe(
+      return this.http.delete<void>(this.url +'/'+ storeId + '/comments/' + storeCommentId, this.getHttpOptions()).pipe(
         catchError((err: any) => {
           console.error(err);
           return throwError(
