@@ -137,19 +137,19 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return productInventory;
 	}
-	
+
 	@Override
 	public Set<Product> findProductsByStore(String username, Store store) {
 		User user = userRepo.findByUsername(username);
 		Set<Product> products = new HashSet<>();
 		if (user != null) {
-			
+
 			List<Inventory> inventories = inventoryRepo.findByStore(store);
 			for (Inventory item : inventories) {
 				products.add(item.getProduct());
 			}
 		}
-		
+
 		return products;
 	}
 
@@ -195,10 +195,21 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return false;
 	}
-	//return all of comments of store
+
+	// return all of comments of store
 	@Override
 	public List<StoreComment> findStoreComments(String username, Store store) {
 		return store.getComments();
+	}
+	// return all of comments of store
+	@Override
+	public StoreComment findStoreCommentById(String username, Store store, int storeCommentId) {
+		User userLoggined = userRepo.findByUsername(username);
+		StoreComment storeCom = null;
+		if (userLoggined != null) {
+			storeCom = storeCommentRepo.findByIdAndStoreId(storeCommentId, store.getId());
+		}
+		return storeCom;
 	}
 
 	@Override
@@ -237,9 +248,15 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public boolean deleteCommentStore(Store store, StoreComment comment) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean deleteCommentStore(String username, Store store, StoreComment comment) {
+		boolean isDeleted = false;
+		User userLoggedIn = userRepo.findByUsername(username);
+		if (userLoggedIn != null) {
+			StoreComment commentToDelete = storeCommentRepo.findByIdAndStoreId(comment.getId(), store.getId());
+			storeCommentRepo.delete(commentToDelete);
+			isDeleted = true;
+		}
+		return isDeleted;
 	}
 
 }

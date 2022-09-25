@@ -237,5 +237,19 @@ public class StoreController {
 //	PUT /stores/{storeId}/comments/{commentId}      update comment
 //
 //	DELETE /stores/{storeId}/comments/{commentId}      delete comment
-
+	@DeleteMapping("/stores/{storeId}/comments/{commentId}")
+	public void deleteStoreComment(@PathVariable int storeId, @PathVariable int commentId, Principal principal, HttpServletResponse res ) {
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		StoreComment storeComment = storeServ.findStoreCommentById(principal.getName(), store, commentId);
+		try {
+			if (storeServ.deleteCommentStore(principal.getName(), store, storeComment)) {
+				res.setStatus(204);
+			}else {
+				res.setStatus(404);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			res.setStatus(400);
+		}
+	}
 }
