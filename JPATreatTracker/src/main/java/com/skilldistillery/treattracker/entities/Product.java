@@ -44,11 +44,11 @@ public class Product {
 	@Column(name = "updated_on")
 	private LocalDateTime dateUpdated;
 
+	private int enabled;
+
 //	@JsonIgnore
 	@ManyToMany
-	@JoinTable(name = "ingredient_has_product", 
-	joinColumns = @JoinColumn(name = "product_id"), 
-	inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
+	@JoinTable(name = "ingredient_has_product", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "ingredient_id"))
 	private List<Ingredient> ingredients;
 
 	@JsonIgnore
@@ -68,34 +68,38 @@ public class Product {
 
 	public Product() {
 	}
-	
 
-	public void removeComment(ProductComment comment) {
-		if (comments != null && comments.contains(comment)) {
-			comment.removeComment();
+	public void removeComments() {
+		if (comments != null ) {
+			List<ProductComment> commentsToRemove = new ArrayList<>(comments);
+			for (ProductComment comment : commentsToRemove) {
+				comment.removeComments();				
+			}
+			comments.clear();
 		}
 	}
-	
+
 	public void removeInventory(Inventory inventory) {
-		if (inventoryItems != null && inventoryItems.contains(inventory)) {
-			inventoryItems.remove(inventory);
-		}
+
+//		if (inventories != null && inventories.contains(inventory)) {
+//			inventories.remove(inventory);
+//		}
 	}
-	
+
 	public void removeIngredient(Ingredient ingredient) {
-        if (ingredients != null && ingredients.contains(ingredient)) {
-        	ingredients.remove(ingredient);
-        	ingredient.removeProduct(this);
-        }
-    }
+		if (ingredients != null && ingredients.contains(ingredient)) {
+			ingredients.remove(ingredient);
+			ingredient.removeProduct(this);
+		}		
+	}
 
 	public void removeIngredients() {
 		if (ingredients != null) {
-            List<Ingredient> ingredientsToRemove = new ArrayList<>(ingredients);
-            for (Ingredient ingredientToRemove : ingredientsToRemove) {
-            	ingredientToRemove.removeProduct(this);
-            }
-            ingredients.clear();
+			List<Ingredient> ingredientsToRemove = new ArrayList<>(ingredients);
+			for (Ingredient ingredientToRemove : ingredientsToRemove) {
+				ingredientToRemove.removeProduct(this);
+			}
+			ingredients.clear();
 		}
 	}
 
@@ -193,6 +197,14 @@ public class Product {
 
 	public void setReports(List<ProductReport> reports) {
 		this.reports = reports;
+	}
+
+	public int getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(int enabled) {
+		this.enabled = enabled;
 	}
 
 	@Override

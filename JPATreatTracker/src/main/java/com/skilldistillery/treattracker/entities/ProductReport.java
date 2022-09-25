@@ -1,6 +1,6 @@
 package com.skilldistillery.treattracker.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 import javax.persistence.Column;
@@ -12,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "product_report")
 public class ProductReport {
@@ -23,10 +21,10 @@ public class ProductReport {
 	private int id;
 
 	@Column(name = "created_on")
-	private LocalDate createdOn;
+	private LocalDateTime createdOn;
 
 	@Column(name = "updated_on")
-	private LocalDate updatedOn;
+	private LocalDateTime updatedOn;
 
 	@Column(name = "user_quantity")
 	private Integer userQuantity;
@@ -38,7 +36,7 @@ public class ProductReport {
 
 	private String remark;
 
-	@JsonIgnore
+//	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "user_id")
 	private User user;
@@ -63,19 +61,19 @@ public class ProductReport {
 		this.id = id;
 	}
 
-	public LocalDate getCreatedOn() {
+	public LocalDateTime getCreatedOn() {
 		return createdOn;
 	}
 
-	public void setCreatedOn(LocalDate createdOn) {
+	public void setCreatedOn(LocalDateTime createdOn) {
 		this.createdOn = createdOn;
 	}
 
-	public LocalDate getUpdatedOn() {
+	public LocalDateTime getUpdatedOn() {
 		return updatedOn;
 	}
 
-	public void setUpdatedOn(LocalDate updatedOn) {
+	public void setUpdatedOn(LocalDateTime updatedOn) {
 		this.updatedOn = updatedOn;
 	}
 
