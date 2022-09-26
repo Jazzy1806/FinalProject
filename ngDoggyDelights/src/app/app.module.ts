@@ -18,6 +18,7 @@ import { StoreComponent } from './components/store/store.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductComponent } from './components/product/product.component';
+import { ProductReportComponent } from './components/product-report/product-report.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ProductComponent } from './components/product/product.component';
     StoreComponent,
     PetComponent,
     UserProfileComponent,
-    ProductComponent
+    ProductComponent,
+    ProductReportComponent
 
   ],
   imports: [

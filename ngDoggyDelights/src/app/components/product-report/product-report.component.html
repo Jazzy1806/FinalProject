@@ -1,0 +1,18 @@
+<h1>Product Reports</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>Price</th>
+      <th>Remark</th>
+      <th>Updated On</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let report of prodReports">
+      <td>{{report.price}} </td>
+      <td>{{report.remark}} </td>
+      <td>{{report.updatedOn}} </td>
+    </tr>
+  </tbody>
+</table>

@@ -1,16 +1,16 @@
-import { catchError, throwError, Observable } from 'rxjs';
-// import { DatePipe } from '@angular/common';
+import { Product } from 'src/app/models/product';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Product } from '../models/product';
+import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
+import { ProductReport } from '../models/product-report';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProductService {
+export class ProductReportService {
   private baseUrl = 'http://localhost:8090/';
-  private url = this.baseUrl + 'api/products/';
+  private url = this.baseUrl + 'api/products';
 
   constructor(
     private http: HttpClient,
@@ -28,24 +28,27 @@ export class ProductService {
     return options;
   }
 
-  index(): Observable<Product[]> {
-    return this.http.get<Product[]>(this.url, this.getHttpOptions()).pipe(
+  index(): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
             new Error(
-              'ProductService.index(): error retrieving products ' + err
+              'ProductReportService.index(): error retrieving productReports ' + err
             )
         );
       })
     );
   }
 
-  create(product: Product): Observable<Product> {
-    return this.http.post<Product>(this.url, product, this.getHttpOptions()).pipe(
+  getReports(pid: number): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
-          () => new Error('SongService.create(): error creating song: ' + err)
+          () =>
+            new Error(
+              'ProductReportService.getReports(): error retrieving producReports ' + err
+            )
         );
       })
     );

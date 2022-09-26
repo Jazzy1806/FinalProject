@@ -35,9 +35,9 @@ export class UserProfileComponent implements OnInit {
           }
         })
       // }
-      else {
-        console.error("No such user: " + idStr);
-      }
+      // else {
+      //   console.error("No such user: " + idStr);
+      // }
     }
   // }
 

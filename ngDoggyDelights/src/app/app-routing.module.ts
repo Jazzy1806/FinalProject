@@ -1,3 +1,4 @@
+import { ProductComponent } from './components/product/product.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { NgModule } from '@angular/core';
@@ -8,6 +9,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RegisterComponent } from './components/register/register.component';
 import { StoreComponent } from './components/store/store.component';
+import { ProductReportComponent } from './components/product-report/product-report.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -18,7 +20,8 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: 'pet', component: PetComponent },
-
+  { path: 'product', component: ProductComponent},
+  { path: 'reports', component: ProductReportComponent},
 
   { path: '**', component: NotFoundComponent }
 ];
