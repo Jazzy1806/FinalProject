@@ -1,97 +1,96 @@
-<div *ngIf="selected && !editPet;else full_list" id="petDetails">
-  <div class="row gutters-sm"> <!--start right block under pet accorion-->
-    <div class="col-sm-6 mb-3">
-      <div class="d-flex flex-column align-items-center text-center" *ngIf="selected">
-        <img src="https://www.rd.com/wp-content/uploads/2020/09/GettyImages-1164883886.jpg?fit=700,1024" alt="User Image" id="userImage" />
-      </div>
-    </div>
-    <div class="col-sm-6 mb-3">
-        <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">{{selected.image}}</h6>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-3">
-                      <h6 class="mb-0">Name</h6>
+  <div *ngIf="pets.length > 0 && !editPet && !regForm" id="petDetails">
+    <div class="card mb-3"> <!--top right hand column of profile block-->
+      <!-- <div class="card-body"> -->
+        <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-1" *ngFor = "let pet of pets | enabled: false; let i=index">
+          <ngb-panel title="{{pet.name}}" id="config-panel-{{i+1}}" (load)="selected = pet">
+            <ng-template ngbPanelContent>
+              <div class="row gutters-sm"> <!--start bottom right block under user info/edit-->
+                <div class="col-sm-6 mb-3"> <!--start left hand block within lower section-->
+                  <div class="card h-70" >
+                    <div class="card-body">
+                      <img class="d-flex flex-column align-items-center" id="petImage" [src]="pet.image"/>
                     </div>
-                  <div class="col-sm-6 text-secondary">
-                    {{selected.name}}
                   </div>
                 </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Weight</h6>
+                    <div class="col-sm-6 mb-3" > <!--start right hand block of lower section under user edit-->
+                      <div class="card h-70" id="petInfo">
+                        <div class="card-body">
+                          <div class="row">
+                            <div class="col-sm-4"><br>
+                              <h6 class="material-icons text-info mr-2">Birthday</h6>
+                            </div>
+                            <div class="col-sm-8 text-secondary"><br>{{pet.birthDate}}</div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <h6 class="material-icons text-info mr-2">Weight</h6>
+                            </div>
+                            <div class="col-sm-8 text-secondary">{{pet.weight}}</div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <h6 class="material-icons text-info mr-2">Color</h6>
+                            </div>
+                            <div class="col-sm-8 text-secondary">{{pet.color}}</div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <h6 class="material-icons text-info mr-2">Gender</h6>
+                            </div>
+                            <div class="col-sm-8 text-secondary">{{pet.gender}}</div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <h6 class="material-icons text-info mr-2">Breed</h6>
+                            </div>
+                            <div  class="col-sm-8 text-secondary">
+                              <ul>
+                                <li *ngFor="let b of pet.breeds" class="mb-0">{{b.name}}</li>
+                              </ul>
+                            </div>
+                          </div><hr>
+                          <div class="row">
+                            <div class="col-sm-4">
+                              <h6 class="material-icons text-info mr-2">Diet</h6>
+                            </div>
+                            <div  class="col-sm-8 text-secondary">
+                              <ul>
+                                <li *ngFor="let diet of pet.dietNeeds" class="mb-0">{{diet.name}}</li>
+                              </ul>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-12">
+                              <button type="submit" class="btn btn-info btn-lg col-md-5 mb-1" (click)="editPet=pet">Edit</button>
+                              <button class="btn btn-info btn-lg col-md-6 mb-1" style="margin-left: 10px;" (click)="pet.enabled=false">Remove Pet</button>
+
+                            </div>
+                          </div>
+                      </div>
+                    </div>
                   </div>
-                <div class="col-sm-6 text-secondary">
-                  {{selected.weight}}
-                </div>
-              </div>
-              <hr>
-              <div class="row">
-                <div class="col-sm-3">
-                  <h6 class="mb-0">Color</h6>
-                </div>
-              <div class="col-sm-6 text-secondary">
-                {{selected.color}}
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-sm-3">
-                <h6 class="mb-0">Gender</h6>
-              </div>
-            <div class="col-sm-6 text-secondary">
-              {{selected.gender}}
-            </div>
-          </div>
-          <hr>
-          <div class="row">
-            <div class="col-sm-3">
-              <h6 class="mb-0">Breed</h6>
-            </div>
-          <div class="col-sm-6 text-secondary">
-            {{selected.breeds}}
-          </div>
-        </div>
-        <hr>
-        <div class="row">
-          <div class="col-sm-3">
-            <h6 class="mb-0">Diet</h6>
-          </div>
-        <div class="col-sm-6 text-secondary">
-          {{selected.dietNeeds}}
-        </div>
-      </div>
-      <hr>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
                   </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+            </ng-template>
+          </ngb-panel>
+        </ngb-accordion>
+</div></div>
 
 
 
 
-
-
-
-
-
-
-          <div class="registrationForm" *ngIf="pets.length < 1">
-  <section style="background-color: rgb(152, 143, 177);">
+<div class="registrationForm" *ngIf="regForm">
+  <section>
     <div class="container">
       <div class="row d-flex justify-content-center align-items-center">
         <div class="col-lg-11 col-xl-11">
           <div class="card rounded-2">
             <img src="data:image/jpeg;base64,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"
                style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
-              alt="banner">
+              alt="banner" id="banner">
             <div class="card-body p-md-4">
               <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registration Info</h3>
 
@@ -102,70 +101,61 @@
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-2 mb-4">
+                  <div class="col-md-2 mb-4"><br>
                     <label>Birthday: </label>
                     </div>
-                    <div class="col-md-4 mb-4">
+                    <div class="col-md-4 mb-0"><br>
                     <input type="date" name="birthDate" [(ngModel)]="newPet.birthDate" /><br>
+                  </div>
+                  <div class="col-md-4 mb-0"><br>
+                    <select name="gender" class="select" [(ngModel)]="newPet.gender">
+                      <option [ngValue]="undefined" disabled selected>Gender</option>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                    </select>
                   </div>
                   </div>
                   <div class="row">
                     <div class="col-md-3 mb-4"><br>
                       <input type="number" name="weight" placeholder="Weight" [(ngModel)]="newPet.weight" /><br>
                     </div>
-
-                    <div class="col-md-2 mb-4"><br>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3 mb-4" style="padding-left: 2px;"><br>
                       <input type="text" name="color" placeholder="Color" [(ngModel)]="newPet.color" /><br>
                     </div>
-                    <div class="col-md-3 mb-4"><br>
-                      <select class="select">
-                        <option value="1" disabled selected>Gender</option>
-                        <option value="2">Female</option>
-                        <option value="3">Male</option>
-                      </select>
-                    </div>
+
                 </div>
                 <div class="row">
-                  <div class="col-md-4 mb-4"><br>
-                    <select name="breed" class="select">
-                      <option value="0" disabled selected>Primary Breed</option>
-                      <option value="1">Husky</option>
-                      <option value="2">Staffordshire Terrier</option>
-                      <option value="3">Brindel Boxer</option>
+                  <div class="col-md-5 mb-4"><br>
+                    <select name="breed1" class="select" [(ngModel)]="breed1" >
+                      <option value="" selected>Primary Breed</option>
+                      <option *ngFor="let breed of breeds" [ngValue]="breed">{{breed.name}}</option>
                     </select>
                   </div>
-                  <div class="col-md-4 mb-4"><br>
-                    <select name="breed" class="select">
-                      <option value="0" disabled selected>Secondary Breed</option>
-                      <option value="1">Husky</option>
-                      <option value="2">Staffordshire Terrier</option>
-                      <option value="3">Brindel Boxer</option>
+                  <div class="col-md-5 mb-4"><br>
+                    <select name="breed2" class="select" [(ngModel)]="breed2">
+                      <option value="" selected>Secondary Breed</option>
+                      <option *ngFor="let breed of breeds" [ngValue]="breed">{{breed.name}} </option>
                     </select>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-4 mb-4"><br>
-                    <select class="select">
-                      <option disabled selected>Diet Need</option>
-                      <option value="1">Wild Game</option>
-                      <option value="2">Omni</option>
-                      <option value="3">Senior</option>
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="diet1" class="select" [(ngModel)]="diet1">
+                      <option value="" selected>Diet Need</option>
+                      <option *ngFor="let diet of diets" [ngValue]="diet">{{diet.name}} </option>
                     </select>
                   </div>
-                  <div class="col-md-4 mb-4"><br>
-                    <select class="select">
-                      <option disabled selected>Diet Need</option>
-                      <option value="1">Wild Game</option>
-                      <option value="2">Omni</option>
-                      <option value="3">Senior</option>
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="diet2" class="select" [(ngModel)]="diet2">
+                      <option value="" selected>Diet Need</option>
+                      <option *ngFor="let diet of diets" [ngValue]="diet">{{diet.name}} </option>
                     </select>
                   </div>
-                  <div class="col-md-4 mb-4"><br>
-                    <select class="select">
-                      <option disabled selected>Diet Need</option>
-                      <option value="1">Wild Game</option>
-                      <option value="2">Omni</option>
-                      <option value="3">Senior</option>
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="diet3" class="select" [(ngModel)]="diet3">
+                      <option value="" selected>Diet Need</option>
+                      <option *ngFor="let diet of diets" [ngValue]="diet">{{diet.name}} </option>
                     </select>
                   </div>
                 </div>
@@ -174,7 +164,103 @@
                      <input class="col-10" type="text" name="image" placeholder="ImageUrl" [(ngModel)]="newPet.image" required>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-info btn-lg mb-1" (click)="addPet()">Submit</button>
+                <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="addPet();regForm=false">Add Pet</button>
+                <button class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px;" (click)="regForm=false">Cancel</button>
+              </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+
+<div class="updateForm" *ngIf="editPet">
+  <section>
+    <div class="container">
+      <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-lg-11 col-xl-11">
+          <div class="card rounded-2">
+            <img src="data:image/jpeg;base64,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"
+               style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;" alt="banner">
+            <div class="card-body p-md-4">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Update {{editPet.name}}'s Info</h3>
+
+              <form>
+                <div class="row">
+                  <div class="col-md-10 mb-4">
+                     <input class="col-10" type="text" name="name" [(ngModel)]="editPet.name" required>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2 mb-4"><br>
+                    <label>Birthday: </label>
+                    </div>
+                    <div class="col-md-4 mb-4"><br>
+                    <input type="date" name="birthDate" [(ngModel)]="editPet.birthDate" /><br>
+                  </div>
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="gender" class="select" [(ngModel)]="editPet.gender">
+                      <option [ngValue]="undefined" disabled selected>Gender</option>
+                      <option value="Female">Female</option>
+                      <option value="Male">Male</option>
+                    </select>
+                  </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-3 mb-4"><br>
+                      <input type="number" name="weight" [(ngModel)]="editPet.weight" /><br>
+                    </div>
+                    <div class="col-md-2"></div>
+                    <div class="col-md-3 mb-4" style="padding-left: 2px;"><br>
+                      <input type="text" name="color" [(ngModel)]="editPet.color" /><br>
+                    </div>
+
+                </div>
+                <div class="row">
+                  <div class="col-md-5 mb-4"><br>
+                    <select name="breed1" class="select" [(ngModel)]="breed1" >
+                      <option value="" selected>Primary Breed</option>
+                      <option *ngFor="let breed of breeds" [ngValue]="breed">{{breed.name}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-5 mb-4"><br>
+                    <select name="breed2" class="select" [(ngModel)]="breed2">
+                      <option value="" selected>Secondary Breed</option>
+                      <option *ngFor="let breed of breeds" [ngValue]="breed">{{breed.name}} </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="diet1" class="select" [(ngModel)]="diet1">
+                      <option value="" selected>Diet Need</option>
+                      <option *ngFor="let diet of diets" [ngValue]="diet">{{diet.name}} </option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="diet2" class="select" [(ngModel)]="diet2">
+                      <option value="" selected>Diet Need</option>
+                      <option *ngFor="let diet of diets" [ngValue]="diet">{{diet.name}} </option>
+                    </select>
+                  </div>
+                  <div class="col-md-3 mb-4"><br>
+                    <select name="diet3" class="select" [(ngModel)]="diet3">
+                      <option value="" selected>Diet Need</option>
+                      <option *ngFor="let diet of diets" [ngValue]="diet">{{diet.name}} </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-10 mb-4">
+                     <input class="col-10" type="text" name="image" [(ngModel)]="editPet.image">
+                  </div><br>
+                </div>
+                <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="updatePet(editPet);regForm=false">Update Pet</button>
+                <button class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px;" (click)="editPet=null">Cancel</button>
 
               </form>
 
@@ -184,64 +270,19 @@
       </div>
     </div>
   </section>
-
-
-
-
 </div>
 
-<!--
-  <h2>{{selected.name}}</h2>
-  <ul>
-    <li>Description: {{selected.description}}</li>
-    <li>ID: {{selected.id}}</li>
-    <li>Completed: {{selected.completed}}</li>
-    <li>Complete Date: {{selected.completeDate}}</li>
-  </ul>
-  <button (click)="setEditTodo()" class="btn btn-primary" style="margin:20px">Edit</button>
-  <button (click)="displayTable()" class="btn btn-primary">Full List</button>
+<p>
+  <button type="button" class="btn btn-info btn-lg col-md-4 mb-1 align-items-center text-center " (click)="collapse.toggle()" [attr.aria-expanded]="regForm"
+    aria-controls="collapseExample">
+    Add Another Pet
+  </button>
+</p>
+<div #collapse="ngbCollapse" [(ngbCollapse)]="regForm">
+  <div class="card">
+    <div class="card-body">
+    </div>
+  </div>
 </div>
 
-<div *ngIf="editPet">
-  <form (ngSubmit)="updatePet(editPet)">
-    <label>Task: </label><input type="text" name="task" [(ngModel)]="editPet.task"/>
-    <label>Description: </label><input type="text" name="description" [(ngModel)]="editPet.description"/>
-    <label class="form-check">Completed: </label><input type="checkbox" name="completed" [(ngModel)]="editPet.completed"/>
-    <button type="submit" class="btn btn-success" style="margin:20px">Save</button>
-    <button type="button" class="btn btn-primary" (click)="editPet=null">Cancel</button>
-  </form>
-</div> -->
-
-<ng-template #full_list>
-<!-- <div *ngIf="!editPet">
-  <form>
-    <label>Task: </label><input type="text" name="task" [(ngModel)]="newPet.task"/>
-    <label>Description: </label><input type="text" name="description" [(ngModel)]="newPet.description"/>
-    <label>Completed: </label><input type="checkbox" name="completed" [(ngModel)]="newPet.completed"/>
-    <button class="btn btn-primary" (click)="addTodo()" style="margin:20px">Add Task</button>
-  </form>
-<div class="form-check">
-  <label class="form-check-label">Show All Todos</label><input type="checkbox" class="form-check-input" name="showComplete" [(ngModel)]="showComplete"/>
-</div>
-  <table class="table table-striped table-hover">
-    <thead class="table-dark">
-      <tr>
-        <th>Task</th>
-        <th>Description</th>
-        <th>Mark</th>
-        <th>Completed</th>
-    </tr>
-  </thead>
-  <tbody *ngFor = "let task of todos | incomplete: showComplete" [ngClass]="task.completed? 'completedTodo': ''">
-    <tr>
-      <td (click)="displayTodo(task)">{{task.task}}</td>
-      <td>{{task.description}}</td>
-      <td><input type="checkbox" name="completed" [(ngModel)]="task.completed" (change)="updatePet(task)"/></td>
-      <td>{{task.completed}}</td>
-      <td><button (click)="deleteTodo(task.id)" class="btn btn-danger">Delete</button></td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</ng-template> -->
 

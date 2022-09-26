@@ -3,7 +3,6 @@ import { AuthService } from './../../services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
-import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { Pet } from 'src/app/models/pet';
 
 @Component({
@@ -17,10 +16,8 @@ export class UserProfileComponent implements OnInit {
   editUser: User | null = null;
   pets: Pet[] = [];
 
-  constructor(private auth: AuthService,private route: ActivatedRoute, private router: Router,
-              config: NgbAccordionConfig, private petService: PetService) {
-    config.closeOthers = true;
-    config.type = 'info';
+  constructor(private auth: AuthService,private route: ActivatedRoute, private router: Router, private petService: PetService) {
+
   }
 
   ngOnInit(): void {
@@ -40,6 +37,7 @@ export class UserProfileComponent implements OnInit {
       {
         next: (results) => {
           this.pets = results;
+          console.log(this.pets);
         },
         error: (problem) => {
           console.error('PetsHttpComponent.getPets(): error loading pets:');

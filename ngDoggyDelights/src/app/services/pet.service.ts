@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Pet } from '../models/pet';
 import { catchError, Observable, throwError } from 'rxjs';
+import { Breed } from '../models/breed';
+import { Diet } from '../models/diet';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +42,6 @@ export class PetService {
   }
 
   create(pet: Pet): Observable<Pet> {
-    // pet.completed = false;
     console.log("In service.create " + pet.name);
     return this.http.post<Pet>(this.url, pet, this.getHttpOptions()).pipe(
       catchError((err:any) => {
@@ -52,34 +53,16 @@ export class PetService {
     );
   }
 
-  // show(id: number) {
-  //   console.log("Pet id: " + id);
-  //   return this.http.get<Pet>(this.url + "/" + id, this.getHttpOptions()).pipe(
-  //     catchError((err:any) => {
-  //       console.error(err);
-  //       return throwError(
-  //         () => new Error('PetService.show(): error finding pet: ' + err)
-  //       );
-  //     })
-  //   );
-  // }
-
-  // updatePet(pet: Pet) {
-  //   if (pet.completed) {
-  //     pet.completeDate = this.enabledPipe.transform(Date.now(), 'shortDate'); //papplies pie (2nd argument) to value in 1st argument
-  //   }
-  //   else {
-  //     pet.completeDate = "";
-  //   }
-  //   return this.http.put<Pet>(this.url + "/" + pet.id, pet, this.getHttpOptions()).pipe(
-  //     catchError((err:any) => {
-  //       console.error(err);
-  //       return throwError(
-  //         () => new Error('PetService.update(): error updating pet: ' + err)
-  //       );
-  //     })
-  //   );
-  // }
+  updatePet(pet: Pet) {
+    return this.http.put<Pet>(this.url + "/" + pet.id, pet, this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('PetService.update(): error updating pet: ' + err)
+        );
+      })
+    );
+  }
 
   // destroy(id: number) {
   //   return this.http.delete(this.url + "/" + id, this.getHttpOptions()).pipe(
@@ -91,4 +74,28 @@ export class PetService {
   //     })
   //   );
   // }
+
+  getBreeds(): Observable<Breed[]> {
+    console.log("In service.getBreeds");
+    return this.http.get<Breed[]>(this.url + "/breeds", this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('PetService.getBreeds(): error retreiving breeds: ' + err)
+        );
+      })
+    );
+  }
+
+  getDiets(): Observable<Diet[]> {
+    console.log("In service.getDiets");
+    return this.http.get<Diet[]>(this.url + "/diets", this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('PetService.getDiets(): error retreiving diets: ' + err)
+        );
+      })
+    );
+  }
 }

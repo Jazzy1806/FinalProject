@@ -12,6 +12,7 @@ export class StoreComponent implements OnInit {
   selected : Store | null = null;
   stores: Store [] | null = null;
   products: Product [] | null = null;
+  images: string[] = [];
   constructor(private storeService : StoreService ) {}
 
   ngOnInit(): void {
