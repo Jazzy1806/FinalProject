@@ -50,6 +50,8 @@ public class Store {
 	@JoinColumn(name="chain_id")
 	private Chain chain;
 	
+	private boolean enabled;
+	
 
 	@JsonIgnore
 	@OneToMany(mappedBy="store")
@@ -126,6 +128,14 @@ public class Store {
 
 	public List<Inventory> getInventories() {
 		return inventories;
+	}
+
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public void setInventories(List<Inventory> inventories) {

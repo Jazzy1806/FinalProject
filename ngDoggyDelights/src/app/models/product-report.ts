@@ -9,7 +9,7 @@ export class ProductReport {
   userQuantity: number | null; //do we want this to be low-normal-high???
   price: number | null;
   isInStock: boolean | null;
-  remark: string | null;
+  remark: string = '';
   user: User | null;
   store: Store | null;
   product: Product | null;

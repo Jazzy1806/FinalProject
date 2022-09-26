@@ -5,10 +5,10 @@ import { Ingredient } from './ingredient';
 
 export class Product {
   id: number;
-  name: string | null;
-  brand: string | null;
-  description: string | null;
-  image: string | null;
+  name: string = '';
+  brand: string = '';
+  description: string = '';
+  image: string = '';
   ingredients: Ingredient[] | null;
   reports: ProductReport[] | null;
   comments: ProductComment[] | null;

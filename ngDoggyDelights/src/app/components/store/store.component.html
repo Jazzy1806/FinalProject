@@ -1,50 +1,378 @@
-<div *ngFor="let store of stores">
-  <div class="row">
-    <div class="col">
-      <div ngbDropdown class="d-inline-block">
+<div class="container-fluid">
+  <div *ngIf="!storeComments">
+    <p class="d-flex justify-content-end">
+      <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="collapse.toggle()"
+        [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample"
+      >
+        Create Store
+      </button>
+    </p>
+    <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
+      <div class="card">
+        <div class="card-body">
+          <form>
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Store Name*</span>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                required
+                name="name"
+                [(ngModel)]="newStore.name"
+                placeholder="Enter Store Name"
+              />
+            </div>
+            <br />
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Description*</span>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                required
+                name="description"
+                [(ngModel)]="newStore.description"
+                placeholder="Enter description"
+              />
+            </div>
+            <br />
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Website</span>
+              </div>
+              <input
+                class="form-control"
+                type="password"
+                name="websiteUrl"
+                [(ngModel)]="newStore.websiteUrl"
+                placeholder="Enter website"
+              />
+            </div>
+            <br />
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Logo</span>
+              </div>
+              <input
+                class="form-control"
+                type="logoUrl"
+                name="logoUrl"
+                [(ngModel)]="newStore.logoUrl"
+                placeholder="Enter Logo (optional)"
+              />
+            </div>
+            <br />
+            <!-- <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Chain</span>
+              </div>
+              <input class="form-control" type="text" name="name" [(ngModel)] = "newStore.chain.name"
+              placeholder="Enter Chain (if applicable)">
+            </div>
+            <br> -->
+            <div class="input-group mb-1">
+              <div class="input-group-prepend">
+                <span class="input-group-text">Address*</span>
+              </div>
+              <input
+                class="form-control"
+                type="text"
+                required
+                name="address"
+                [(ngModel)]="newAddress.address"
+                placeholder="Enter Address"
+              />
+            </div>
+            <br />
+            <div class="input-group row mb-1">
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example3"
+                    class="form-control input-custom"
+                    name="city"
+                    [(ngModel)]="newAddress.city"
+                  />
+                  <label class="form-label" for="form9Example3">City</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example4"
+                    class="form-control input-custom"
+                    name="state"
+                    [(ngModel)]="newAddress.state"
+                  />
+                  <label class="form-label" for="form9Example4">State</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example5"
+                    class="form-control input-custom"
+                    name="postalCode"
+                    [(ngModel)]="newAddress.postalCode"
+                  />
+                  <label class="form-label" for="form9Example5">Zip</label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-outline">
+                  <input
+                    type="text"
+                    id="form9Example6"
+                    class="form-control input-custom"
+                    name="phone"
+                    [(ngModel)]="newAddress.phone"
+                  />
+                  <label class="form-label" for="form9Example6">Phone</label>
+                </div>
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="hidden"
+                  name="enabled"
+                  [(ngModel)]="newStore.enabled"
+                />
+              </div>
+            </div>
+            <div class="d-flex justify-content-end">
+              <button
+                (click)="createStore(newStore)"
+                class="btn btn-info btn-sm btn-block text-center"
+                type="submit"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- show list of active stores -->
+    <div *ngFor="let store of stores">
+      <div class="row">
+        <div class="col">
+          <div ngbDropdown class="d-inline-block">
+            <button
+              type="button"
+              class="btn btn-outline-primary"
+              id="dropdownBasic1"
+              ngbDropdownToggle
+            >
+              {{ store.name }}
+            </button>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem (click)="commentsByStore(store)">
+                Details
+              </button>
+              <button ngbDropdownItem>
+                Address: {{ store.address?.address }},
+                {{ store.address?.city }}, {{ store.address?.state }}
+                {{ store.address?.postalCode }}
+              </button>
+              <button ngbDropdownItem>
+                Contact: {{ store.address?.phone }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="store.products" class="my-0">
+        <div class="container-fluid py-2">
+          <div class="slider-wrap d-flex flex-row">
+            <div class="slider-main" >
+                <div class="item" *ngFor="let product of store.products">
+                  <div class="text">
+                    <img
+                      style="width: 140px; height: 120px"
+                      src="{{ product.image }}"
+                    />
+                    <p>{{ product.name }}</p>
+                  </div>
+              </div>
+            </div>
+            <div class="button-area">
+              <button class="btn btn-sm btn-info prev" appPrev>Prev</button>
+              <button class="btn btn-sm btn-info next" appNext>Next</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="d-flex flex-row">
+          <div class="m-2" *ngFor="let product of store.products">
+            <img
+              style="width: 140px; height: 120px"
+              src="{{ product.image }}"
+            />
+            <p>{{ product.name }}</p>
+          </div>
+        </div> -->
+      </div>
+      <div class="d-flex justify-content-end my-0">
         <button
-          type="button"
-          class="btn btn-outline-primary"
-          id="dropdownBasic1"
-          ngbDropdownToggle
+          class="btn btn-sm btn-danger"
+          type="submit"
+          (click)="deactivateStore(store)"
         >
-          {{store.name}}
+          Deactive Store
         </button>
-        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button ngbDropdownItem>Details</button>
-          <button ngbDropdownItem>Address:</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="storeComments && products">
+    <div class="row">
+      <div class="col-sm-8">
+        <h1>{{ selectedStore.name }}</h1>
+        <div *ngFor="let comment of storeComments">
+          <h5>{{ comment.user?.username }}</h5>
+          <ngb-rating [max]="5" [(rate)]="comment.rating" [readonly]="true">
+            <ng-template let-fill="fill">
+              <span
+                class="star"
+                [ngClass]="'color' + comment.rating"
+                [class.filled]="fill === 100"
+                >&#9733;</span
+              >
+            </ng-template>
+          </ngb-rating>
+          <p>
+            {{ comment.title }}
+            <cite class="text-muted small">{{ comment.createdOn }}</cite>
+          </p>
+          <div class="d-flex justify-content-end">
+            <button
+              class="btn btn-sm btn-danger"
+              type="submit"
+              (click)="deleteStoreComment(selectedStore, comment.id)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+        <!-- form to create store comment -->
+        <form *ngIf="newComment">
+          <h4>Leave Comment:</h4>
+          <div class="rating">
+            <ngb-rating
+              [max]="5"
+              [(rate)]="newComment.rating"
+              [readonly]="false"
+            >
+              <ng-template let-fill="fill">
+                <span
+                  class="star"
+                  [ngClass]="'color' + newComment.rating"
+                  [class.filled]="fill === 100"
+                  >&#9733;</span
+                > </ng-template
+              >>
+            </ngb-rating>
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-prepend"></div>
+            <input
+              class="form-control"
+              id="reviewBox"
+              type="text"
+              required
+              name="title"
+              style="height: 100px; margin: 5px"
+              placeholder="Write review comment here"
+              [(ngModel)]="newComment.title"
+            />
+            <input type="hidden" name="store" [(ngModel)]="newComment.store" />
+            <input type="hidden" name="user" [(ngModel)]="newComment.user" />
+          </div>
+          <div class="d-flex justify-content-end m-1">
+            <button
+              (click)="createStoreComment(selectedStore, newComment)"
+              type="submit"
+              class="btn btn-warning"
+              data-toggle="button"
+              aria-pressed="false"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-4 mt-3">
+        <h3>Products:</h3>
+        <div *ngIf="selectedStore.products">
+          <div *ngFor="let product of selectedStore.products">
+            <div class="d-flex flex-row">
+              <div>
+                <img
+                  style="width: 140px; height: 120px"
+                  src="{{ product.image }}"
+                />
+                <p>{{ product.name }}</p>
+              </div>
+              <div class="my-0 py-0">
+                <ul style="font-size: 0.5 em">
+                  <li>
+                    <span style="font-weight: bold">Brand: </span>
+                    {{ product.brand }}
+                  </li>
+                  <li>Description: {{ product.description }}</li>
+                  <li>
+                    <span style="font-weight: bold">Ingredients:</span>
+                    <span *ngFor="let ingredient of product.ingredients">{{
+                      ingredient.name
+                    }}</span>
+                  </li>
+                  <li>Quantity: {{ product.inventoryItems?.length }}</li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
+
   <!-- <ngb-carousel *ngIf="images"> -->
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
+    <!-- <ng-template ngbSlide> -->
+      <!-- <div class="picsum-img-wrapper"> -->
         <!-- <img [src]="images[0]" alt="Random first slide"> -->
-      </div>
-      <div class="carousel-caption">
-        <h3>First slide label</h3>
-        <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-      </div>
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
+      <!-- </div> -->
+      <!-- <div class="carousel-caption"> -->
+        <!-- <h3>First slide label</h3> -->
+        <!-- <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
+      <!-- </div> -->
+    <!-- </ng-template> -->
+    <!-- <ng-template ngbSlide> -->
+      <!-- <div class="picsum-img-wrapper"> -->
         <!-- <img [src]="images[1]" alt="Random second slide"> -->
-      </div>
-      <div class="carousel-caption">
-        <h3>Second slide label</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-      </div>
-    </ng-template>
-    <ng-template ngbSlide>
-      <div class="picsum-img-wrapper">
+      <!-- </div> -->
+      <!-- <div class="carousel-caption"> -->
+        <!-- <h3>Second slide label</h3> -->
+        <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
+      <!-- </div> -->
+    <!-- </ng-template> -->
+    <!-- <ng-template ngbSlide> -->
+      <!-- <div class="picsum-img-wrapper"> -->
         <!-- <img [src]="images[2]" alt="Random third slide"> -->
-      </div>
-      <div class="carousel-caption">
-        <h3>Third slide label</h3>
-        <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
-      </div>
-    </ng-template>
+      <!-- </div> -->
+      <!-- <div class="carousel-caption"> -->
+        <!-- <h3>Third slide label</h3> -->
+        <!-- <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
+      <!-- </div> -->
+    <!-- </ng-template> -->
   <!-- </ngb-carousel> -->
 
 </div>

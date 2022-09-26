@@ -1,2 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~bootstrap/dist/css/bootstrap.css";
+
+
+.accordion-button{
+  font-size: 20px !important;
+  color: white !important;
+  font-weight: bold;
+  font-family: arial;
+  background-color: rgb(49, 86, 92) !important;
+  border-color: white !important;
+  caret-color: white !important;
+}
+
+.accordion-button:hover {
+  background-color: black !important;
+}
+
+body {
+  background-color: rgb(123, 146, 150);
+}

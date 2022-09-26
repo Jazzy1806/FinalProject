@@ -1,9 +1,9 @@
 export class Chain {
   id: number;
-  name: string | null;
-  description: string | null;
-  websiteUrl: string | null;
-  logoUrl: string | null;
+  name: string = '';
+  description: string = '';
+  websiteUrl: string = '';
+  logoUrl: string = '';
 
   constructor(  id: number, name: string, description: string, websiteUrl: string, logoUrl: string) {
     this.id = id;

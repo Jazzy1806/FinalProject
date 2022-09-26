@@ -21,10 +21,11 @@ public interface StoreService {
 	List<Inventory> updateProductInventoryByStore(String username, Store store, Product prod, int updatedQuantity);
 	boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
 	List<StoreComment> findStoreComments(String username, Store store);
+	StoreComment findStoreCommentById(String username, Store store, int storeComment);
 	StoreComment postCommentToStore(String username,Store store, StoreComment comment);
 	StoreComment postCommentToParentCommentToStore(String username,Store store, int parentStoreComment, StoreComment comment);
 	StoreComment updateCommentStore(Store store, StoreComment comment);
-	boolean deleteCommentStore(Store store, StoreComment comment);
+	boolean deleteCommentStore(String username, Store store, StoreComment comment);
 	
 	
 	

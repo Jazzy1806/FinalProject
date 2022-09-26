@@ -9,5 +9,6 @@ import com.skilldistillery.treattracker.entities.StoreComment;
 
 public interface StoreCommentRepository extends JpaRepository<StoreComment, Integer> {
 	List<StoreComment> findByStore(Store store);
+	StoreComment findByIdAndStoreId(int storeCommentId, int storeId);
 
 }
