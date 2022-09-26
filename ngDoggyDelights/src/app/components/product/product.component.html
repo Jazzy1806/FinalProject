@@ -1,2 +1,53 @@
-<main class="container-fluid">
-  <h1>Spec's Selects</h1>
+<main class="contqainer">
+  <h1 style="text-align: center;">Spec's Selects</h1>
+  showAll
+  newProduct
+  editProduct
+  detailProduct
+
+  <!-- *** All Products *** -->
+  <div class="container" *ngIf="!detailProduct">
+    <div class="card" *ngFor="let product of products" (click)="displayProduct(product); detailProduct = product; getReports(product.id) ">
+      <div class="row card-body vertical-center">
+        <div class="col">
+          <h4>{{product.name}}</h4>
+        </div>
+        <div class="col">
+          <h5>{{product.brand}}</h5>
+        </div>
+        <div class="col">
+          <img src="{{product.image}}" class="rounded float-end prodList thumbnail" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- *** Single Product Detail *** -->
+  <div class="container text-center d-flex justify-content-center">
+    <div class="row center">
+
+      <div class="card col" *ngIf="detailProduct"><br>
+        <img src="{{detailProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
+        <div class="card-body">
+          <h1 class="card-title">{{detailProduct.name}}</h1>
+          <h3 class="card-title">{{detailProduct.brand}}</h3><br>
+          <h6 class="card-text">{{detailProduct.description}}</h6><br>
+          <a href="#" class="btn btn-outline-light btn-sm">Edit Details</a>
+        </div>
+      </div>
+
+      <div class="col" *ngIf="detailProduct">
+
+        <h4>Latest Prices</h4>
+
+        <div class="card" *ngFor="let report of reports">
+          <div class="card-body">
+            {{report.price}}
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</main>

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { AuthService } from './auth.service';
+import { DatePipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +15,7 @@ export class ProductService {
 
   constructor(
     private http: HttpClient,
-    // private datePipe: DatePipe,
+    private datePipe: DatePipe,
     private auth: AuthService
   ) {}
 

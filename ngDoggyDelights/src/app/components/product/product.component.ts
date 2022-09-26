@@ -1,3 +1,4 @@
+import { ProductReportService } from 'src/app/services/product-report.service';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
@@ -13,9 +14,14 @@ export class ProductComponent implements OnInit {
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
-  prodReports: ProductReport[] = [];
+  reports: ProductReport[] = [];
 
-  constructor(private prodService: ProductService) {}
+  showAll: boolean = true;
+
+  constructor(
+    private prodService: ProductService,
+    private reportService: ProductReportService
+  ) {}
 
   ngOnInit(): void {
     this.reload();
@@ -23,6 +29,21 @@ export class ProductComponent implements OnInit {
 
   displayProduct(product: Product) {
     return product;
+  }
+
+  getReports(pid: number) {
+    this.reportService.getReports(pid).subscribe({
+      next: (data) => {
+        this.reports = data;
+        console.log(this.reports);
+
+      },
+      error: (err) => {
+        console.error(
+          'ProductComponent.reload(): error loading products: ' + err
+        );
+      },
+    });
   }
 
   reload() {
