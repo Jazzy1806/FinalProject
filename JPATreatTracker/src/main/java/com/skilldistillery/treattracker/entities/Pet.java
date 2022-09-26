@@ -1,6 +1,5 @@
 package com.skilldistillery.treattracker.entities;
 
-import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Set;
 
@@ -34,7 +33,7 @@ public class Pet {
 	private String color;
 
 	@Column(name = "birth_date")
-	private LocalDate birthDate;
+	private String birthDate;
 	
 	private boolean enabled;
 
@@ -102,11 +101,11 @@ public class Pet {
 		this.image = image;
 	}
 
-	public LocalDate getBirthDate() {
+	public String getBirthDate() {
 		return birthDate;
 	}
 
-	public void setBirthDate(LocalDate birthDate) {
+	public void setBirthDate(String birthDate) {
 		this.birthDate = birthDate;
 	}
 
@@ -168,9 +167,5 @@ public class Pet {
 		return id == other.id;
 	}
 
-	@Override
-	public String toString() {
-		return "Pet [id=" + id + ", name=" + name + ", weight=" + weight + ", gender=" + gender + ", image=" + image
-				+ ", birthDate=" + birthDate + ", user=" + user + "]";
-	}
+
 }

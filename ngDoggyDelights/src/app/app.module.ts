@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { NgbActiveModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbActiveModal, NgbModule, NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
@@ -21,6 +21,8 @@ import { ProductComponent } from './components/product/product.component';
 import { TestslideComponent } from './components/testslide/testslide.component';
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
+import { EnabledPipe } from './pipes/enabled.pipe';
+
 
 @NgModule({
   declarations: [
@@ -38,6 +40,9 @@ import { PrevDirective } from './prev.directive';
     TestslideComponent,
     NextDirective,
     PrevDirective,
+    EnabledPipe,
+    ProductComponent
+
 
   ],
   imports: [
@@ -47,7 +52,7 @@ import { PrevDirective } from './prev.directive';
     NgbModule,
     HttpClientModule
   ],
-  providers: [NgbActiveModal, AuthService],
+  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

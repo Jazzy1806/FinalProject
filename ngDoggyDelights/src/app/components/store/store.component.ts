@@ -28,6 +28,10 @@ export class StoreComponent implements OnInit {
 
   constructor(private storeService : StoreService , private authService: AuthService) {}
 
+  images: string[] = [];
+  constructor(private storeService : StoreService ) {}
+
+
   ngOnInit(): void {
     this.reload();
   this.collectLoggedInUser();

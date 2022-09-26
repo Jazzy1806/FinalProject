@@ -2,12 +2,17 @@ package com.skilldistillery.treattracker.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.treattracker.entities.Breed;
+import com.skilldistillery.treattracker.entities.Diet;
 import com.skilldistillery.treattracker.entities.Pet;
 import com.skilldistillery.treattracker.entities.User;
+import com.skilldistillery.treattracker.repositories.BreedRepository;
+import com.skilldistillery.treattracker.repositories.DietRepository;
 import com.skilldistillery.treattracker.repositories.PetRepository;
 import com.skilldistillery.treattracker.repositories.UserRepository;
 
@@ -19,6 +24,12 @@ public class PetServiceImpl implements PetService{
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private BreedRepository breedRepo;
+	
+	@Autowired
+	private DietRepository dietRepo;
 
 	@Override
 	public List<Pet> index(String username) {
@@ -45,10 +56,24 @@ public class PetServiceImpl implements PetService{
 		  User user = userRepo.findByUsername(username);
 		  if (user != null) {
 		    pet.setUser(user);
-  		    return petRepo.saveAndFlush(pet);
+		    pet.setEnabled(true);
+		    return petRepo.saveAndFlush(pet);
 		  }
 		  return null;
 	}
+
+	@Override
+	public List<Breed> getBreeds() {
+		return breedRepo.findAll();
+	}
+
+	@Override
+	public List<Diet> getDiets() {
+		return dietRepo.findAll();
+	}
+
+
+
 
 	@Override
 	public Pet updatePet(String username, int petId, Pet pet) {
@@ -63,6 +88,8 @@ public class PetServiceImpl implements PetService{
 					udpatePet.setGender(pet.getGender());
 					udpatePet.setImage(pet.getImage());
 					udpatePet.setBirthDate(pet.getBirthDate());
+					udpatePet.setBreeds(pet.getBreeds());
+					udpatePet.setDietNeeds(pet.getDietNeeds());
 					return petRepo.saveAndFlush(udpatePet);
 				}
 			}

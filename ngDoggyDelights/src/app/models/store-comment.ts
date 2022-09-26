@@ -3,14 +3,16 @@ import { User } from "./user";
 
 export class StoreComment {
   id: number;
-  title: string | null;
-  description: string | null;
-  rating: number;
+  title: string = '';
+  description: string = '';
+  rating: number | null;
   createdOn?: Date;
   store?: Store | null;
   user?: User | null;
   // parentStoreComment: StoreComment | null;
   // replyStoreComments: StoreComment[] | null;
+
+
 
   constructor(id: number = 0, title: string ="", description: string ="", rating: number = 0, createdOn?: Date , store?: Store , user? : User) {
     this.id = id;

@@ -6,16 +6,17 @@ import { Product } from "./product";
 
 export class Store {
   id: number;
-  name: string | null;
+  name: string = '';
   address?: Address | null;
-  description: string | null;
+  description: string = '';
   inventory: Inventory[] | null;
   chain?: Chain | null;
   comments: StoreComment[] | null;
-  websiteUrl: string | null;
-  logoUrl: string | null;
+  websiteUrl: string = '';
+  logoUrl: string = '';
   products: Product[] | null = null;
   enabled: boolean = false;
+
 
   constructor(  id: number = 0, name: string = "", description: string ="", websiteUrl: string="", logoUrl: string="",
                 address?: Address, inventory: Inventory[] =[], chain?: Chain, comments: StoreComment[]= [], enabled : boolean = false) {
