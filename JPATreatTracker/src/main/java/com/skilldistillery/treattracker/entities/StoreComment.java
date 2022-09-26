@@ -63,6 +63,11 @@ public class StoreComment {
 	@OneToMany(mappedBy = "parentStoreComment")
 	private Set<StoreComment> replyStoreComments = new HashSet<>();
 	
+	public void removeComments() {
+		if (replyStoreComments != null) {
+			replyStoreComments.removeAll(replyStoreComments);
+		}
+	}
 	
 	public StoreComment() {
 	}

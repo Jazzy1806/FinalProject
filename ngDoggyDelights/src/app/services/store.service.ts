@@ -1,9 +1,11 @@
+import { Product } from './../models/product';
 import { Store } from './../models/store';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
+import { StoreComment } from '../models/store-comment';
 
 @Injectable({
   providedIn: 'root'
@@ -35,4 +37,68 @@ export class StoreService {
       })
       );
     }
+
+    productsByStore(storeId :number): Observable<Product[]>{
+      return this.http.get<Product[]>(this.url + '/' + storeId + '/products', this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                'storeService.productsByStore(): error retrieving products by store: ' +
+                  err
+              )
+          );
+        })
+      );
+    }
+
+    commentsByStore(storeId: number): Observable<StoreComment[]>{
+      return this.http.get<StoreComment[]>(this.url + '/' + storeId + '/comments', this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () =>
+              new Error(
+                'storeService.commentsByStore(): error retrieving comments by store: ' +
+                  err
+              )
+          );
+        })
+      );
+    }
+
+    createStoreComment(storeId: number, storeComment : StoreComment): Observable<StoreComment> {
+      return this.http.post<StoreComment>(this.url + '/' + storeId + '/comments/comment',storeComment, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStoreComment(): error creating Store Comment: ' + err )
+          );
+        })
+      );
+    }
+
+    destroyStoreComment(storeId: number, storeCommentId: number): Observable<void> {
+      return this.http.delete<void>(this.url +'/'+ storeId + '/comments/' + storeCommentId, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'StoreService.destroyStoreComment(): error deleting Store Comment: ' + err )
+          );
+        })
+      );
+    }
+
+    createStore(store : Store): Observable<Store> {
+      return this.http.post<Store>(this.url ,store, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
+          );
+        })
+      );
+    }
+
 }
