@@ -19,7 +19,7 @@ export class StoreComponent implements OnInit {
   storeName: string | null = '';
   products: Product [] | null = null;
   newComment = {} as StoreComment;
-  storeComments: StoreComment [] = [];
+  storeComments: StoreComment [] | null = null;
   loggedInUser : any;
   selectedProductPrice = 0;
   isCollapsed = true;
@@ -56,6 +56,10 @@ export class StoreComponent implements OnInit {
     this.storeService.index().subscribe(
       {
         next: (stores) => {
+          console.log("inside reload method");
+          console.log("storecomments is null" + this.storeComments == null);
+
+
           this.stores = stores;
           for (let store of stores) {
             console.log("store" + store.name);
