@@ -45,5 +45,10 @@ class UserTest {
 		assertNotNull(user);
 		assertEquals("admin", user.getUsername());
 	}
+	
+	@Test
+	void test_user_to_store_one_to_many_relationship() {
+		assertNotNull(user.getStores());
+	}
 
 }

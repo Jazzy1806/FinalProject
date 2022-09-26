@@ -1,7 +1,7 @@
 import { Address } from './../../models/address';
 import { StoreComment } from './../../models/store-comment';
 import { StoreService } from './../../services/store.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from 'src/app/models/store';
 import { Product } from 'src/app/models/product';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,7 +13,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class StoreComponent implements OnInit {
   selected : Store | null = null;
-  stores: Store [] | null = null;
+  // @Output() stores = new EventEmitter<Store []>() ;
+  stores : Store [] | null = null;
   activeStores: Store [] | null = null;
   selectedStore = {} as Store;
   storeName: string | null = '';

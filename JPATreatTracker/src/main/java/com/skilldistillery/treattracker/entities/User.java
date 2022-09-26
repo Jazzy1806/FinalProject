@@ -60,6 +60,9 @@ public class User {
 	@OneToMany(mappedBy="user")
 	private List<ProductReport> productReports;	
 	
+	@JsonIgnore
+	@OneToMany(mappedBy="user")
+	private List<Store> stores;
 	
 	
 	public User() {}
@@ -150,6 +153,14 @@ public class User {
 
 	public void setBio(String bio) {
 		this.bio = bio;
+	}
+
+	public List<Store> getStores() {
+		return stores;
+	}
+
+	public void setStores(List<Store> stores) {
+		this.stores = stores;
 	}
 
 	public String getImage() {

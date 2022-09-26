@@ -58,5 +58,10 @@ class StoreTest {
 		assertNotNull(store);
 		assertTrue(store.getProductReports().size() > 0);
 	}
+	
+	@Test
+	void test_store_to_user_many_to_one_relationship() {
+		assertNotNull(store.getUser());
+	}
 
 }
