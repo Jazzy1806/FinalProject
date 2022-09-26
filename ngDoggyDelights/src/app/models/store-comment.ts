@@ -5,16 +5,16 @@ export class StoreComment {
   id: number;
   title: string = '';
   description: string = '';
-  rating: number | null;
-  createdOn?: Date;
-  store?: Store | null;
-  user?: User | null;
+  rating: number;
+  createdOn: Date;
+  store: Store;
+  user: User;
   // parentStoreComment: StoreComment | null;
   // replyStoreComments: StoreComment[] | null;
 
 
 
-  constructor(id: number = 0, title: string ="", description: string ="", rating: number = 0, createdOn?: Date , store?: Store , user? : User) {
+  constructor(id: number = 0, title: string ="", description: string ="", rating: number, createdOn: Date , store: Store , user : User) {
     this.id = id;
     this.title = title;
     this.description = description;

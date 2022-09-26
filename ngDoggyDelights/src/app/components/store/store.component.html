@@ -238,7 +238,7 @@
       <div class="col-sm-8">
         <h1>{{ selectedStore.name }}</h1>
         <div *ngFor="let comment of storeComments">
-          <h5>{{ comment.user?.username }}</h5>
+          <h5>{{ comment.user.username }}</h5>
           <ngb-rating [max]="5" [(rate)]="comment.rating" [readonly]="true">
             <ng-template let-fill="fill">
               <span

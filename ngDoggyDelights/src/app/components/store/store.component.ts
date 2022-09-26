@@ -15,21 +15,20 @@ export class StoreComponent implements OnInit {
   selected : Store | null = null;
   stores: Store [] | null = null;
   activeStores: Store [] | null = null;
-  selectedStore = new Store();
+  selectedStore = {} as Store;
   storeName: string | null = '';
   products: Product [] | null = null;
-  newComment = new StoreComment();
-  storeComments: StoreComment [] | null = null;
+  newComment = {} as StoreComment;
+  storeComments: StoreComment [] = [];
   loggedInUser : any;
   selectedProductPrice = 0;
   isCollapsed = true;
-  newStore = new Store();
-  newAddress = new Address();
+  newStore = {} as Store;
+  newAddress = {} as Address;
 
   constructor(private storeService : StoreService , private authService: AuthService) {}
 
   images: string[] = [];
-  constructor(private storeService : StoreService ) {}
 
 
   ngOnInit(): void {
@@ -124,7 +123,7 @@ export class StoreComponent implements OnInit {
   createStoreComment(store: Store, storeComment: StoreComment): void {
     this.storeService.createStoreComment(store.id, storeComment).subscribe({
       next: (result) => {
-        this.newComment = new StoreComment();
+        this.newComment = {} as StoreComment;
         this.commentsByStore(store);
         console.log("inside createStoreComment component ts");
 
