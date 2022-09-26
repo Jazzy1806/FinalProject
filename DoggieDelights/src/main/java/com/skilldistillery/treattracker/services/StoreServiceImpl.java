@@ -67,6 +67,7 @@ public class StoreServiceImpl implements StoreService {
 		if (user != null) {
 			Address address = newStore.getAddress();
 			addressRepo.saveAndFlush(address);
+			newStore.setEnabled(true);
 			System.out.println("inside createStore serv" + newStore);
 			return storeRepo.saveAndFlush(newStore);
 
