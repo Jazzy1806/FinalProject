@@ -104,7 +104,7 @@ public class StoreController {
 	}
 //	PUT /stores/{storeId}    update store
 	@PutMapping("stores/{id}")
-	public Store updateStock(@PathVariable("id") Integer id, @RequestBody Store store, HttpServletResponse res, Principal principal) {
+	public Store updateStore(@PathVariable("id") Integer id, @RequestBody Store store, HttpServletResponse res, Principal principal) {
 		Store storeToUpdate;
 		try {
 			 storeToUpdate = storeServ.updateStore( store, id, principal.getName());
@@ -168,18 +168,19 @@ public class StoreController {
 	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    update specific product list
 //	CREATE /stores/{storeId}/inventory/{inventoryId}    add specific product to store => add more inventory to an existing product
-	@PostMapping("stores/{storeId}/product/{prodId}/inventory/{quantity}")
-	public List<Inventory> addProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,@PathVariable int quantity, Principal principal, HttpServletResponse res) {
-		List<Inventory> updatedInventories = null;
+	@PutMapping("stores/{storeId}/product/{prodId}/inventory")
+	public List<Inventory> addProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,  @RequestBody Inventory inventory, Principal principal, HttpServletResponse res) {
 		Product productToUpdateInventory = prodServ.findById(principal.getName(), prodId);
+		List<Inventory> inventories = null;
 		Store store = storeServ.findStorebyId(storeId, principal.getName());
 		try {
-			updatedInventories = storeServ.updateProductInventoryByStore( principal.getName(), store, productToUpdateInventory, quantity);
+		inventories = storeServ.updateProductInventoryByStore( principal.getName(), store, productToUpdateInventory, inventory);
+			System.out.println();
 		} catch (Exception e) {
 			res.setStatus(400);
 			e.printStackTrace();
 		}
-		return updatedInventories;
+		return inventories;
 
 	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    deactivate specific product list

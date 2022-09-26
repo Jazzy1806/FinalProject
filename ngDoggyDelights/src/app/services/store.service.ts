@@ -101,4 +101,15 @@ export class StoreService {
       );
     }
 
+     updateProdInventoryQuantity(store: Store, product : Product, quantity: number): Observable<Inventory[]> {
+      return this.http.post<Inventory[]>(this.url + "/" + store.id + "/product/" + product.id +"/inventory/" + quantity, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
+          );
+        })
+      );
+     }
+
 }

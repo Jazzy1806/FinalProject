@@ -2,6 +2,10 @@
   width: 90%;
   margin: 0 auto;
 }
+main, .wrapper {
+  position: relative;
+}
+
 .partners img {
   transition: all .3s ease;
 }
@@ -73,4 +77,33 @@
   top: 50%;
   transform: translate(-50%, -50%);
   margin-right: 10px;
+}
+
+.slider-wrap-footer {
+  position: relative;
+  overflow: hidden;
+  height: 110px;
+  /* right: 100px; */
+  left: 150px;
+  margin-right: 300px;
+  padding: auto;
+}
+
+.item-footer {
+  display: inline-block;
+  width: 90px;
+  height: 110px;
+  position: relative;
+  margin: 0 12px;
+}
+
+.text-footer {
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  text-align: center;
+  font-weight: bolder;
+
 }

@@ -5,6 +5,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from 'src/app/models/store';
 import { Product } from 'src/app/models/product';
 import { AuthService } from 'src/app/services/auth.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-store',
@@ -26,6 +27,7 @@ export class StoreComponent implements OnInit {
   isCollapsed = true;
   newStore = {} as Store;
   newAddress = {} as Address;
+  quantity = 0;
 
   constructor(private storeService : StoreService , private authService: AuthService) {}
 
@@ -91,7 +93,7 @@ export class StoreComponent implements OnInit {
         store.products = products;
         this.products = products;
         for(let product of this.products) {
-        console.log("inventory " + product.inventoryItems?.length);
+        console.log("inventory length " + product.inventoryItems?.length);
         console.log("inventory " + product.name);
       }
 
@@ -168,5 +170,20 @@ export class StoreComponent implements OnInit {
     });
     this.isCollapsed = true;
     this.reload();
+  }
+
+  updateProdInventoryByStore(store: Store, prod: Product, form : NgForm): void {
+    this.storeService.updateProdInventoryQuantity(store, prod, form.value.quantity).subscribe({
+      next: (result) => {
+        this.productsByStore(store);
+        this.commentsByStore(store);
+        console.log("inside updateProdInventoryByStore component ts");
+
+      },
+      error: (nojoy) => {
+        console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
+        console.error(nojoy);
+      },
+    });
   }
 }

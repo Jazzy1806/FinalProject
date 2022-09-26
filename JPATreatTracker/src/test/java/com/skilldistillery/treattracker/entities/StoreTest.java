@@ -52,6 +52,7 @@ class StoreTest {
 	void test_Store_OneToMany_Inventory_mapping() {
 		assertNotNull(store);
 		assertTrue(store.getInventories().size() > 0);
+		System.out.println(store.getInventories());
 	}
 	@Test
 	void test_Store_OneToMany_ProductReport_mapping() {

@@ -101,6 +101,12 @@ public class Inventory {
 		return id == other.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Inventory [id=" + id + ", store=" + store + ", price=" + price + ", quantity=" + quantity + ", product="
+				+ product + ", enabled=" + enabled + "]";
+	}
+
 
 	
 	
