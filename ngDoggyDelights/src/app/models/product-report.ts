@@ -1,11 +1,11 @@
-import { Product } from "./product";
-import { Store } from "./store";
-import { User } from "./user";
+import { Product } from './product';
+import { Store } from './store';
+import { User } from './user';
 
 export class ProductReport {
   id: number;
-  createdOn: Date;
-  updatedOn: Date | null;
+  createdOn: string = '';
+  updatedOn: string | null;
   userQuantity: number | null; //do we want this to be low-normal-high???
   price: number | null;
   isInStock: boolean | null;
@@ -14,8 +14,18 @@ export class ProductReport {
   store: Store | null;
   product: Product | null;
 
-  constructor(id: number, createdOn: Date, updatedOn: Date, userQuantity: number, price: number,
-              isInStock: boolean, remark: string, user: User, store: Store, product: Product) {
+  constructor(
+    id: number,
+    createdOn: string = '',
+    updatedOn: string = '',
+    userQuantity: number,
+    price: number,
+    isInStock: boolean,
+    remark: string,
+    user: User,
+    store: Store,
+    product: Product
+  ) {
     this.id = id;
     this.createdOn = createdOn;
     this.updatedOn = updatedOn;
