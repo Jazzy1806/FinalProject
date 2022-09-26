@@ -47,54 +47,6 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `store`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `store` ;
-
-CREATE TABLE IF NOT EXISTS `store` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  `address_id` INT NOT NULL,
-  `description` TEXT NULL,
-  `website_url` TEXT NULL,
-  `logo_url` TEXT NULL,
-  `chain_id` INT NULL,
-  `enabled` TINYINT NULL,
-  PRIMARY KEY (`id`),
-  INDEX `fk_company_address1_idx` (`address_id` ASC),
-  INDEX `fk_store_chain1_idx` (`chain_id` ASC),
-  CONSTRAINT `fk_company_address1`
-    FOREIGN KEY (`address_id`)
-    REFERENCES `address` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_store_chain1`
-    FOREIGN KEY (`chain_id`)
-    REFERENCES `chain` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `product`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `product` ;
-
-CREATE TABLE IF NOT EXISTS `product` (
-  `id` INT NOT NULL AUTO_INCREMENT,
-  `name` VARCHAR(45) NULL,
-  `brand` VARCHAR(45) NULL,
-  `description` TEXT NULL,
-  `image` VARCHAR(2000) NULL,
-  `created_on` TIMESTAMP NULL,
-  `updated_on` TIMESTAMP NULL,
-  `enabled` TINYINT NULL,
-  PRIMARY KEY (`id`))
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `user`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `user` ;
@@ -121,6 +73,61 @@ CREATE TABLE IF NOT EXISTS `user` (
     REFERENCES `address` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `store`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `store` ;
+
+CREATE TABLE IF NOT EXISTS `store` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `address_id` INT NOT NULL,
+  `description` TEXT NULL,
+  `website_url` TEXT NULL,
+  `logo_url` TEXT NULL,
+  `chain_id` INT NULL,
+  `enabled` TINYINT NULL,
+  `user_id` INT NOT NULL,
+  PRIMARY KEY (`id`, `user_id`),
+  INDEX `fk_company_address1_idx` (`address_id` ASC),
+  INDEX `fk_store_chain1_idx` (`chain_id` ASC),
+  INDEX `fk_store_user1_idx` (`user_id` ASC),
+  CONSTRAINT `fk_company_address1`
+    FOREIGN KEY (`address_id`)
+    REFERENCES `address` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_store_chain1`
+    FOREIGN KEY (`chain_id`)
+    REFERENCES `chain` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_store_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `product`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `product` ;
+
+CREATE TABLE IF NOT EXISTS `product` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NULL,
+  `brand` VARCHAR(45) NULL,
+  `description` TEXT NULL,
+  `image` VARCHAR(2000) NULL,
+  `created_on` TIMESTAMP NULL,
+  `updated_on` TIMESTAMP NULL,
+  `enabled` TINYINT NULL,
+  PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
 
@@ -530,13 +537,25 @@ COMMIT;
 
 
 -- -----------------------------------------------------
+-- Data for table `user`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `doggydb`;
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (1, 'Ad', 'Min', 'admin', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 4, NULL, NULL, '1', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (2, 'Dog', 'Gy', 'doggy', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 5, NULL, NULL, '2', NULL, NULL);
+INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (3, 'Dog', 'Gy2', 'doggy2', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 6, NULL, NULL, '3', NULL, NULL);
+
+COMMIT;
+
+
+-- -----------------------------------------------------
 -- Data for table `store`
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`) VALUES (1, 'Petco on Ken Pratt', 1, '', '', '', 1, 1);
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`) VALUES (2, 'Petssmart on Hover', 2, NULL, NULL, NULL, 2, 1);
-INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`) VALUES (3, 'Petsmart in Boulder', 3, NULL, NULL, NULL, 2, 1);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`, `user_id`) VALUES (1, 'Petco on Ken Pratt', 1, '', '', '', 1, 1, 1);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`, `user_id`) VALUES (2, 'Petssmart on Hover', 2, NULL, NULL, NULL, 2, 1, 1);
+INSERT INTO `store` (`id`, `name`, `address_id`, `description`, `website_url`, `logo_url`, `chain_id`, `enabled`, `user_id`) VALUES (3, 'Petsmart in Boulder', 3, NULL, NULL, NULL, 2, 1, 1);
 
 COMMIT;
 
@@ -556,18 +575,6 @@ INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_o
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (8, 'pork bean deli', 'Petpamper', NULL, NULL, NULL, NULL, 1);
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (9, 'green stotch', 'Meri', NULL, NULL, NULL, NULL, 1);
 INSERT INTO `product` (`id`, `name`, `brand`, `description`, `image`, `created_on`, `updated_on`, `enabled`) VALUES (10, 'lick and chew', 'Yam', NULL, NULL, NULL, NULL, 1);
-
-COMMIT;
-
-
--- -----------------------------------------------------
--- Data for table `user`
--- -----------------------------------------------------
-START TRANSACTION;
-USE `doggydb`;
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (1, 'Ad', 'Min', 'admin', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 4, NULL, NULL, '1', NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (2, 'Dog', 'Gy', 'doggy', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 5, NULL, NULL, '2', NULL, NULL);
-INSERT INTO `user` (`id`, `first_name`, `last_name`, `username`, `password`, `email`, `enabled`, `address_id`, `created_on`, `updated_on`, `role`, `bio`, `profile_image_url`) VALUES (3, 'Dog', 'Gy2', 'doggy2', '$2a$10$yT3X.SqpZ8Z5quWdaD.HhubjpYAKGEKDZy4irFZ0G.PwGuBHjVV6O', NULL, 1, 6, NULL, NULL, '3', NULL, NULL);
 
 COMMIT;
 

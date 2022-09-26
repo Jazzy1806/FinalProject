@@ -1,7 +1,7 @@
 import { Inventory } from './inventory';
 import { ProductComment } from './product-comment';
 import { ProductReport } from './product-report';
-import { Ingredient } from "./ingredient";
+import { Ingredient } from './ingredient';
 
 export class Product {
   id: number;
@@ -13,12 +13,22 @@ export class Product {
   reports: ProductReport[] | null;
   comments: ProductComment[] | null;
   inventoryItems: Inventory[] | null;
-  dateCreated: Date | null;
-  dateUpdated: Date | null;
+  dateCreated: string | null;
+  dateUpdated: string | null;
 
-  constructor(  id: number, name: string, brand: string, description: string, image: string,
-                ingredients: Ingredient[], reports: ProductReport[], comments: ProductComment[],
-                inventoryItems: Inventory[], dateCreated: Date, dateUpdated: Date) {
+  constructor(
+    id: number = 0,
+    name: string = '',
+    brand: string = '',
+    description: string = '',
+    image: string = '',
+    ingredients: Ingredient[] = [],
+    reports: ProductReport[] = [],
+    comments: ProductComment[] = [],
+    inventoryItems: Inventory[] = [],
+    dateCreated: string = '',
+    dateUpdated: string = ''
+  ) {
     this.id = id;
     this.name = name;
     this.brand = brand;

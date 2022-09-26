@@ -18,11 +18,11 @@ import { StoreComponent } from './components/store/store.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { ProductComponent } from './components/product/product.component';
+import { ProductReportComponent } from './components/product-report/product-report.component';
 import { TestslideComponent } from './components/testslide/testslide.component';
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { EnabledPipe } from './pipes/enabled.pipe';
-
 
 @NgModule({
   declarations: [
@@ -37,13 +37,12 @@ import { EnabledPipe } from './pipes/enabled.pipe';
     PetComponent,
     UserProfileComponent,
     ProductComponent,
+    ProductReportComponent,
     TestslideComponent,
     NextDirective,
     PrevDirective,
     EnabledPipe,
     ProductComponent
-
-
   ],
   imports: [
     BrowserModule,
