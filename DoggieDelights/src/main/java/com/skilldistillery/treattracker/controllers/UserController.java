@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.skilldistillery.treattracker.entities.Address;
+import com.skilldistillery.treattracker.entities.Breed;
+import com.skilldistillery.treattracker.entities.Diet;
 import com.skilldistillery.treattracker.entities.Pet;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.services.AddressService;
@@ -26,7 +28,7 @@ import com.skilldistillery.treattracker.services.PetService;
 
 @RestController
 @RequestMapping("api")
-@CrossOrigin({"*", "http://localhost:4200"})
+@CrossOrigin({"*", "http://localhost:4205"})
 public class UserController {
 
 	@Autowired
@@ -137,6 +139,16 @@ public class UserController {
 	@GetMapping("pets")
 	public List<Pet> findPetsByUser(HttpServletRequest req, HttpServletResponse res, Principal principal) {
 		return petService.index(principal.getName()); 
+	}
+
+	@GetMapping("pets/breeds")
+	public List<Breed> findBreeds(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		return petService.getBreeds(); 
+	}
+
+	@GetMapping("pets/diets")
+	public List<Diet> findDiets(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		return petService.getDiets(); 
 	}
 	
 	@GetMapping("pets/{petId}")

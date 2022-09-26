@@ -1,7 +1,10 @@
 package com.skilldistillery.treattracker.services;
 
 import java.util.List;
+import java.util.Set;
 
+import com.skilldistillery.treattracker.entities.Breed;
+import com.skilldistillery.treattracker.entities.Diet;
 import com.skilldistillery.treattracker.entities.Pet;
 
 
@@ -15,4 +18,9 @@ public interface PetService {
     public Pet updatePet(String username, int petId, Pet pet);
 
     public boolean deletePet(String username, int petId);
+
+	List<Diet> getDiets();
+
+	List<Breed> getBreeds();
+
 }
