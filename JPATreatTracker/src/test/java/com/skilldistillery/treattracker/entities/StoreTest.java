@@ -52,11 +52,17 @@ class StoreTest {
 	void test_Store_OneToMany_Inventory_mapping() {
 		assertNotNull(store);
 		assertTrue(store.getInventories().size() > 0);
+		System.out.println(store.getInventories());
 	}
 	@Test
 	void test_Store_OneToMany_ProductReport_mapping() {
 		assertNotNull(store);
 		assertTrue(store.getProductReports().size() > 0);
+	}
+	
+	@Test
+	void test_store_to_user_many_to_one_relationship() {
+		assertNotNull(store.getUser());
 	}
 
 }

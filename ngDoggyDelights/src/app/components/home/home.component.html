@@ -1,58 +1,131 @@
-<div class="container">
-  <div class="main-body">
-    <div class="top-half">
-      <div class="row gutters-sm">
-        <div class="col-sm-7 col-md-7 mb-3">
-          <div class="card h-70" >
-            <div class="card-body" id="map">
-              <!-- <app-map></app-map> -->
-              <app-map-marker></app-map-marker>
+<main class="h-100">
+  <div>
+    <h1>Pups deserve the best</h1>
+    <!-- <button type ="submit" class="btn btn-lg btn-outline-primary" (click)="openModal()">Login</button> -->
+  </div>
+  <div class="wrapper">
+    <div class="row w-100" id="top"></div>
+    <div class="row w-100" id="bottom"></div>
+  </div>
+  <div id="bodyContent">
+    <div *ngIf="stores" class="my-5 text-center">
+      <div class="card-columns mr-auto mt-4">
+        <div class="row">
+          <div class="col"></div>
+          <div class="col">
+            <div class="card">
+              <img
+                class="card-img-top img-fluid ng-image hover-zoom"
+                src="https://images.unsplash.com/photo-1582902904617-8915e59fa2b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
+                alt=""
+              />
+              <div class="card-body">
+                <h4 class="card-title">{{ stores[0].name }}</h4>
+                <p class="card-text">About Store</p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-secondary mb-2">
+                  More Details
+                </button>
+              </div>
             </div>
           </div>
+          <div class="col">
+            <div class="card">
+              <img
+                class="card-img-top img-fluid ng-image hover-zoom"
+                src="https://images.unsplash.com/photo-1582902904617-8915e59fa2b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
+                alt=""
+              />
+              <div class="card-body">
+                <h4 class="card-title">{{ stores[1].name }}</h4>
+                <p class="card-text">About Store</p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-secondary mb-2">
+                  More Details
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="card">
+              <img
+                class="card-img-top img-fluid ng-image hover-zoom"
+                src="https://images.unsplash.com/photo-1582902904617-8915e59fa2b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
+                alt=""
+              />
+              <div class="card-body">
+                <h4 class="card-title">{{ stores[2].name }}</h4>
+                <p class="card-text">About Store</p>
+              </div>
+              <div class="text-center">
+                <button type="submit" class="btn btn-secondary mb-2">
+                  More Details
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col"></div>
         </div>
+      </div>
+    </div>
 
-        <div class="col-md-5 col-sm-5 mb-0">
-                <div class="row d-flex justify-content-center align-items-center">
-                  <div class="col-lg-12 col-xl-12">
-                    <div class="card rounded-2">
-                      <img id="bannerImg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOHGL57bcvl0AkqLUmUGBLvqJBrhKobPSpNQ&usqp=CAU"
-                        style="border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
-                        <div class="card-body p-md-4">
-                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Find Your Favorites</h3>
-                        <form>
-                          <div class="row">
-                            <div class="col-md-12 col-sm-12 mb-4">
-                              <input type="text" id="firstName" placeholder="Search by keyword" />
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-12 col-lg-12 mb-4">
-                              <br><input type="text" id="lastName" placeholder="Search by location" />
-                            </div>
-                          </div>
-                          <div class="row">
-                            <div class="col-md-5">
-                              <select class="select form-control-lg">
-                                <option value="" disabled selected>Distance</option>
-                                <option value="1">1 mile</option>
-                                <option value="5">5 miles</option>
-                                <option value="10">10 miles</option>
-                                <option value="25">25 miles</option>
-                                <option value="50">50 miles</option>
-                              </select>
-                            </div>
-                            <div class="col-md-6">
-                              <input class="btn btn-info btn-lg col-md-7 mb-2" type="submit" value="Submit" />
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+    <div
+      *ngIf="products"
+      class="container my-0 justify-content-center d-flex flex-row"
+    >
+      <div class="container-fluid py-2">
+        <div class="slider-wrap d-flex justify-content-center flex-row">
+          <div class="slider-main">
+            <div class="item text-center" *ngFor="let product of products">
+              <div class="text">
+                <img
+                  style="width: 140px; height: 120px"
+                  src="{{ product.image }}"
+                />
+                <p>{{ product.name }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="button-area">
+            <button class="btn btn-sm btn-info prev" appPrev>Prev</button>
+            <button class="btn btn-sm btn-info next" appNext>Next</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
+</main>
+<footer
+	class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-3 mb-0 border-top bg-light mt-auto">
+
+		<!-- <a href="/"
+			class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"> <svg
+				class="bi" width="30" height="24">
+				<use xlink:href="#bootstrap" /></svg>
+		</a> <span class="text-muted text-light">&copy; BAND MATE Contact:
+			720 499 9999</span> -->
+      <div
+      *ngIf="products"
+      class="container my-0 justify-content-center d-flex flex-row"
+    >
+      <div class="container-fluid py-2">
+        <div class="slider-wrap-footer d-flex justify-content-center flex-row">
+          <div class="slider-main">
+            <div class="item-footer text-center" *ngFor="let product of products">
+              <div class="text-footer text-dark">
+                <p>{{ product.brand }}</p>
+              </div>
+            </div>
+          </div>
+          <div class="button-area">
+            <button class="btn btn-sm btn-info prev" appPrev></button>
+            <button class="btn btn-sm btn-info next" appNext></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</footer>

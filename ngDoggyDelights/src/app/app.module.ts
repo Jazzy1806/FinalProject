@@ -24,9 +24,13 @@ import { TestslideComponent } from './components/testslide/testslide.component';
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { EnabledPipe } from './pipes/enabled.pipe';
+
+import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
+
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
 import { MapMarkerComponent } from './components/map-marker/map-marker.component';
+
 
 @NgModule({
   declarations: [
@@ -48,7 +52,8 @@ import { MapMarkerComponent } from './components/map-marker/map-marker.component
     EnabledPipe,
     ProductComponent,
     MapComponent,
-    MapMarkerComponent
+    MapMarkerComponent,
+    TopRatedListPipe
   ],
   imports: [
     BrowserModule,

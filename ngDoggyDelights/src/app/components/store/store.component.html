@@ -335,7 +335,15 @@
                       ingredient.name
                     }}</span>
                   </li>
-                  <li>Quantity: {{ product.inventoryItems?.length }}</li>
+                  <li *ngFor="let item of product.inventoryItems">Quantity: {{ item.quantity }}
+                    <form #prodQty = "ngForm" class="form-group mx-sm-3 mb-2">
+                       <input type="search" class="rounded" maxlength="4" size="4" name="quantity" ngModel
+                        placeholder="" aria-label="Search"
+                        aria-describedby="search-addon" />
+                      <button type="submit" class="btn btn-sm btn-secondary mb-2" (click)="updateProdInventoryByStore(selectedStore, product, prodQty)" >Update</button>
+                    </form>
+                  </li>
+
                 </ul>
               </div>
             </div>
