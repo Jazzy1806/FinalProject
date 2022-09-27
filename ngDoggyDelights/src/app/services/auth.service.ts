@@ -128,4 +128,15 @@ export class AuthService {
     return localStorage.getItem('credentials');
   }
 
+  getAllUsers(){
+    return this.http.get<User[]>(this.url + "api/users", this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('AuthService.getAllUsers(): error getting all users: ' + err)
+        );
+      })
+    );
+  }
+
 }
