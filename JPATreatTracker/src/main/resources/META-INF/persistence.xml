@@ -16,6 +16,7 @@
 		<class>com.skilldistillery.treattracker.entities.ProductComment</class>
 		<class>com.skilldistillery.treattracker.entities.ProductReport</class>
 		<class>com.skilldistillery.treattracker.entities.Inventory</class>
+		<class>com.skilldistillery.treattracker.entities.InventoryId</class>
 		<class>com.skilldistillery.treattracker.entities.Ingredient</class>
 		
 		
