@@ -29,6 +29,7 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
+import { UserComponent } from './components/user/user.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { MapComponent } from './components/map/map.component';
     EnabledPipe,
     ProductComponent,
     MapComponent,
-    TopRatedListPipe
+    TopRatedListPipe,
+    UserComponent
   ],
   imports: [
     BrowserModule,

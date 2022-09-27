@@ -11,6 +11,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { RegisterComponent } from './components/register/register.component';
 import { StoreComponent } from './components/store/store.component';
 import { ProductReportComponent } from './components/product-report/product-report.component';
+import { UserComponent } from './components/user/user.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home' },
@@ -24,6 +25,7 @@ const routes: Routes = [
   { path: 'pet', component: PetComponent },
   { path: 'product', component: ProductComponent},
   { path: 'reports', component: ProductReportComponent},
+  { path: 'user', component: UserComponent},
 
   { path: '**', component: NotFoundComponent }
 ];
