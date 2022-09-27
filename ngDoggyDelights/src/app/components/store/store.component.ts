@@ -1,10 +1,12 @@
 import { Address } from './../../models/address';
 import { StoreComment } from './../../models/store-comment';
 import { StoreService } from './../../services/store.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Store } from 'src/app/models/store';
 import { Product } from 'src/app/models/product';
 import { AuthService } from 'src/app/services/auth.service';
+import { NgForm } from '@angular/forms';
+import { Inventory } from 'src/app/models/inventory';
 
 @Component({
   selector: 'app-store',
@@ -13,7 +15,8 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class StoreComponent implements OnInit {
   selected : Store | null = null;
-  stores: Store [] | null = null;
+  // @Output() stores = new EventEmitter<Store []>() ;
+  stores : Store [] | null = null;
   activeStores: Store [] | null = null;
   selectedStore = {} as Store;
   storeName: string | null = '';
@@ -25,6 +28,8 @@ export class StoreComponent implements OnInit {
   isCollapsed = true;
   newStore = {} as Store;
   newAddress = {} as Address;
+  quantity = 0;
+  updatedInventory = {} as Inventory;
 
   constructor(private storeService : StoreService , private authService: AuthService) {}
 
@@ -90,7 +95,7 @@ export class StoreComponent implements OnInit {
         store.products = products;
         this.products = products;
         for(let product of this.products) {
-        console.log("inventory " + product.inventoryItems?.length);
+        console.log("inventory length " + product.inventoryItems?.length);
         console.log("inventory " + product.name);
       }
 
@@ -167,5 +172,40 @@ export class StoreComponent implements OnInit {
     });
     this.isCollapsed = true;
     this.reload();
+  }
+
+  inventoryByStoreAndProd(store: Store, prod: Product):void {
+    this.storeService.getInventoryByStore(store, prod).subscribe({
+      next: (result) => {
+        this.updatedInventory = result;
+        console.log("inside inventoryByStoreAndProd component ts");
+
+      },
+      error: (nojoy) => {
+        console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
+        console.error(nojoy);
+      },
+    });
+
+  }
+
+  updateProdInventoryByStore(store: Store, prod: Product, form : any): void {
+    console.log("form: "+ form.value.quantity);
+
+    this.inventoryByStoreAndProd(store, prod);
+    this.updatedInventory.quantity = form.value.quantity;
+    this.storeService.updateProdInventoryQuantity(store, prod, this.updatedInventory).subscribe({
+      next: (result) => {
+        this.updatedInventory = result;
+        this.productsByStore(store);
+        this.commentsByStore(store);
+        console.log("inside updateProdInventoryByStore component ts");
+        //this.updatedInventory = {} as Inventory;
+      },
+      error: (nojoy) => {
+        console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
+        console.error(nojoy);
+      },
+    });
   }
 }

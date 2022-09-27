@@ -2,7 +2,7 @@
     <div class="card mb-3"> <!--top right hand column of profile block-->
       <!-- <div class="card-body"> -->
         <ngb-accordion #acc="ngbAccordion" activeIds="config-panel-1" *ngFor = "let pet of pets | enabled: false; let i=index">
-          <ngb-panel title="{{pet.name}}" id="config-panel-{{i+1}}" (load)="selected = pet">
+          <ngb-panel title="{{pet.name}}" id="config-panel-{{i+1}}">
             <ng-template ngbPanelContent>
               <div class="row gutters-sm"> <!--start bottom right block under user info/edit-->
                 <div class="col-sm-6 mb-3"> <!--start left hand block within lower section-->
@@ -65,8 +65,8 @@
                           </div>
                           <div class="row">
                             <div class="col-sm-12">
-                              <button type="submit" class="btn btn-info btn-lg col-md-5 mb-1" (click)="editPet=pet">Edit</button>
-                              <button class="btn btn-info btn-lg col-md-6 mb-1" style="margin-left: 10px;" (click)="pet.enabled=false">Remove Pet</button>
+                              <button type="button" class="btn btn-info btn-lg col-md-5 mb-1" (click)="editPet=pet">Edit</button>
+                              <button type="button" class="btn btn-info btn-lg col-md-6 mb-1" style="margin-left: 10px;" (click)="petEnable = pet; setEnabled()">Remove Pet</button>
 
                             </div>
                           </div>
@@ -94,7 +94,7 @@
             <div class="card-body p-md-4">
               <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Registration Info</h3>
 
-              <form>
+              <form (ngSubmit)="addPet();regForm=false">
                 <div class="row">
                   <div class="col-md-10 mb-4">
                      <input class="col-10" type="text" name="name" placeholder="Pet Name" [(ngModel)]="newPet.name" required>
@@ -165,7 +165,7 @@
                   </div>
                 </div>
                 <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="addPet();regForm=false">Add Pet</button>
-                <button class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px;" (click)="regForm=false">Cancel</button>
+                <button type="button" class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px;" (click)="regForm=false">Cancel</button>
               </form>
 
             </div>
@@ -189,7 +189,7 @@
             <div class="card-body p-md-4">
               <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Update {{editPet.name}}'s Info</h3>
 
-              <form>
+              <form (ngSubmit)="updatePet();regForm=false">
                 <div class="row">
                   <div class="col-md-10 mb-4">
                      <input class="col-10" type="text" name="name" [(ngModel)]="editPet.name" required>
@@ -259,8 +259,8 @@
                      <input class="col-10" type="text" name="image" [(ngModel)]="editPet.image">
                   </div><br>
                 </div>
-                <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="updatePet(editPet);regForm=false">Update Pet</button>
-                <button class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px;" (click)="editPet=null">Cancel</button>
+                <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="updatePet();regForm=false">Update Pet</button>
+                <button type="button" class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px;" (click)="editPet=null">Cancel</button>
 
               </form>
 
@@ -273,7 +273,7 @@
 </div>
 
 <p>
-  <button type="button" class="btn btn-info btn-lg col-md-4 mb-1 align-items-center text-center " (click)="collapse.toggle()" [attr.aria-expanded]="regForm"
+  <button type="button" class="btn btn-info btn-lg col-md-11 mb-1 align-items-center" style="margin-left: 40px;" (click)="collapse.toggle()" [attr.aria-expanded]="regForm"
     aria-controls="collapseExample">
     Add Another Pet
   </button>

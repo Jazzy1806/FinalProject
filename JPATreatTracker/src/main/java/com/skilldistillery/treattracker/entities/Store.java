@@ -37,6 +37,10 @@ public class Store {
 	@Column(name="logo_url")
 	private String logoUrl;
 	
+	@ManyToOne
+	@JoinColumn(name="user_id")
+	private User user;
+	
 	@JsonIgnore
 	@OneToMany(mappedBy="store")
 	private List<Inventory> inventories;
@@ -148,6 +152,14 @@ public class Store {
 
 	public void setComments(List<StoreComment> comments) {
 		this.comments = comments;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	@Override

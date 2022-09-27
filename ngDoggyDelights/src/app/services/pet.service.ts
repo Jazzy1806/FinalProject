@@ -64,6 +64,17 @@ export class PetService {
     );
   }
 
+  setEnabled(pet: Pet) {
+    return this.http.put<Pet>(this.url + "/" + pet.id, pet, this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('PetService.enabled(): error updating pet: ' + err)
+        );
+      })
+    );
+  }
+
   // destroy(id: number) {
   //   return this.http.delete(this.url + "/" + id, this.getHttpOptions()).pipe(
   //     catchError((err:any) => {

@@ -26,6 +26,39 @@ export class AuthService {
     );
   }
 
+  updateCredentials(user: User) {
+    return this.http.put<User>(this.url + "api/users/credentials/" + user.id, user, this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('AuthService.updateUser(): error updating credentials: ' + err)
+        );
+      })
+    );
+  }
+
+  getHttpOptions() {
+    let options = {
+      headers: {
+        Authorization: 'Basic ' + this.getCredentials(),
+        'X-Requested-With': 'XMLHttpRequest',
+      },
+    };
+    return options;
+  }
+
+  updateUser(user: User) {
+    return this.http.put<User>(this.url + "api/users/" + user.id, user, this.getHttpOptions()).pipe(
+      catchError((err:any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('AuthService.updateUser(): error updating user: ' + err)
+        );
+      })
+    );
+  }
+
+
   login(username: string, password: string): Observable<User> {
     // Make credentials
     const credentials = this.generateBasicAuthCredentials(username, password);

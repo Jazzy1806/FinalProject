@@ -1,159 +1,238 @@
-<!-- <div class="userProfile">
-  <div class="container" *ngIf="loggedInUser">
-    <div class="row">
-      <div class="col-5">
-        <h1>{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h1>
-      </div>
-      <div class="col-1"></div>
-      <div class="col-6">
-        <h1>Your Pets</h1>
-      </div>
-    <div class="row">
-      <div class="col-3">
-        <img id="userImage" [src]="loggedInUser.image"/>
-      </div>
-      <div class="col-2">
-        <ul>
-          <li><label>Username: </label>{{loggedInUser.username}}</li>
-          <li><label>Email: </label>{{loggedInUser.email}}</li>
-          <li *ngIf="loggedInUser.address"><label>Address: </label>{{loggedInUser.address.address}}</li>
-          <li><label>Bio: </label>{{loggedInUser.bio}}</li>
-        </ul>
-      </div>
-      <div class="col-1"></div>
-
-      <div class="col-6" id="petProfile">
-        <div class="col-3">
-            <img [src]="loggedInUser.pets"/>
-          </div>
-          <div class="col-3">
-            <ul>
-              <label>Username: </label><li>{{loggedInUser.username}}</li>
-              <label>Email: </label><li>{{loggedInUser.email}}</li>
-              <label>Address: </label><li *ngIf="loggedInUser.address">{{loggedInUser.address.address}}</li>
-              <label>Bio: </label><li *ngIf="loggedInUser.bio">{{loggedInUser.bio}}</li>
-            </ul>
-          </div>
-      </div>
-      <div class="row">
-        <div class="col-2">
-        </div>
-      </div>
-    </div>
-</div> -->
-
-
 <div class="container">
   <div class="main-body">
-
-        <!-- Breadcrumb Little navbar showing path-->
-        <!-- <nav aria-label="breadcrumb" class="main-breadcrumb">
+    <!-- Breadcrumb Little navbar showing path-->
+    <!-- <nav aria-label="breadcrumb" class="main-breadcrumb">
           <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
             <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
             <li class="breadcrumb-item active" aria-current="page">User Profile</li>
           </ol>
         </nav> -->
-        <!-- /Breadcrumb -->
+    <!-- /Breadcrumb -->
 
-        <div class="row gutters-sm">
-          <div class="col-md-4 mb-3"> <!--left column of profile-->
-            <div class="card">
-              <div class="card-body"> <!--start user info section/left-->
-                <div class="d-flex flex-column align-items-center text-center" *ngIf="loggedInUser">
-                  <img [src]="loggedInUser.image" alt="User Image" id="userImage" />
-                  <div class="mt-3"> <!--start user info below image-->
-                    <h4>{{loggedInUser.firstName}} {{loggedInUser.lastName}}</h4>
-                    <p class="text-secondary mb-1"><strong>({{loggedInUser.username}})</strong></p>
-                    <p *ngIf="loggedInUser.address" class="text-muted font-size-sm">{{loggedInUser.address.address}} <br>
-                      {{loggedInUser.address.city}}, {{loggedInUser.address.state}}</p>
-                    <button class="btn btn-info">Edit</button>
-                    <button class="btn btn-outline-primary">Change Password</button>
+    <div class="row gutters-sm">
+      <div class="col-md-4 mb-3">
+        <!--left column of profile-->
+        <div class="card">
+          <div class="card-body">
+            <!--start user info section/left-->
+            <div class="d-flex flex-column align-items-center text-center" *ngIf="loggedInUser">
+              <img [src]="loggedInUser.image" alt="User Image" id="userImage" />
+              <div class="mt-3">
+                <!--start user info below image-->
+                <h4>
+                  {{ loggedInUser.firstName }} {{ loggedInUser.lastName }}
+                </h4>
+                <p class="text-secondary mb-1">
+                  <strong>({{ loggedInUser.username }})</strong>
+                </p>
+                <p *ngIf="loggedInUser.address" class="text-muted font-size-sm">{{ loggedInUser.address.address }} <br>
+                  {{ loggedInUser.address.city }}, {{ loggedInUser.address.state }}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12 alight-items-center" style="margin-left: 25px">
+                <button type="button" class="btn btn-info btn-lg col-md-4 mb-2" (click)="setNewAddress()">Edit</button>
+                <button type="button" class="btn btn-info btn-lg col-md-6 mb-2" style="margin-left: 10px" (click)="editUser = loggedInUser; credentials = true">Change Password</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card mt-3">
+          <!--start card below user image block-->
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-globe mr-2 icon-inline">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                  </path>
+                </svg>My Store
+              </h6>
+              <span class="text-secondary">www.petsco.com</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-globe mr-2 icon-inline">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                  </path>
+                </svg>Search
+              </h6>
+              <span class="text-secondary">www.DoggieDelights.com</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+              <h6 class="mb-0">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                  class="feather feather-globe mr-2 icon-inline">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z">
+                  </path>
+                </svg>Manage Store
+              </h6>
+              <a href="#store"><span class="text-secondary">My Store</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+
+
+
+
+
+
+      <div class="col-md-8">
+        <!--right had column of profile-->
+        <div class="editUserForm" *ngIf="editUser && !credentials;else cred_form">
+          <section>
+            <div class="container">
+              <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-lg-11 col-xl-11">
+                  <div class="card rounded-2">
+                    <img src="data:image/jpeg;base64,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"
+                      style="border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
+                    <div class="card-body p-md-4">
+                      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">
+                        Update Your Info
+                      </h3>
+
+                      <form (ngSubmit)="updateUser()" *ngIf="newAddress!==null">
+                        <div class="row">
+                          <div class="col-md-3 mb-4">
+                            <label>First Name: </label><br /><br />
+                            <input class="col-10" type="text" name="firstName" placeholder="First Name"
+                              [(ngModel)]="editUser.firstName" required />
+                          </div>
+                          <div class="col-md-3 mb-0">
+                            <label>Last Name: </label><br /><br />
+                            <input class="col-10" type="text" name="lastName" placeholder="Last Name"
+                              [(ngModel)]="editUser.lastName" required />
+                          </div>
+                          <div class="col-md-6 mb-4">
+                            <label>Email: </label><br /><br />
+                            <input class="col-10" type="text" name="email" placeholder="email"
+                              [(ngModel)]="editUser.email" />
+                          </div>
+                        </div>
+                            <div class="row">
+                              <div class="col-md-12 mb-4">
+                                <br /><label>Address: </label><br /><br />
+                                <input class="col-11" type="text" name="address" placeholder="Street Address"
+                                  [(ngModel)]="newAddress.address" />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-4 mb-4">
+                                <input class="col-10" type="text" placeholder="City" name="city"
+                                  [(ngModel)]="newAddress.city" />
+                              </div>
+                              <div class="col-md-4 mb-4">
+                                <input class="col-10" type="text" placeholder="State" name="state"
+                                  [(ngModel)]="newAddress.state" />
+                              </div>
+                              <div class="col-md-3 mb-4">
+                                <input class="col-10" type="text" placeholder="Zip Code" name="postalCode"
+                                  [(ngModel)]="newAddress.postalCode" />
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-6 mb-4">
+                                <br /><label>Phone Number: </label><br /><br />
+                                <input class="col-10" type="text" placeholder="Phone Number" name="phone"
+                                  [(ngModel)]="newAddress.phone" />
+                              </div>
+                            </div>
+                        <!-- </ng-template> -->
+                        <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="updateUser()">
+                          Update
+                        </button>
+                        <button type="button" class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px"
+                          (click)="editUser = null">
+                          Cancel
+                        </button>
+                      </form>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="card mt-3"> <!--start card below user image block-->
-              <ul class="list-group list-group-flush">
-                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>My Store</h6>
-                  <span class="text-secondary">www.petsco.com</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Search</h6>
-                  <span class="text-secondary">www.DoggieDelights.com</span>
-                </li>
-                <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                  <h6 class="mb-0"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-globe mr-2 icon-inline"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>Manage Store</h6>
-                  <a href="#store"><span class="text-secondary">My Store</span></a>
-                </li>
+          </section>
+        </div>
 
-              </ul>
+
+
+
+
+
+        <ng-template #cred_form>
+        <div class="credentialsForm" *ngIf="editUser && credentials; else listPets">
+          <section>
+            <div class="container">
+              <div class="row d-flex justify-content-center align-items-center">
+                <div class="col-lg-11 col-xl-11">
+                  <div class="card rounded-2">
+                    <img
+                      src="data:image/jpeg;base64,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"
+                      style="
+                        border-top-left-radius: 0.3rem;
+                        border-top-right-radius: 0.3rem;
+                      " alt="banner" />
+                    <div class="card-body p-md-4">
+                      <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">
+                        Update Your Login
+                      </h3>
+                      <form (ngSubmit)="updateCredentials()">
+                        <div class="row">
+                          <div class="col-md-3 mb-4">
+                            <label>Username: </label><br /><br />
+                            <input class="col-10" type="text" name="username" placeholder="Username"
+                              [(ngModel)]="editUser.username" required />
+                          </div>
+                          <div class="col-md-3 mb-0">
+                            <label>Password: </label><br /><br />
+                            <input class="col-10" type="password" name="password" placeholder="Password"
+                              [(ngModel)]="editUser.password" required />
+                          </div>
+                        </div>
+                        <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="updateCredentials()">
+                          Update
+                        </button>
+                        <button type="button" class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px"
+                          (click)="editUser = null; credentials = false">
+                          Cancel
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
+          </section>
+        </div>
+        </ng-template>
+
+
+
+
+
+
+        <ng-template #listPets>
+          <div class="card mb-3">
+            <!--top right hand column of profile block-->
+            <app-pet></app-pet>
           </div>
-          <div class="col-md-8"> <!--right had column of profile-->
-            <div class="registrationForm" *ngIf="pets.length <1;else listPets">
+        </ng-template>
 
-            </div>
-              <ng-template #listPets>
-                <div class="card mb-3"> <!--top right hand column of profile block-->
-                    <app-pet></app-pet>
-                  </div>
-                </ng-template>
-
-
-                <!-- <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Full Name</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    Kenneth Valdez
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Email</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    fip@jukmuh.al
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Phone</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    (239) 816-9029
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Mobile</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    (320) 380-4539
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-3">
-                    <h6 class="mb-0">Address</h6>
-                  </div>
-                  <div class="col-sm-9 text-secondary">
-                    Bay Area, San Francisco, CA
-                  </div>
-                </div>
-                <hr>
-                <div class="row">
-                  <div class="col-sm-12">
-                    <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                  </div>
-                </div> -->
-              <!-- </div> -->
-<!--
+        <!--
             <div class="row gutters-sm"> //start bottom right block under user info/edit
               <div class="col-sm-6 mb-3"> //start left hand block within lower section
                 <div class="card h-100">
@@ -210,10 +289,7 @@
                 </div>
               </div>
             </div> -->
-
-
-
-          </div>
-        </div>
-
       </div>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,10 @@
+import { ProductService } from './../../services/product.service';
 import { LoginComponent } from './../login/login.component';
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { StoreService } from 'src/app/services/store.service';
+import { Store } from 'src/app/models/store';
+import { Product } from 'src/app/models/product';
 declare var window:any;
 
 @Component({
@@ -13,11 +17,14 @@ declare var window:any;
 export class HomeComponent implements OnInit {
   closeResult: string = '';
   formModal:any;
+  stores : Store [] | null = null;
+  products: Product[] = [];
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal, private storeService : StoreService, private prodService: ProductService ) { }
 
   ngOnInit(): void {
-
+    this.storeLoad();
+    this.productLoad();
   }
 
   openModal() {
@@ -37,6 +44,35 @@ export class HomeComponent implements OnInit {
     } else {
       return  `with: ${reason}`;
     }
+  }
+
+  storeLoad() {
+    this.storeService.index().subscribe(
+      {
+        next: (stores) => {
+          this.stores = stores;
+        },
+        error: (problem) => {
+          console.error('StoreListHttpComponent.reload(): error loading store list');
+          console.error(problem);
+        }
+      }
+    );
+  }
+
+  productLoad(){
+    this.prodService.index().subscribe({
+      next: (data) => {
+        this.products = data;
+        console.log("list of products "+ this.products);
+
+      },
+      error: (err) => {
+        console.error(
+          'ProductComponent.reload(): error loading products: ' + err
+        );
+      },
+    });
   }
 
 }

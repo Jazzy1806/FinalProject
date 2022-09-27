@@ -53,5 +53,15 @@ class ProductTest {
 		assertNotNull(product);
 		assertTrue(product.getIngredients().size() > 0);
 	}
+	
+	@Test
+	void test_Product_OneToMany_Inventory_mapping() {
+		assertNotNull(product);
+		assertTrue(product.getInventoryItems().size() > 0);
+		System.out.println(product.getInventoryItems());
+		for(Inventory item : product.getInventoryItems()) {
+			System.out.println(item.toString());
+		}
+	}
 
 }
