@@ -1,3 +1,4 @@
+import { MapMarkerComponent } from './components/map-marker/map-marker.component';
 import { ProductComponent } from './components/product/product.component';
 import { PetComponent } from './components/pet/pet.component';
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logout', component: LogoutComponent },
   { path: 'store', component: StoreComponent },
+  { path: 'search', component: MapMarkerComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: UserProfileComponent },
   { path: 'pet', component: PetComponent },
