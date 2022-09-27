@@ -1,3 +1,4 @@
+import { ProductReportComponent } from './../product-report/product-report.component';
 import { ProductReportService } from 'src/app/services/product-report.service';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
@@ -8,19 +9,23 @@ import { ProductReport } from 'src/app/models/product-report';
   selector: 'app-product',
   templateUrl: './product.component.html',
   styleUrls: ['./product.component.css'],
+  providers: [ProductReportComponent]
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [];
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
+
+  newReport: ProductReport | null = null;
   reports: ProductReport[] = [];
 
   showAll: boolean = true;
 
   constructor(
     private prodService: ProductService,
-    private reportService: ProductReportService
+    private reportService: ProductReportService,
+    private reportComp: ProductReportComponent
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +34,10 @@ export class ProductComponent implements OnInit {
 
   displayProduct(product: Product) {
     return product;
+  }
+
+  getNewReport() {
+    return this.reportComp.getProductReport();
   }
 
   getReports(pid: number) {
@@ -66,8 +75,21 @@ export class ProductComponent implements OnInit {
         this.reload();
       },
       error: (err) => {
-        console.error('SongComponent.addSong(): error adding song' + err);
+        console.error('ProductComponent.addProduct(): error adding product' + err);
       },
     });
   }
+
+  addReport(newReport: ProductReport) {
+    this.reportService.create(newReport).subscribe({
+      next: (data) => {
+        this.newReport = {} as ProductReport;
+        this.reload();
+      },
+      error: (err) => {
+        console.error('ProductComponent.addReport(): error creating product report' + err);
+      },
+    });
+  }
+
 }

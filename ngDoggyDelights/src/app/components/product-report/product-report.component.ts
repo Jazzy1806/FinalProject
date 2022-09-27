@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-report.component.css']
 })
 export class ProductReportComponent implements OnInit {
+  prodReport = {} as ProductReport;
   prodReports: ProductReport[] = [];
 
   constructor(private prService: ProductReportService) { }
@@ -16,7 +17,12 @@ export class ProductReportComponent implements OnInit {
     this.reload();
   }
 
-  getAllProducts(){
+  getProductReport() {
+    return this.prodReport;
+  }
+
+
+  getAllProductReports(){
     return this.prodReports;
   }
 
