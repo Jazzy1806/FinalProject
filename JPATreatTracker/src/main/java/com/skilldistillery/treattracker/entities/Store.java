@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class Store {
@@ -41,11 +42,11 @@ public class Store {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@JsonIgnore
+	@JsonIgnoreProperties({"store", "product"})
 	@OneToMany(mappedBy="store")
 	private List<Inventory> inventories;
 	
-	@JsonIgnore
+	@JsonIgnoreProperties({"store", "product", "user"})
 	@OneToMany(mappedBy="store")
 	private List<ProductReport> productReports;
 	

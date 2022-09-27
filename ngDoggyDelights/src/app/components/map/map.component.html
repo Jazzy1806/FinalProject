@@ -15,7 +15,9 @@
                 [zoom]="zoom"
                 (mapClick)="addMarker($event)">
 
-
+                <map-circle [center]="circleCenter"
+                            [radius]="radius">
+                </map-circle>
                <map-marker #marker="mapMarker"
                   *ngFor="let markerPosition of markerPositions"
                   [position]="markerPosition"
@@ -53,7 +55,7 @@
                           </div>
                           <div class="row">
                             <div class="col-md-12 col-lg-12 mb-4">
-                              <br><input type="text" id="lastName" placeholder="Search by location" />
+                              <br><input type="text" size="50" id="searchTextField" placeholder="Search by city or zip code" autocomplete="on" />
                             </div>
                           </div>
                           <div class="row">

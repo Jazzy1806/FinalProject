@@ -62,6 +62,14 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public List<Store> findStoresByProductKeywordSearch(String keyword) {
+		String kw = "%" + keyword + "%";
+		List<Store> stores = storeRepo.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
+		System.out.println(stores.size());
+		return stores;
+	}
+
+	@Override
 	public Store createStore(String username, Store newStore) {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
