@@ -1,7 +1,6 @@
 package com.skilldistillery.treattracker.services;
 
 import java.util.List;
-import java.util.Set;
 
 import com.skilldistillery.treattracker.entities.Breed;
 import com.skilldistillery.treattracker.entities.Diet;

@@ -122,5 +122,11 @@ public class Address {
 		return id == other.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Address [id=" + id + ", address=" + address + ", city=" + city + ", state=" + state + ", postalCode="
+				+ postalCode + ", phone=" + phone + "]";
+	}
+
 
 }

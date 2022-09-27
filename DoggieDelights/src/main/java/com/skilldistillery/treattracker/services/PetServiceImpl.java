@@ -2,7 +2,6 @@ package com.skilldistillery.treattracker.services;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,6 +89,7 @@ public class PetServiceImpl implements PetService{
 					udpatePet.setBirthDate(pet.getBirthDate());
 					udpatePet.setBreeds(pet.getBreeds());
 					udpatePet.setDietNeeds(pet.getDietNeeds());
+					udpatePet.setEnabled(pet.getEnabled());
 					return petRepo.saveAndFlush(udpatePet);
 				}
 			}

@@ -72,6 +72,23 @@ public class AuthServiceImpl implements AuthService {
 				updated.setFirstName(user.getFirstName());
 				updated.setLastName(user.getLastName());
 				updated.setEmail(user.getEmail());
+				Address newAdd;
+				Optional<Address> addOpt = addressRepo.findById(user.getAddress().getId());
+				if (addOpt.isPresent()) {
+					newAdd = addOpt.get();
+					newAdd.setAddress(user.getAddress().getAddress());
+					newAdd.setCity(user.getAddress().getCity());
+					newAdd.setState(user.getAddress().getState());
+					newAdd.setPostalCode(user.getAddress().getPostalCode());
+					newAdd.setPhone(user.getAddress().getPhone());
+					System.out.println(newAdd);
+					System.out.println(addressRepo.saveAndFlush(newAdd));
+				}
+				else {
+					newAdd = addressRepo.saveAndFlush(user.getAddress());
+					System.out.println(newAdd);
+				}
+				updated.setAddress(newAdd);
 				updated.setBio(user.getBio());
 				updated.setImage(user.getImage());
 				return userRepo.saveAndFlush(updated);

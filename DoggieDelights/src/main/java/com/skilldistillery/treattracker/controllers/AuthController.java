@@ -15,7 +15,7 @@ import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.services.AuthService;
 
 @RestController
-@CrossOrigin({ "*", "http://localhost/" })
+@CrossOrigin({ "*", "http://localhost:4205" })
 public class AuthController {
 
 	@Autowired

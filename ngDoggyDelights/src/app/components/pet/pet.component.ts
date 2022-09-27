@@ -1,6 +1,7 @@
+import { EnabledPipe } from './../../pipes/enabled.pipe';
 import { NgbAccordionConfig } from '@ng-bootstrap/ng-bootstrap';
 import { PetService } from 'src/app/services/pet.service';
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Pet } from 'src/app/models/pet';
 import { Diet } from 'src/app/models/diet';
 import { Breed } from 'src/app/models/breed';
@@ -17,6 +18,7 @@ export class PetComponent implements OnInit {
   selected: Pet | null = null;
   newPet: Pet = {} as Pet;
   editPet: Pet | null = null;
+  petEnable: Pet | null = null;
   pets: Pet[] = [];
 
   breed1: any = '';
@@ -31,7 +33,7 @@ export class PetComponent implements OnInit {
   breeds: Breed[] = [];
   diets: Diet[] = [];
 
-  constructor(private petService: PetService, config: NgbAccordionConfig) {
+  constructor(private petService: PetService, config: NgbAccordionConfig, private enabled: EnabledPipe) {
     config.closeOthers = true;
     config.type = 'info';
   }
@@ -40,14 +42,15 @@ export class PetComponent implements OnInit {
     this.getPets();
     this.getBreeds();
     this.getDiets();
-  }
+    }
 
   getPets() {
     this.petService.index().subscribe(
       {
         next: (results) => {
           this.pets = results;
-          if (this.pets.length < 1) {
+          this.pets = this.enabled.transform(this.pets, false);
+          if (this.pets.length === 0) {
             this.regForm = true;
           }
         },
@@ -85,6 +88,22 @@ export class PetComponent implements OnInit {
         }
       }
     );
+  }
+
+  setEnabled() {
+    if (this.petEnable) {
+    this.petEnable.enabled = false;
+    this.petService.setEnabled(this.petEnable).subscribe({
+      next: (result) => {
+        this.petEnable = null;
+        this.getPets();
+        this.regForm = false;
+      },
+      error: (nojoy) => {
+        console.error('PetssHttpComponent.addPet(): error creating pets:' + nojoy);
+      },
+    });
+    }
   }
 
   addPet() {
@@ -136,7 +155,7 @@ export class PetComponent implements OnInit {
     });
   }
 
-  updatePet(pet: Pet) {
+  updatePet() {
     if (this.breed1 !== '') {
       console.log(this.breed1.id + " " + this.breed1.name);
       this.addBreeds.push(this.breed1);
@@ -181,11 +200,10 @@ export class PetComponent implements OnInit {
           this.getPets();
         },
         error: (nojoy) => {
-          console.error('TodosHttpComponent.updateTodo(): error updating todos:' + nojoy);
+          console.error('PetsHttpComponent.updatePet(): error updating pets:' + nojoy);
         },
       });
     }
   }
-
 
 }
