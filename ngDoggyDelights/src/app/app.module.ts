@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -27,6 +28,7 @@ import { EnabledPipe } from './pipes/enabled.pipe';
 import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 
 import { DatePipe } from '@angular/common';
+import { MapComponent } from './components/map/map.component';
 
 
 @NgModule({
@@ -48,6 +50,7 @@ import { DatePipe } from '@angular/common';
     PrevDirective,
     EnabledPipe,
     ProductComponent,
+    MapComponent,
     TopRatedListPipe
   ],
   imports: [
@@ -55,7 +58,8 @@ import { DatePipe } from '@angular/common';
     AppRoutingModule,
     FormsModule,
     NgbModule,
-    HttpClientModule
+    HttpClientModule,
+    GoogleMapsModule
   ],
   providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe],
   bootstrap: [AppComponent]
