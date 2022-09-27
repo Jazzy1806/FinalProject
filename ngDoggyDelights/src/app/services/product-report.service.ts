@@ -67,6 +67,19 @@ export class ProductReportService {
       );
   }
 
+  getReport(pid: number, ): Observable<ProductReport> {
+    return this.http.get<ProductReport>(this.url + '/1/reports/', this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        return throwError(
+          () =>
+            new Error(
+              'ProductReportService.getReports(): error retrieving producReports ' + err
+            )
+        );
+      })
+    );
+  }
+
   getReports(pid: number): Observable<ProductReport[]> {
     return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {

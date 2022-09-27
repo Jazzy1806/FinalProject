@@ -12,7 +12,7 @@
   <!-- *** All Products *** -->
   <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newReport">
     <div class="card" *ngFor="let product of products"
-      (click)="displayProduct(product); detailProduct = product; getReports(product.id) ">
+      (click)="displayProduct(product); detailProduct = product; getReports() ">
       <div class="row card-body vertical-center">
         <div class="col">
           <h4>{{product.name}}</h4>

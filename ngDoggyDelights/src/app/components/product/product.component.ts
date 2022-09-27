@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -40,19 +41,21 @@ export class ProductComponent implements OnInit {
     return this.reportComp.getProductReport();
   }
 
-  getReports(pid: number) {
-    this.reportService.getReports(pid).subscribe({
-      next: (data) => {
-        this.reports = data;
-        console.log(this.reports);
+  getReports() {
+    this.reports = this.reportComp.getReports();
 
-      },
-      error: (err) => {
-        console.error(
-          'ProductComponent.reload(): error loading products: ' + err
-        );
-      },
-    });
+    // this.reportService.getReports(pid).subscribe({
+    //   next: (data) => {
+    //     this.reports = data;
+    //     console.log(this.reports);
+
+    //   },
+    //   error: (err) => {
+    //     console.error(
+    //       'ProductComponent.reload(): error loading products: ' + err
+    //     );
+    //   },
+    // });
   }
 
   reload() {
