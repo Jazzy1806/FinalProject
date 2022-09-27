@@ -23,7 +23,11 @@ import { TestslideComponent } from './components/testslide/testslide.component';
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { EnabledPipe } from './pipes/enabled.pipe';
+
 import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
+
+import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -53,7 +57,7 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
     NgbModule,
     HttpClientModule
   ],
-  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe],
+  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
