@@ -189,7 +189,9 @@ export class StoreComponent implements OnInit {
 
   }
 
-  updateProdInventoryByStore(store: Store, prod: Product, form : NgForm): void {
+  updateProdInventoryByStore(store: Store, prod: Product, form : any): void {
+    console.log("form: "+ form.value.quantity);
+
     this.inventoryByStoreAndProd(store, prod);
     this.updatedInventory.quantity = form.value.quantity;
     this.storeService.updateProdInventoryQuantity(store, prod, this.updatedInventory).subscribe({
@@ -198,7 +200,7 @@ export class StoreComponent implements OnInit {
         this.productsByStore(store);
         this.commentsByStore(store);
         console.log("inside updateProdInventoryByStore component ts");
-
+        //this.updatedInventory = {} as Inventory;
       },
       error: (nojoy) => {
         console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
