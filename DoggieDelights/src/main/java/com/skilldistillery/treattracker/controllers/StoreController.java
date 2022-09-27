@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,6 +76,19 @@ public class StoreController {
 		List<Store> stores = null;
 		try {
 			stores = storeServ.findStoresByKeyword(keyword);
+			System.out.println("inside method controller " + stores);
+		} catch (Exception e) {
+			res.setStatus(400);
+			e.printStackTrace();
+		}
+		return stores;
+	}
+	
+	@GetMapping("stores/search/products/{keyword}")
+	public List<Store> getStoresByProductKeywordSearch(@PathVariable String keyword, HttpServletResponse res) {
+		List<Store> stores = null;
+		try {
+			stores = storeServ.findStoresByProductKeywordSearch(keyword);
 			System.out.println("inside method controller " + stores);
 		} catch (Exception e) {
 			res.setStatus(400);

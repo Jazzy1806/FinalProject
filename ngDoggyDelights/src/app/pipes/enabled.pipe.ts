@@ -19,4 +19,8 @@ export class EnabledPipe implements PipeTransform {
     return results;
   }
 }
+//grab all stores that carry that product, then populate product reports by store, send that through pipe
+//Product report Pipe(Store *will have access to inv and PR[]*, prodID): filter list (find product report by product id) then
+//filter by most recent date, populating single PR with most recent report
+//compare to inventory item date to see which is most recent
 }
