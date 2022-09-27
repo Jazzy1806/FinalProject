@@ -11,122 +11,123 @@ import { Inventory } from 'src/app/models/inventory';
 @Component({
   selector: 'app-store',
   templateUrl: './store.component.html',
-  styleUrls: ['./store.component.css']
+  styleUrls: ['./store.component.css'],
 })
 export class StoreComponent implements OnInit {
-  selected : Store | null = null;
+  selected: Store | null = null;
   // @Output() stores = new EventEmitter<Store []>() ;
-  stores : Store [] | null = null;
-  activeStores: Store [] | null = null;
+  stores: Store[] | null = null;
+  activeStores: Store[] | null = null;
   selectedStore = {} as Store;
   storeName: string | null = '';
-  products: Product [] | null = null;
+  products: Product[] | null = null;
   newComment = {} as StoreComment;
-  storeComments: StoreComment [] | null = null;
-  loggedInUser : any;
+  storeComments: StoreComment[] | null = null;
+  loggedInUser: any;
   selectedProductPrice = 0;
   isCollapsed = true;
   newStore = {} as Store;
   newAddress = {} as Address;
   quantity = 0;
   updatedInventory = {} as Inventory;
+  storeSearch = '';
 
-  constructor(private storeService : StoreService , private authService: AuthService) {}
+  constructor(
+    private storeService: StoreService,
+    private authService: AuthService
+  ) {}
 
   images: string[] = [];
 
-
   ngOnInit(): void {
     this.reload();
-  this.collectLoggedInUser();
-
+    this.collectLoggedInUser();
   }
   collectLoggedInUser() {
-    this.authService.getLoggedInUser().subscribe(
-      {
-        next: (user) => {
-          this.loggedInUser = user;
-          this.newComment.user = this.loggedInUser;
-          console.log("user logged in " + user.username);
-
-        },
-        error: (problem) => {
-          console.error('StoreListHttpComponent.collectLoggedInUser(): error loading user logged in');
-          console.error(problem);
-        }
-      }
-    )
+    this.authService.getLoggedInUser().subscribe({
+      next: (user) => {
+        this.loggedInUser = user;
+        this.newComment.user = this.loggedInUser;
+        console.log('user logged in ' + user.username);
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.collectLoggedInUser(): error loading user logged in'
+        );
+        console.error(problem);
+      },
+    });
   }
   reload() {
-    this.storeService.index().subscribe(
-      {
-        next: (stores) => {
-          console.log("inside reload method");
-          console.log("storecomments is null" + this.storeComments == null);
+    this.storeService.index().subscribe({
+      next: (stores) => {
+        // console.log('inside reload method');
+        // console.log('storecomments is null' + this.storeComments == null);
 
-
-          this.stores = stores;
-          for (let store of stores) {
-            console.log("store" + store.name);
-            this.productsByStore(store);
-            console.log("products " + this.products);
-            console.log("enable status in reload" + store.enabled)
-            if (store.enabled) {
-              this.activeStores?.push(store);
-              console.log("size of active stores: " + this.activeStores?.length);
-
-            }
+        this.stores = stores;
+        for (let store of stores) {
+          console.log('store' + store.name);
+          this.productsByStore(store);
+          console.log('products ' + this.products);
+          console.log('enable status in reload' + store.enabled);
+          if (store.enabled) {
+            this.activeStores?.push(store);
+            console.log('size of active stores: ' + this.activeStores?.length);
           }
-        },
-        error: (problem) => {
-          console.error('StoreListHttpComponent.reload(): error loading store list');
-          console.error(problem);
         }
-      }
-    );
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.reload(): error loading store list'
+        );
+        console.error(problem);
+      },
+    });
   }
   deactivateStore(store: Store) {
     store.enabled = false;
   }
 
-  productsByStore(store : Store){
+  productsByStore(store: Store) {
     this.storeService.productsByStore(store.id).subscribe({
       next: (products) => {
         store.products = products;
         this.products = products;
-        for(let product of this.products) {
-        console.log("inventory length " + product.inventoryItems?.length);
-        console.log("inventory " + product.name);
-      }
+        for (let product of this.products) {
+          console.log('inventory length ' + product.inventoryItems?.length);
+          console.log('inventory ' + product.name);
+        }
 
         console.log(store.products);
       },
       error: (problem) => {
-        console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');
+        console.error(
+          'ProductListHttpComponent.loadProductsByStore(): error loading stock list'
+        );
         console.error(problem);
-      }
-  })
+      },
+    });
   }
 
   commentsByStore(store: Store) {
     this.storeService.commentsByStore(store.id).subscribe({
       next: (comments) => {
         console.log(comments);
-         this.storeComments = comments;
+        this.storeComments = comments;
         this.selectedStore = store;
-        console.log("selected Store " + this.selectedStore.name);
+        console.log('selected Store ' + this.selectedStore.name);
 
-         this.storeName = store.name;
-         for(let comment of comments){
-         }
-
-
+        this.storeName = store.name;
+        for (let comment of comments) {
+        }
       },
       error: (problem) => {
-        console.error('ProductListHttpComponent.loadProductsByStore(): error loading stock list');
+        console.error(
+          'ProductListHttpComponent.loadProductsByStore(): error loading stock list'
+        );
         console.error(problem);
-      }
-  })
+      },
+    });
   }
 
   createStoreComment(store: Store, storeComment: StoreComment): void {
@@ -134,25 +135,28 @@ export class StoreComponent implements OnInit {
       next: (result) => {
         this.newComment = {} as StoreComment;
         this.commentsByStore(store);
-        console.log("inside createStoreComment component ts");
-
+        console.log('inside createStoreComment component ts');
       },
       error: (nojoy) => {
-        console.error('StoreHttpComponent.createStoreComment(): error creating Store comment:');
+        console.error(
+          'StoreHttpComponent.createStoreComment(): error creating Store comment:'
+        );
         console.error(nojoy);
       },
     });
   }
 
-  deleteStoreComment(store: Store, storeCommentId: number){
+  deleteStoreComment(store: Store, storeCommentId: number) {
     this.storeService.destroyStoreComment(store.id, storeCommentId).subscribe({
       next: () => {
-        console.log("comment being deleted " + storeCommentId);
+        console.log('comment being deleted ' + storeCommentId);
 
         this.commentsByStore(store);
       },
       error: (nojoy) => {
-        console.error('StoreHttpComponent.deleteStoreComment(): error deleting store comment:');
+        console.error(
+          'StoreHttpComponent.deleteStoreComment(): error deleting store comment:'
+        );
         console.error(nojoy);
       },
     });
@@ -162,11 +166,12 @@ export class StoreComponent implements OnInit {
     store.enabled = true;
     this.storeService.createStore(store).subscribe({
       next: (result) => {
-        console.log("inside createStorecomponent ts");
-
+        console.log('inside createStorecomponent ts');
       },
       error: (nojoy) => {
-        console.error('StoreHttpComponent.createStore(): error creating store:');
+        console.error(
+          'StoreHttpComponent.createStore(): error creating store:'
+        );
         console.error(nojoy);
       },
     });
@@ -174,37 +179,65 @@ export class StoreComponent implements OnInit {
     this.reload();
   }
 
-  inventoryByStoreAndProd(store: Store, prod: Product):void {
+  inventoryByStoreAndProd(store: Store, prod: Product): void {
     this.storeService.getInventoryByStore(store, prod).subscribe({
       next: (result) => {
         this.updatedInventory = result;
-        console.log("inside inventoryByStoreAndProd component ts");
-
+        console.log('inside inventoryByStoreAndProd component ts');
       },
       error: (nojoy) => {
-        console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
+        console.error(
+          'StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:'
+        );
         console.error(nojoy);
       },
     });
-
   }
 
-  updateProdInventoryByStore(store: Store, prod: Product, form : any): void {
-    console.log("form: "+ form.value.quantity);
+  updateProdInventoryByStore(store: Store, prod: Product, form: any): void {
+    console.log('form: ' + form.value.quantity);
 
     this.inventoryByStoreAndProd(store, prod);
     this.updatedInventory.quantity = form.value.quantity;
-    this.storeService.updateProdInventoryQuantity(store, prod, this.updatedInventory).subscribe({
-      next: (result) => {
-        this.updatedInventory = result;
-        this.productsByStore(store);
-        this.commentsByStore(store);
-        console.log("inside updateProdInventoryByStore component ts");
-        //this.updatedInventory = {} as Inventory;
+    this.storeService
+      .updateProdInventoryQuantity(store, prod, this.updatedInventory)
+      .subscribe({
+        next: (result) => {
+          this.updatedInventory = result;
+          this.productsByStore(store);
+          this.commentsByStore(store);
+          console.log('inside updateProdInventoryByStore component ts');
+          //this.updatedInventory = {} as Inventory;
+        },
+        error: (nojoy) => {
+          console.error(
+            'StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:'
+          );
+          console.error(nojoy);
+        },
+      });
+  }
+
+  searchStore(keyword: string) {
+    this.storeService.searchStore(keyword).subscribe({
+      next: (stores) => {
+        this.stores = stores;
+        for (let store of stores) {
+          console.log('store' + store.name);
+          this.productsByStore(store);
+          // console.log('products ' + this.products);
+          // console.log('enable status in reload' + store.enabled);
+          if (store.enabled) {
+            this.activeStores?.push(store);
+            console.log('size of active stores: ' + this.activeStores?.length);
+          }
+        }
       },
-      error: (nojoy) => {
-        console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
-        console.error(nojoy);
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.reload(): error loading store list'
+        );
+        console.error(problem);
       },
     });
   }

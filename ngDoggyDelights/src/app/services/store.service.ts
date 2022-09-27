@@ -124,4 +124,15 @@ export class StoreService {
       );
      }
 
+     searchStore(keyword: string):Observable<Store[]> {
+      return this.http.get<Store[]>(this.url + '/search/' + keyword + '?sorted=true', this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.log(err);
+          return throwError(
+            () => new Error('StoreService.searchStore(): error retrieving store list by keyword: ' + err)
+          );
+        })
+        );
+      }
+
 }

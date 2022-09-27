@@ -1,6 +1,17 @@
+<main class="">
 <div class="container-fluid">
   <div *ngIf="!storeComments">
-    <p class="d-flex justify-content-end">
+    <div class="row">
+    <div class="d-flex justify-content-end">
+      <form #prodQty = "ngForm" class="form-group mx-sm-3 mb-2">
+        <input type="search" size="25" style="height:32px" class="rounded my-2" name="storeSearch" [(ngModel)]="storeSearch"
+         placeholder="find store" aria-label="Search"
+         aria-describedby="search-addon" />
+         <button type="submit" class="btn btn-sm btn-secondary my-1" (click)="searchStore(storeSearch)">Search</button>
+
+     </form>
+    </div>
+    <p class="d-flex justify-content-start mt-2">
       <button
         type="button"
         class="btn btn-outline-primary"
@@ -11,6 +22,7 @@
         Create Store
       </button>
     </p>
+  </div>
     <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed">
       <div class="card">
         <div class="card-body">
@@ -328,7 +340,7 @@
                     <span style="font-weight: bold">Brand: </span>
                     {{ product.brand }}
                   </li>
-                  <li>Description: {{ product.description }}</li>
+                  <li style="font-size: small;">Description: {{ product.description }}</li>
                   <li>
                     <span style="font-weight: bold">Ingredients:</span>
                     <span *ngFor="let ingredient of product.ingredients">{{
@@ -384,3 +396,4 @@
   <!-- </ngb-carousel> -->
 
 </div>
+</main>

@@ -1,10 +1,13 @@
+main {
+  background-image: url("https://img.freepik.com/free-photo/adorable-white-bulldog-puppy-portrait_53876-64846.jpg?w=1060&t=st=1664270050~exp=1664270650~hmac=30da57291c27b098554723168b3993e7706959c418aec298c8452c18f3e3d602");
+}
 .containers {
   width: 90%;
   margin: 0 auto;
 }
-main, .wrapper {
+/* main, .wrapper {
   position: relative;
-}
+} */
 
 .partners img {
   transition: all .3s ease;
@@ -13,10 +16,10 @@ main, .wrapper {
 .partners img:hover{
   box-shadow: 0 0 10px 1px #dbdbdb;
 }
-
+/*
 .containers {
   position: absolute;
-}
+} */
 
 #top{
   background-color: gray;
