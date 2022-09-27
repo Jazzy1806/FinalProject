@@ -6,6 +6,7 @@ import { Store } from 'src/app/models/store';
 import { Product } from 'src/app/models/product';
 import { AuthService } from 'src/app/services/auth.service';
 import { NgForm } from '@angular/forms';
+import { Inventory } from 'src/app/models/inventory';
 
 @Component({
   selector: 'app-store',
@@ -28,6 +29,7 @@ export class StoreComponent implements OnInit {
   newStore = {} as Store;
   newAddress = {} as Address;
   quantity = 0;
+  updatedInventory = {} as Inventory;
 
   constructor(private storeService : StoreService , private authService: AuthService) {}
 
@@ -172,9 +174,27 @@ export class StoreComponent implements OnInit {
     this.reload();
   }
 
-  updateProdInventoryByStore(store: Store, prod: Product, form : NgForm): void {
-    this.storeService.updateProdInventoryQuantity(store, prod, form.value.quantity).subscribe({
+  inventoryByStoreAndProd(store: Store, prod: Product):void {
+    this.storeService.getInventoryByStore(store, prod).subscribe({
       next: (result) => {
+        this.updatedInventory = result;
+        console.log("inside inventoryByStoreAndProd component ts");
+
+      },
+      error: (nojoy) => {
+        console.error('StoreHttpComponent.updateProdInventoryByStoret(): error updating inventory:');
+        console.error(nojoy);
+      },
+    });
+
+  }
+
+  updateProdInventoryByStore(store: Store, prod: Product, form : NgForm): void {
+    this.inventoryByStoreAndProd(store, prod);
+    this.updatedInventory.quantity = form.value.quantity;
+    this.storeService.updateProdInventoryQuantity(store, prod, this.updatedInventory).subscribe({
+      next: (result) => {
+        this.updatedInventory = result;
         this.productsByStore(store);
         this.commentsByStore(store);
         console.log("inside updateProdInventoryByStore component ts");

@@ -161,19 +161,23 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return price;
 	}
+	
+	@Override
+	public Inventory findInventoryByStoreAndProduct(String username, Store store, Product prod) {
+		Inventory item = inventoryRepo.findByStoreIdAndProductId(store.getId(), prod.getId());
+		return item;
+	}
 
 	@Override
-	public List<Inventory> updateProductInventoryByStore(String username, Store store, Product product, Inventory inventory) {
+	public Inventory updateProductInventoryByStore(String username, Store store, Product product, Inventory inventory) {
 		User user = userRepo.findByUsername(username);
-		List<Inventory> existingInventory = inventoryRepo.findByStoreIdAndProductId(store.getId(), product.getId());
-		Inventory inventoryFound = existingInventory[0];
-		System.out.println(existingInventory.size());
+		Inventory existingInventory = inventoryRepo.findByStoreIdAndProductId(store.getId(), product.getId());
 		if (user != null) {
 			if (inventory.getQuantity() != null ) {
-//				existingInventory.setQuantity(inventory.getQuantity());
-//				System.out.println("inside store service " + inventory.getQuantity());
-//				
-//			System.out.println(inventoryRepo.saveAndFlush(existingInventory));
+				existingInventory.setQuantity(inventory.getQuantity());
+				System.out.println("inside store service " + inventory.getQuantity());
+				
+			System.out.println(inventoryRepo.saveAndFlush(existingInventory));
 			}
 		}
 		return existingInventory;

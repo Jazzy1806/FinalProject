@@ -18,7 +18,8 @@ public interface StoreService {
 	boolean deleteStore( String username, int storeId);
 	 Map<Product, Integer>findProductInventoryByStore(String username,Store store);
 	 Set<Product> findProductsByStore(String username, Store store);
-	List<Inventory> updateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
+	 Inventory findInventoryByStoreAndProduct(String username, Store store, Product prod);
+	Inventory updateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
 	boolean deactivateProductInventoryByStore(String username, Store store, Product prod, Inventory inventory);
 	List<StoreComment> findStoreComments(String username, Store store);
 	StoreComment findStoreCommentById(String username, Store store, int storeComment);

@@ -136,6 +136,7 @@ public class StoreController {
 		}
 		
 	}
+	
 //	PUT  /stores/[storeId}/addresses/{addressId}  update address for store
 //
 //	GET /stores/{storeId}/inventory/{inventoryId}    get specific product list
@@ -166,21 +167,38 @@ public class StoreController {
 		return products;
 		
 	}
-//	PUT /stores/{storeId}/inventory/{inventoryId}    update specific product list
-//	CREATE /stores/{storeId}/inventory/{inventoryId}    add specific product to store => add more inventory to an existing product
-	@PutMapping("stores/{storeId}/product/{prodId}/inventory")
-	public List<Inventory> addProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,  @RequestBody Inventory inventory, Principal principal, HttpServletResponse res) {
+	//retrieve unique inventory based on store and product combination
+	@RequestMapping("stores/{storeId}/product/{prodId}/inventory")
+	public Inventory getInventoryByProductAndStore(@PathVariable int storeId, @PathVariable int prodId, Principal principal, HttpServletResponse res) {
 		Product productToUpdateInventory = prodServ.findById(principal.getName(), prodId);
-		List<Inventory> inventories = null;
 		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		Inventory inventoryFound = null;
 		try {
-		inventories = storeServ.updateProductInventoryByStore( principal.getName(), store, productToUpdateInventory, inventory);
+		inventoryFound = storeServ.findInventoryByStoreAndProduct( principal.getName(), store, productToUpdateInventory);
 			System.out.println();
 		} catch (Exception e) {
 			res.setStatus(400);
 			e.printStackTrace();
 		}
-		return inventories;
+		return inventoryFound;
+
+	}
+	
+	
+	//	PUT /stores/{storeId}/inventory/{inventoryId}    update specific product list
+//	CREATE /stores/{storeId}/inventory/{inventoryId}    add specific product to store => add more inventory to an existing product
+	@PutMapping("stores/{storeId}/product/{prodId}/inventory")
+	public Inventory addProductInventoryByStore(@PathVariable int storeId, @PathVariable int prodId,  @RequestBody Inventory inventory, Principal principal, HttpServletResponse res) {
+		Product productToUpdateInventory = prodServ.findById(principal.getName(), prodId);
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		try {
+		inventory = storeServ.updateProductInventoryByStore( principal.getName(), store, productToUpdateInventory, inventory);
+			System.out.println();
+		} catch (Exception e) {
+			res.setStatus(400);
+			e.printStackTrace();
+		}
+		return inventory;
 
 	}
 //	PUT /stores/{storeId}/inventory/{inventoryId}    deactivate specific product list
