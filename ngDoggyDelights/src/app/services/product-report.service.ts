@@ -41,6 +41,45 @@ export class ProductReportService {
     );
   }
 
+  create(report: ProductReport): Observable<ProductReport> {
+    report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    return this.http.post<ProductReport>(this.baseUrl, report,
+      this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          // console.log(err);
+          return throwError(
+            () => new Error('TodoService.create(): error creating todo: ' + err)
+          );
+        })
+      );
+  }
+
+  update(report: ProductReport) {
+    report.updatedOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    return this.http.put<ProductReport>(this.baseUrl + report.id, report,
+      this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          // console.log(err);
+          return throwError(
+            () => new Error('TodoService.update(): error updating todo: ' + err)
+          );
+        })
+      );
+  }
+
+  getReport(pid: number, ): Observable<ProductReport> {
+    return this.http.get<ProductReport>(this.url + '/1/reports/', this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        return throwError(
+          () =>
+            new Error(
+              'ProductReportService.getReports(): error retrieving producReports ' + err
+            )
+        );
+      })
+    );
+  }
+
   getReports(pid: number): Observable<ProductReport[]> {
     return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
@@ -54,18 +93,4 @@ export class ProductReportService {
     );
   }
 
-
-  update(report: ProductReport) {
-    report.updatedOn = this.datePipe.transform(Date.now(), 'shortDate');
-
-    return this.http.put<ProductReport>(this.baseUrl + report.id, report,
-      this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          // console.log(err);
-          return throwError(
-            () => new Error('TodoService.update(): error updating todo: ' + err)
-          );
-        })
-      );
-  }
 }

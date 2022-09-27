@@ -1,13 +1,18 @@
 <main class="contqainer">
-  <h1 style="text-align: center;">Spec's Selects</h1>
+  <h1 style="text-align: center;">The Specter Selecter</h1>
   showAll
+  showNewReport
+
   newProduct
   editProduct
   detailProduct
 
+  newReport
+
   <!-- *** All Products *** -->
-  <div class="container" *ngIf="!detailProduct">
-    <div class="card" *ngFor="let product of products" (click)="displayProduct(product); detailProduct = product; getReports(product.id) ">
+  <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newReport">
+    <div class="card" *ngFor="let product of products"
+      (click)="displayProduct(product); detailProduct = product; getReports() ">
       <div class="row card-body vertical-center">
         <div class="col">
           <h4>{{product.name}}</h4>
@@ -22,32 +27,59 @@
     </div>
   </div>
 
-  <!-- *** Single Product Detail *** -->
+  <!-- *** Single Product Detail with Reports *** -->
   <div class="container text-center d-flex justify-content-center">
     <div class="row center">
 
-      <div class="card col" *ngIf="detailProduct"><br>
+      <div class="card col" *ngIf="detailProduct && !newReport"><br>
         <img src="{{detailProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
         <div class="card-body">
           <h1 class="card-title">{{detailProduct.name}}</h1>
           <h3 class="card-title">{{detailProduct.brand}}</h3><br>
           <h6 class="card-text">{{detailProduct.description}}</h6><br>
-          <a href="#" class="btn btn-outline-light btn-sm">Edit Details</a>
+          <a href="#" class="btn btn-outline-light btn-sm">Edit Details</a><br>
+          <a href="#" class="btn btn-outline-warning btn-sm">Delete</a>
         </div>
       </div>
 
-      <div class="col" *ngIf="detailProduct">
-
+      <div class="col" *ngIf="detailProduct;">
         <h4>Latest Prices</h4>
-
+        <button (click)="detailProduct = null; newReport = getNewReport(); showAll = false" class="btn btn-outline-light btn-sm">
+          Report a New Price
+        </button><br>
         <div class="card" *ngFor="let report of reports">
           <div class="card-body">
             {{report.price}}
           </div>
         </div>
-
+        <button (click)="detailProduct = null" class="btn btn-outline-light btn-sm">Back</button>
       </div>
     </div>
   </div>
 
+  <!-- *** New Report *** -->
+  <div class="container d-flex justify-content-center" *ngIf="newReport">
+    <div class="row center">
+      <div class="card col" style="width: 25rem;"><br>
+        <form>
+          <div class="mb-3">
+            <label for="priceInput" class="form-label">New Price:</label>
+            <input [(ngModel)]="newReport.price" type="number" class="form-control" id="priceInput" aria-describedby="priceHelp" placeholder="0.00">
+          </div>
+          <div class="mb-3">
+            <label for="remarkInput" class="form-label">Remarks</label>
+            <textarea [(ngModel)]="newReport.remark" class="form-control" id="remarkInput" rows="3"
+              placeholder="Let us know what you thought"></textarea>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="inStockCheck">
+            <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
+          </div>
+          <button [(ngModel)]="newReport.isInStock" type="submit" class="btn btn-primary btn-sm">Submit</button><br><br>
+          <button (click)="detailProduct = editProduct; editProduct = null"
+            class="btn btn-outline-light btn-sm">Back</button>
+        </form>
+      </div>
+    </div>
+  </div>
 </main>
