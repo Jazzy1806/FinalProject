@@ -4,3 +4,8 @@ a {
   font-weight: bold;
   color: indigo;
 }
+
+.container-fluid{
+  padding-left:0px;
+  padding-right:0px
+}
