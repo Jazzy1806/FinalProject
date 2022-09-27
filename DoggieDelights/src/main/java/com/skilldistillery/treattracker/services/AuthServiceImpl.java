@@ -96,6 +96,33 @@ public class AuthServiceImpl implements AuthService {
 		}
 		return updated;
 	}
+	
+///*
+// * Map<Map<productId,price>, address>
+// * List<Product> findProdBykeyword
+//	List<Store>
+//	for (Store store : Store) {
+//	for Product prod : store.getProducts{
+//	if prod.name contain keyword
+//		most recent Price = getproductReportByProdId
+	
+	// Map.put(prod, most recentprice)}
+	
+// * Map 
+//	}
+// * List<Address> addresses
+// * for (Store store : Store){
+// * 	addresses.push (store.getAddress())
+//	Map <ProductId, Price> map1
+// * 
+//	
+// * List<Product> products index from product table
+//
+// * for (Product prod : Prod){
+//		map1.setke
+	
+//
+// * */
 
 	@Override
 	public boolean deactivateUser(int userId, Principal principal) {

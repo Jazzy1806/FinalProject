@@ -1,13 +1,21 @@
 <main class="h-100">
-  <div>
-    <h1>Pups deserve the best</h1>
-    <!-- <button type ="submit" class="btn btn-lg btn-outline-primary" (click)="openModal()">Login</button> -->
+  <div id="greeting" class="row h-25">
+    <!-- <h1>Pups deserve the best</h1> -->
+    <div class="col mr-0">
+    <img style="height:300px;width: 100%;" src="https://img.freepik.com/premium-photo/word-food-question-mark-made-dry-cat-dog-food-pet-care-veterinary-concept_573550-414.jpg?w=900">
   </div>
+    <!-- <button type ="submit" class="btn btn-lg btn-outline-primary" (click)="openModal()">Login</button> -->
+    <div class="col mr-0">
+      <img style="height:300px;width: 100%;" src="https://img.freepik.com/premium-photo/word-eat-question-mark-made-dry-food-with-empty-bowl-pet-care-veterinary-concept_573550-418.jpg?w=900">
+    </div>
+  </div>
+  <div class="text-center" style="font-family: Papyrus; font-size: 100px;">WE GOT YOU!</div>
   <div class="wrapper">
     <div class="row w-100" id="top"></div>
     <div class="row w-100" id="bottom"></div>
   </div>
   <div id="bodyContent">
+    <h2>Top rated stores</h2>
     <div *ngIf="stores" class="my-5 text-center">
       <div class="card-columns mr-auto mt-4">
         <div class="row">
