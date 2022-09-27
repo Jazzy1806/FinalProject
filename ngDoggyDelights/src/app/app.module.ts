@@ -29,7 +29,6 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
-import { MapMarkerComponent } from './components/map-marker/map-marker.component';
 
 
 @NgModule({
@@ -52,7 +51,6 @@ import { MapMarkerComponent } from './components/map-marker/map-marker.component
     EnabledPipe,
     ProductComponent,
     MapComponent,
-    MapMarkerComponent,
     TopRatedListPipe
   ],
   imports: [
