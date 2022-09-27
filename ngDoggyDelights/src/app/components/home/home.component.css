@@ -1,5 +1,6 @@
 main {
-  background-image: url("https://img.freepik.com/free-photo/adorable-white-bulldog-puppy-portrait_53876-64846.jpg?w=1060&t=st=1664270050~exp=1664270650~hmac=30da57291c27b098554723168b3993e7706959c418aec298c8452c18f3e3d602");
+  /* background-image: url("https://img.freepik.com/free-photo/adorable-white-bulldog-puppy-portrait_53876-64846.jpg?w=1060&t=st=1664270050~exp=1664270650~hmac=30da57291c27b098554723168b3993e7706959c418aec298c8452c18f3e3d602"); */
+  background-color: white;
 }
 .containers {
   width: 90%;
