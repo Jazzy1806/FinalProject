@@ -4,3 +4,8 @@ a {
   font-weight: bold;
   color: indigo;
 }
+
+footer{
+  height: 130px;
+   font-family: 'Open Sans', sans-serif;
+}

@@ -23,7 +23,11 @@ import { TestslideComponent } from './components/testslide/testslide.component';
 import { NextDirective } from './next.directive';
 import { PrevDirective } from './prev.directive';
 import { EnabledPipe } from './pipes/enabled.pipe';
+
+import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
+
 import { DatePipe } from '@angular/common';
+
 
 @NgModule({
   declarations: [
@@ -43,7 +47,8 @@ import { DatePipe } from '@angular/common';
     NextDirective,
     PrevDirective,
     EnabledPipe,
-    ProductComponent
+    ProductComponent,
+    TopRatedListPipe
   ],
   imports: [
     BrowserModule,

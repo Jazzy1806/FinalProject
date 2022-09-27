@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { StoreComment } from '../models/store-comment';
+import { Inventory } from '../models/inventory';
 
 @Injectable({
   providedIn: 'root'
@@ -100,5 +101,27 @@ export class StoreService {
         })
       );
     }
+
+    getInventoryByStore(store:Store, product : Product):Observable<Inventory> {
+      return this.http.get<Inventory>(this.url + "/" + store.id + "/product/" + product.id +"/inventory", this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
+          );
+        })
+      );
+     }
+
+     updateProdInventoryQuantity(store: Store, product : Product, inventory : Inventory): Observable<Inventory> {
+      return this.http.put<Inventory>(this.url + "/" + store.id + "/product/" + product.id +"/inventory" ,inventory, this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
+          );
+        })
+      );
+     }
 
 }

@@ -2,22 +2,21 @@ package com.skilldistillery.treattracker.entities;
 
 import java.util.Objects;
 
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapsId;
 
 @Entity
 public class Inventory {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@EmbeddedId
+	private InventoryId id;
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")
+	@MapsId(value="storeId")
 	private Store store;
 	
 	private Double price;
@@ -26,23 +25,24 @@ public class Inventory {
 
 	@ManyToOne
 	@JoinColumn(name="product_id")
+	@MapsId(value="productId")
 	private Product product;
 	
 	private Boolean enabled;
 	
-	
-
 	public Inventory() {
 	
 	}
 
-	public int getId() {
+	public InventoryId getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+
+	public void setId(InventoryId id) {
 		this.id = id;
 	}
+
 
 	public Store getStore() {
 		return store;
@@ -86,7 +86,7 @@ public class Inventory {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		return Objects.hash(product, store);
 	}
 
 	@Override
@@ -98,7 +98,13 @@ public class Inventory {
 		if (getClass() != obj.getClass())
 			return false;
 		Inventory other = (Inventory) obj;
-		return id == other.id;
+		return Objects.equals(product, other.product) && Objects.equals(store, other.store);
+	}
+
+	@Override
+	public String toString() {
+		return "Inventory [itore=" + store + ", price=" + price + ", quantity=" + quantity + ", product="
+				+ product + ", enabled=" + enabled + "]";
 	}
 
 
