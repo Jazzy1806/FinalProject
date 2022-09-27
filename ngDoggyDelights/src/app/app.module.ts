@@ -30,6 +30,8 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
 import { UserComponent } from './components/user/user.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
 
 
 @NgModule({
@@ -61,7 +63,9 @@ import { UserComponent } from './components/user/user.component';
     FormsModule,
     NgbModule,
     HttpClientModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    BrowserAnimationsModule,
+    MatIconModule
   ],
   providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe],
   bootstrap: [AppComponent]

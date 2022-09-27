@@ -73,6 +73,8 @@ public class StoreServiceImpl implements StoreService {
 	public Store createStore(String username, Store newStore) {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
+			newStore.setUser(user);
+			user.addStoreToUser(newStore);
 			Address address = newStore.getAddress();
 			addressRepo.saveAndFlush(address);
 			newStore.setEnabled(true);

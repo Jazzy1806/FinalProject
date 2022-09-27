@@ -1,18 +1,31 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
+
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
+
+// const MaterialComponents = [
+//   MatIconModule
+// ];
+
+// // @NgModule({
+// //   imports : [MaterialComponents],
+// //   exports: [MaterialComponents]
+// // })
+
+
 export class NavbarComponent implements OnInit {
   loggedInUser : User | null = null;
 
   constructor(private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.collectLoggedInUser();
   }
 
   loggedIn() {
