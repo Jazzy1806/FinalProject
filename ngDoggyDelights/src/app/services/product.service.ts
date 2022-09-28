@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
 import { AuthService } from './auth.service';
 import { DatePipe } from '@angular/common';
+import { Store } from '../models/store';
 
 @Injectable({
   providedIn: 'root',
