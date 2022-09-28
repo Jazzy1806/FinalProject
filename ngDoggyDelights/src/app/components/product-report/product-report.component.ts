@@ -18,7 +18,7 @@ export class ProductReportComponent implements OnInit {
     private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.reload();
+    // this.reload();
     this.getLoggedInUser();
   }
 

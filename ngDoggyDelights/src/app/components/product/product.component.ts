@@ -13,15 +13,14 @@ import { AuthService } from 'src/app/services/auth.service';
   providers: [ProductReportComponent]
 })
 export class ProductComponent implements OnInit {
+  showAll: boolean = true;
+  loggedInUser: any;
   products: Product[] = [];
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
   newReport: ProductReport | null = null;
   reports: ProductReport[] = [];
-  showAll: boolean = true;
-  showDetail: boolean = false;
-  loggedInUser: any;
 
   constructor(
     private prodService: ProductService,
@@ -70,10 +69,12 @@ export class ProductComponent implements OnInit {
   addReport(report: ProductReport) {
     this.reportComp.addReport(report);
     this.newReport = this.reportComp.getNewReport();
+    this.reload();
   }
 
   getReports() {
     this.reports = this.reportComp.getAllReports();
+    return this.reports;
   }
 
   getProductReports(pid: number) {
@@ -83,8 +84,8 @@ export class ProductComponent implements OnInit {
 
   reload() {
     this.prodService.index().subscribe({
-      next: (data) => {
-        this.products = data;
+      next: (products) => {
+        this.products = products;
       },
       error: (err) => {
         console.error(
@@ -106,8 +107,10 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  updateProduct(editProduct: Product) {
-    this.prodService.update(editProduct).subscribe({
+  updateProduct(product: Product) {
+    // console.log(product);
+
+    this.prodService.update(product).subscribe({
       next: (data) => {
         this.editProduct = null;
         this.reload();
@@ -120,7 +123,7 @@ export class ProductComponent implements OnInit {
 
   disableProduct(product: Product) {
     product.enabled = 0;
-    console.log(product);
+    // console.log(product);
 
     this.prodService.update(product).subscribe({
       next: (data) => {
