@@ -30,8 +30,12 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
 import { UserComponent } from './components/user/user.component';
+
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
+
+import { ProdRepPipe } from './pipes/prod-rep.pipe';
+
 
 
 @NgModule({
@@ -55,7 +59,8 @@ import { MatIconModule } from '@angular/material/icon';
     ProductComponent,
     MapComponent,
     TopRatedListPipe,
-    UserComponent
+    UserComponent,
+    ProdRepPipe
   ],
   imports: [
     BrowserModule,
@@ -68,7 +73,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatIconModule,
     ReactiveFormsModule
   ],
-  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe],
+  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe, ProdRepPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

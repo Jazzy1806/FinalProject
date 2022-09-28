@@ -15,6 +15,9 @@ export class Product {
   inventoryItems: Inventory[] | null;
   dateCreated: string | null;
   dateUpdated: string | null;
+  enabled: number = 1;
+  // dateCreated: Date | null;
+  // dateUpdated: Date | null;
 
   constructor(
     id: number = 0,
@@ -27,7 +30,10 @@ export class Product {
     comments: ProductComment[] = [],
     inventoryItems: Inventory[] = [],
     dateCreated: string = '',
-    dateUpdated: string = ''
+    dateUpdated: string = '',
+    enabled: number = 1
+    // dateCreated: Date,
+    // dateUpdated: Date
   ) {
     this.id = id;
     this.name = name;

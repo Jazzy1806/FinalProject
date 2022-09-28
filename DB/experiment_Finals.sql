@@ -269,6 +269,8 @@ CREATE TABLE IF NOT EXISTS `inventory` (
   `price` DECIMAL(5,3) NULL,
   `quantity` INT NULL,
   `enabled` TINYINT NULL,
+  `created_on` TIMESTAMP NULL,
+  `updated_on` TIMESTAMP NULL,
   PRIMARY KEY (`store_id`, `product_id`),
   INDEX `fk_inventory_store1_idx` (`store_id` ASC),
   INDEX `fk_inventory_product1_idx` (`product_id` ASC),
@@ -642,16 +644,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 1, 12.99, 10, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (2, 2, 25.45, 12, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (3, 3, 10.99, 13, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 4, 11.99, 14, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 5, 8.99, 15, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 6, 15.99, 16, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 7, 32.50, 17, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 8, 12.99, 18, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 9, 13.99, 19, 1);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`) VALUES (1, 10, 14.99, 20, 1);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 1, 12.99, 10, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (2, 2, 25.45, 12, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (3, 3, 10.99, 13, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 4, 11.99, 14, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 5, 8.99, 15, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 6, 15.99, 16, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 7, 32.50, 17, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 8, 12.99, 18, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 9, 13.99, 19, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 10, 14.99, 20, 1, NULL, NULL);
 
 COMMIT;
 

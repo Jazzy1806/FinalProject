@@ -1,11 +1,10 @@
 main {
-  background-color: rgb(96, 110, 255);
-  color: white;
+  background-color: rgb(200, 207, 236);
 }
 
 .card {
   margin-bottom: 3px;
-  background-color: rgb(107, 30, 238);
+  background-color: rgba(174, 138, 231, 0.255);
 }
 
 .thumbnail {

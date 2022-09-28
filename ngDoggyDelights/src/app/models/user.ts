@@ -11,7 +11,7 @@ export class User {
   username: string = '';
   password: string = '';
   enabled: boolean | null;
-  dateCreated: Date;
+  dateCreated: Date | null;
   dateUpdated: Date | null;
   role: string = '';
   bio: string = '';

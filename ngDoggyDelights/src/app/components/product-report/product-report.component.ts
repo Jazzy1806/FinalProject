@@ -8,27 +8,48 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-report.component.css']
 })
 export class ProductReportComponent implements OnInit {
-  prodReports: ProductReport[] = [];
+  report = {} as ProductReport;
+  reports: ProductReport[] = [];
+  newReport: ProductReport | null = null;
 
-  constructor(private prService: ProductReportService) { }
+  constructor(private reportService: ProductReportService) { }
 
   ngOnInit(): void {
     this.reload();
   }
 
-  getAllProducts(){
-    return this.prodReports;
+  getReport() {
+    return this.report;
+  }
+
+  getNewReport() {
+    return this.newReport;
+  }
+
+  getReports() {
+    return this.reports;
   }
 
   reload() {
-    this.prService.index().subscribe({
+    this.reportService.index().subscribe({
       next: (data) => {
-        this.prodReports = data;
+        this.reports = data;
       },
       error: (err) => {
-        console.error('ProductComponent.reload(): error loading products: ' + err);
+        console.error('ProductReportComponent.reload(): error loading reports: ' + err);
       },
     });
   }
 
+  addReport(newReport: ProductReport) {
+    this.reportService.create(newReport).subscribe({
+      next: (data) => {
+        this.newReport = {} as ProductReport;
+        this.reload();
+      },
+      error: (err) => {
+        console.error('ProductReportComponent.addReport(): error creating product report' + err);
+      },
+    });
+  }
 }

@@ -41,31 +41,60 @@ export class ProductReportService {
     );
   }
 
-  getReports(pid: number): Observable<ProductReport[]> {
-    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
+  create(report: ProductReport): Observable<ProductReport> {
+    // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    console.log(report);
+
+    // return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
+    report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
+    return this.http.post<ProductReport>(this.baseUrl, report,
+      this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          // console.log(err);
+          return throwError(
+            () => new Error('ProductReportService.create(): error creating report: ' + err)
+          );
+        })
+      );
+  }
+
+  update(report: ProductReport) {
+    report.updatedOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
+    return this.http.put<ProductReport>(this.baseUrl + report.id, report,
+      this.getHttpOptions()).pipe(
+        catchError((err: any) => {
+          // console.log(err);
+          return throwError(
+            () => new Error('ProductReportService.update(): error updating report: ' + err)
+          );
+        })
+      );
+  }
+
+  getReport(pid: number, ): Observable<ProductReport> {
+    return this.http.get<ProductReport>(this.url + '/1/reports/', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
             new Error(
-              'ProductReportService.getReports(): error retrieving producReports ' + err
+              'ProductReportService.getReport(): error retrieving reports ' + err
             )
         );
       })
     );
   }
 
-
-  update(report: ProductReport) {
-    report.updatedOn = this.datePipe.transform(Date.now(), 'shortDate');
-
-    return this.http.put<ProductReport>(this.baseUrl + report.id, report,
-      this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          // console.log(err);
-          return throwError(
-            () => new Error('TodoService.update(): error updating todo: ' + err)
-          );
-        })
-      );
+  getReports(pid: number): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        return throwError(
+          () =>
+            new Error(
+              'ProductReportService.getReports(): error retrieving reports ' + err
+            )
+        );
+      })
+    );
   }
+
 }
