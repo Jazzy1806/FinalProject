@@ -42,11 +42,11 @@ public class Store {
 	@JoinColumn(name="user_id")
 	private User user;
 	
-	@JsonIgnoreProperties({"store", "product"})
+	@JsonIgnoreProperties({"store"})
 	@OneToMany(mappedBy="store")
 	private List<Inventory> inventories;
 	
-	@JsonIgnoreProperties({"store", "product", "user"})
+	@JsonIgnoreProperties({"store", "user"})
 	@OneToMany(mappedBy="store")
 	private List<ProductReport> productReports;
 	
