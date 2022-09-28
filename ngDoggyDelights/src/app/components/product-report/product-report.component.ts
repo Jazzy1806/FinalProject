@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProductReportComponent implements OnInit {
   report = {} as ProductReport;
   reports: ProductReport[] = [];
+  newReport: ProductReport | null = null;
 
   constructor(private reportService: ProductReportService) { }
 
@@ -17,8 +18,12 @@ export class ProductReportComponent implements OnInit {
     this.reload();
   }
 
-  getProductReport() {
+  getReport() {
     return this.report;
+  }
+
+  getNewReport() {
+    return this.newReport;
   }
 
   getReports() {
@@ -36,4 +41,15 @@ export class ProductReportComponent implements OnInit {
     });
   }
 
+  addReport(newReport: ProductReport) {
+    this.reportService.create(newReport).subscribe({
+      next: (data) => {
+        this.newReport = {} as ProductReport;
+        this.reload();
+      },
+      error: (err) => {
+        console.error('ProductReportComponent.addReport(): error creating product report' + err);
+      },
+    });
+  }
 }
