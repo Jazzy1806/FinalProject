@@ -4,8 +4,8 @@ import { User } from "./user";
 
 export class ProductReport {
   id: number;
-  createdOn: string;
-  updatedOn: string;
+  createdOn: Date | null;
+  updatedOn: Date | null;
   userQuantity: number; //do we want this to be low-normal-high???
   price: number;
   isInStock: boolean;
@@ -16,8 +16,8 @@ export class ProductReport {
 
   constructor(
     id: number = 0,
-    createdOn: string = '',
-    updatedOn: string = '',
+    createdOn: Date,
+    updatedOn: Date,
     userQuantity: number = 0,
     price: number = 0,
     isInStock: boolean = true,

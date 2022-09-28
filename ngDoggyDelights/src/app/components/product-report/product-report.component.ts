@@ -8,9 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-report.component.css']
 })
 export class ProductReportComponent implements OnInit {
-  report = new ProductReport();
+  report = {} as ProductReport;
   reports: ProductReport[] = [];
-  newReport = new ProductReport();
+  newReport: ProductReport | null = null;
 
   constructor(private reportService: ProductReportService) { }
 

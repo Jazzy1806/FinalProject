@@ -16,6 +16,8 @@ export class Product {
   dateCreated: string | null;
   dateUpdated: string | null;
   enabled: number = 1;
+  // dateCreated: Date | null;
+  // dateUpdated: Date | null;
 
   constructor(
     id: number = 0,
@@ -30,6 +32,8 @@ export class Product {
     dateCreated: string = '',
     dateUpdated: string = '',
     enabled: number = 1
+    // dateCreated: Date,
+    // dateUpdated: Date
   ) {
     this.id = id;
     this.name = name;

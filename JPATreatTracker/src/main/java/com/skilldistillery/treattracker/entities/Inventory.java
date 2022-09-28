@@ -1,12 +1,17 @@
 package com.skilldistillery.treattracker.entities;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
+import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 public class Inventory {
@@ -22,6 +27,14 @@ public class Inventory {
 	private Double price;
 	
 	private Integer quantity;
+	
+	@CreationTimestamp
+	@Column(name = "created_on")
+	private LocalDateTime createdOn;
+
+	@UpdateTimestamp
+	@Column(name = "updated_on")
+	private LocalDateTime updatedOn;
 
 	@ManyToOne
 	@JoinColumn(name="product_id")
@@ -82,6 +95,23 @@ public class Inventory {
 
 	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
+	}
+	
+
+	public LocalDateTime getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(LocalDateTime createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public LocalDateTime getUpdatedOn() {
+		return updatedOn;
+	}
+
+	public void setUpdatedOn(LocalDateTime updatedOn) {
+		this.updatedOn = updatedOn;
 	}
 
 	@Override

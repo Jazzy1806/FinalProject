@@ -60,6 +60,15 @@ export class ProductService {
         // console.log(err);
         return throwError(
           () => new Error('ProductService.update(): error updating product: ' + err)
+          );
+      })
+    );
+  }
+  findByKeyword(keyword: string): Observable<Product[]> {
+    return this.http.get<Product[]>(this.url + "keyword/" + keyword, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        return throwError(
+          () => new Error('ProductService.findByKeyword(): error finding product: ' + err)
         );
       })
     );

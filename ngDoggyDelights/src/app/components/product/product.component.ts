@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
+// import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',

@@ -11,4 +11,6 @@ public interface StoreRepository extends JpaRepository<Store, Integer> {
 	List<Store> findByNameContains(String keyword);
 	
 	List<Store> findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(String prodName, String brand, String desc);
+
+	List<Store> findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(String prodName, String brand, String desc);
 }

@@ -45,7 +45,10 @@ export class ProductReportService {
     // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
     console.log(report);
 
-    return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
+    // return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
+    report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
+    return this.http.post<ProductReport>(this.baseUrl, report,
+      this.getHttpOptions()).pipe(
         catchError((err: any) => {
           // console.log(err);
           return throwError(
@@ -56,7 +59,7 @@ export class ProductReportService {
   }
 
   update(report: ProductReport) {
-    report.updatedOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    report.updatedOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
     return this.http.put<ProductReport>(this.baseUrl + report.id, report,
       this.getHttpOptions()).pipe(
         catchError((err: any) => {
