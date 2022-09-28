@@ -8,18 +8,18 @@ export class Inventory {
   store: Store;
   product: Product;
   enabled: boolean;
-  dateCreated: Date | null;
-  dateUpdated: Date | null;
+  createdOn: Date | null;
+  updatedOn: Date | null;
 
   constructor(id: number, price: number, quantity: number, enabled: boolean, store: Store, product: Product,
-    dateCreated: Date, dateUpdated: Date) {
+    createdOn: Date, updatedOn: Date) {
     this.id = id;
     this.price = price;
     this.quantity = quantity;
     this.store = store;
     this.product = product;
     this.enabled = enabled;
-    this.dateCreated = dateCreated;
-    this.dateUpdated = dateUpdated;
+    this.createdOn = createdOn;
+    this.updatedOn = updatedOn;
   }
 }

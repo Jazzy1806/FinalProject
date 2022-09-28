@@ -9,72 +9,124 @@ import { Store } from '../models/store';
 })
 export class ProdRepPipe implements PipeTransform {
 
-  prodResults: Product[] = [];
   mostRecentProdUpdates: Inventory[] = [];
   mostRecentProdReports: ProductReport[] = [];
-  mostRecentUpdate: Inventory = {} as Inventory;
+
+  mostRecentInv: Inventory = {} as Inventory;
+  mostRecentPR: ProductReport = {} as ProductReport;
 
   updatesByDate: any[] = [];
 
-  transform(products: Product[]): any[]  {
+  transform(products: Product[], storesWithProduct: Store[]): any[]  {
+    const hasValues: any = (obj: any) => Object.values(obj).some(v => v !== null && typeof v !== "undefined");
+
     if (products.length > 0) {
     let counter: number = 0;
-
-    for (let p of products) {
-      if (p.inventoryItems !== null) {
-        for (let i of p.inventoryItems) {
-          if (counter === 0) {
-            this.mostRecentUpdate = i;
-          }
-          else {
-            if (i.dateCreated !== null && this.mostRecentUpdate.dateCreated !== null) {
-              if (i.dateCreated > this.mostRecentUpdate.dateCreated) {
-                this.mostRecentUpdate = i;
-              }
-            }
-            else if (this.mostRecentUpdate.dateCreated === null) {
-              this.mostRecentUpdate = i;
-            }
-          }
-        }
-      }
-      counter += 1;
-      this.mostRecentProdUpdates?.push(this.mostRecentUpdate);
-    }
-
-
-    counter = 0;
-    let update = 0;
-
+    let prUpdate: number = 0;
 
 
     for (let p of products) {
-      if (p.reports !== null) {
-        for (let r of p.reports) {
-          for (let i of this.mostRecentProdUpdates) {
-            if (i.product.id === r.product.id) {
-              update +=1;
-              if (r.createdOn !== null && i.dateCreated !== null) {
-                if (r.createdOn > i.dateCreated) {
-                  this.mostRecentProdReports.push(r);
+      for (let s of storesWithProduct) {
+        console.log("Store: ", s);
+        if (s.inventories !== null) {
+          console.log("Store inventory: ", s.inventories);
+        for (let i of s.inventories) {
+          console.log("Inv Item in loop: ", i);
+          if (p.id === i.product.id && i.createdOn !== null) {
+            if (counter === 0) {
+              console.log("Inv Item after ID match: ", i);
+              this.mostRecentInv = i;
+              console.log("Most recent first entry: ", this.mostRecentInv);
+              counter += 1;
+            }
+            else {
+              if (i.createdOn !== null && this.mostRecentInv.createdOn !== null) {
+                if (i.createdOn > this.mostRecentInv.createdOn) {
+                  this.mostRecentInv = i;
+                  console.log("Most recent after date eval: ", this.mostRecentInv);
+                  counter += 1;
                 }
               }
             }
           }
-          if (update === 0) {
-            this.mostRecentProdReports.push(r);
-          }
-          update = 0;
+        }
 
+        counter = 0;
+
+        if (this.mostRecentInv !== null && hasValues(this.mostRecentInv)) {
+          if (this.mostRecentInv.product?.reports !== null && hasValues(this.mostRecentInv.product?.reports)) {
+            for (let r of this.mostRecentInv.product.reports) {
+              console.log("Product report inside date comp loop: ", r);
+                if (r.createdOn !== null && this.mostRecentInv.createdOn !== null) {
+                  if (prUpdate === 0) {
+                    if (r.createdOn > this.mostRecentInv.createdOn) {
+                      this.mostRecentPR = r;
+                      console.log("Most recent PR after date eval: ", this.mostRecentPR);
+                      prUpdate = 1;
+                    }
+                  }
+                  else if (prUpdate === 1) {
+                    if (r.createdOn !== null && this.mostRecentPR.createdOn !== null) {
+                      if (r.createdOn > this.mostRecentPR.createdOn) {
+                        this.mostRecentPR = r;
+                        console.log("Most recent PR after date eval: ", this.mostRecentPR);
+                      }
+                    }
+                  }
+                }
+            }
+          }
+        }
+          else { //if mostREcentIV is null/undefined- still run the loop
+              console.log("Store: ", s);
+              if (s.productReports !== null) {
+                console.log("Store reports: ", s.productReports);
+              for (let r of s.productReports) {
+                console.log("Prod Rep in loop: ", r);
+                if (p.id === r.product.id && r.createdOn !== null) {
+                  if (counter === 0) {
+                    console.log("Prod Rep after ID match: ", r);
+                    this.mostRecentPR = r;
+                    console.log("Most recent first entry: ", this.mostRecentPR);
+                    counter += 1;
+                  }
+                  else {
+                    if (r.createdOn !== null && this.mostRecentPR.createdOn !== null) {
+                      if (r.createdOn > this.mostRecentPR.createdOn) {
+                        this.mostRecentPR = r;
+                        console.log("Most recent after date eval: ", this.mostRecentPR);
+                        counter += 1;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        if (prUpdate === 1) {
+          this.mostRecentInv = {} as Inventory;
+          if (this.mostRecentPR !== null && hasValues(this.mostRecentPR)) {
+            this.mostRecentProdReports.push(this.mostRecentPR);
+            this.mostRecentPR = {} as ProductReport;
+          }
+        }
+
+        if (this.mostRecentInv !== null && hasValues(this.mostRecentInv)) {
+          this.mostRecentProdUpdates.push(this.mostRecentInv);
+          this.mostRecentInv = {} as Inventory;
+        }
         }
       }
+
     }
-      this.updatesByDate =this.mostRecentProdUpdates;
-      for (let e of this.mostRecentProdReports) {
-        this.updatesByDate.push(e);
-      }
-      return this.updatesByDate;
-    }
-    return products;
-}
+  }
+
+  if (this.mostRecentProdUpdates.length > 0) {
+    this.updatesByDate.push(this.mostRecentProdUpdates);
+  }
+  if (this.mostRecentProdReports.length > 0) {
+    this.updatesByDate.push(this.mostRecentProdReports);
+  }
+  return this.updatesByDate;
+  }
 }
