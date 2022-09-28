@@ -1,10 +1,8 @@
 import { ProductReportComponent } from './../product-report/product-report.component';
-import { ProductReportService } from 'src/app/services/product-report.service';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -25,37 +23,34 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private prodService: ProductService,
-    private reportService: ProductReportService,
     private reportComp: ProductReportComponent
   ) {}
 
   ngOnInit(): void {
     this.reload();
+    this.reportComp.reload();
   }
 
   displayProduct(product: Product) {
     return product;
   }
 
+  getNewProduct() {
+    this.newProduct = new Product();
+    return this.newProduct;
+  }
+
   getNewReport() {
-    return this.reportComp.getProductReport();
+    return this.newReport = this.reportComp.getNewReport();
+  }
+
+  addReport(report: ProductReport) {
+    this.reportComp.addReport(report);
+    this.newReport = this.reportComp.getNewReport();
   }
 
   getReports() {
     this.reports = this.reportComp.getReports();
-
-    // this.reportService.getReports(pid).subscribe({
-    //   next: (data) => {
-    //     this.reports = data;
-    //     console.log(this.reports);
-
-    //   },
-    //   error: (err) => {
-    //     console.error(
-    //       'ProductComponent.reload(): error loading products: ' + err
-    //     );
-    //   },
-    // });
   }
 
   reload() {
@@ -74,7 +69,7 @@ export class ProductComponent implements OnInit {
   addProduct(newProduct: Product) {
     this.prodService.create(newProduct).subscribe({
       next: (data) => {
-        this.newProduct = new Product();
+        // this.newProduct = new Product();
         this.reload();
       },
       error: (err) => {
@@ -83,16 +78,44 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  addReport(newReport: ProductReport) {
-    this.reportService.create(newReport).subscribe({
+  updateProduct(editProduct: Product) {
+    this.prodService.update(editProduct).subscribe({
       next: (data) => {
-        this.newReport = {} as ProductReport;
+        this.editProduct = null;
         this.reload();
       },
       error: (err) => {
-        console.error('ProductComponent.addReport(): error creating product report' + err);
+        console.error('ProductComponent.updateProduct(): error updating product' + err);
       },
     });
   }
 
+  disableProduct(product: Product) {
+    product.enabled = 0;
+    console.log(product);
+
+    this.prodService.update(product).subscribe({
+      next: (data) => {
+        // this.detailProduct = product;
+        this.editProduct = null;
+        this.reload();
+      },
+      error: (err) => {
+        console.error('ProductComponent.disableProduct(): error disabling product' + err);
+      },
+    });
+  }
+
+  // deleteProduct(pid: number) {
+  //   this.prodService.destroy(pid).subscribe({
+  //     next: (data) => {
+  //       // this.editTodo = null;
+  //       // this.reload();
+  //       // this.displayTable();
+  //     },
+  //     error: (err) => {
+  //       console.error('ProductComponent.delete(): error deleteing product' + err);
+  //     },
+  //   });
+  // }
 }

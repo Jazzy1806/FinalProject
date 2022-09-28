@@ -42,13 +42,14 @@ export class ProductReportService {
   }
 
   create(report: ProductReport): Observable<ProductReport> {
-    report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
-    return this.http.post<ProductReport>(this.baseUrl, report,
-      this.getHttpOptions()).pipe(
+    // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    console.log(report);
+
+    return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
         catchError((err: any) => {
           // console.log(err);
           return throwError(
-            () => new Error('TodoService.create(): error creating todo: ' + err)
+            () => new Error('ProductReportService.create(): error creating report: ' + err)
           );
         })
       );
@@ -61,7 +62,7 @@ export class ProductReportService {
         catchError((err: any) => {
           // console.log(err);
           return throwError(
-            () => new Error('TodoService.update(): error updating todo: ' + err)
+            () => new Error('ProductReportService.update(): error updating report: ' + err)
           );
         })
       );
@@ -73,7 +74,7 @@ export class ProductReportService {
         return throwError(
           () =>
             new Error(
-              'ProductReportService.getReports(): error retrieving producReports ' + err
+              'ProductReportService.getReport(): error retrieving reports ' + err
             )
         );
       })
@@ -86,7 +87,7 @@ export class ProductReportService {
         return throwError(
           () =>
             new Error(
-              'ProductReportService.getReports(): error retrieving producReports ' + err
+              'ProductReportService.getReports(): error retrieving reports ' + err
             )
         );
       })

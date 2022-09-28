@@ -46,9 +46,34 @@ export class ProductService {
     return this.http.post<Product>(this.url, product, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
-          () => new Error('SongService.create(): error creating song: ' + err)
+          () => new Error('ProductService.create(): error creating product: ' + err)
         );
       })
     );
   }
+
+  update(product: Product) {
+    // product.dateUpdated = this.datePipe.transform(Date.now(), 'shortDate');
+    return this.http.put<Product>(this.url + product.id, product,
+      this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        // console.log(err);
+        return throwError(
+          () => new Error('ProductService.update(): error updating product: ' + err)
+        );
+      })
+    );
+  }
+
+  // destroy(pid: number) {
+  //   return this.http.delete<void>(this.url + pid,
+  //     this.getHttpOptions()).pipe(
+  //     catchError((err: any) => {
+  //       // console.log(err);
+  //       return throwError(
+  //         () => new Error('ProductService.destroy(): error deleting product: ' + err)
+  //       );
+  //     })
+  //   );
+  // }
 }
