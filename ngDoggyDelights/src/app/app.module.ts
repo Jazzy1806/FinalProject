@@ -3,7 +3,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 
 
@@ -30,7 +30,12 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
 import { UserComponent } from './components/user/user.component';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatIconModule } from '@angular/material/icon';
+
 import { ProdRepPipe } from './pipes/prod-rep.pipe';
+
 
 
 @NgModule({
@@ -63,7 +68,10 @@ import { ProdRepPipe } from './pipes/prod-rep.pipe';
     FormsModule,
     NgbModule,
     HttpClientModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe, ProdRepPipe],
   bootstrap: [AppComponent]

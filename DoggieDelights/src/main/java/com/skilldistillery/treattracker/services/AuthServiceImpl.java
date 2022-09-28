@@ -1,6 +1,7 @@
 package com.skilldistillery.treattracker.services;
 
 import java.security.Principal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class AuthServiceImpl implements AuthService {
 	private AddressRepository addressRepo;
 
 	@Override
-	public User register(User user) {
+	public User register(User user) throws SQLIntegrityConstraintViolationException {
 		user.setPassword(encoder.encode(user.getPassword()));
 		user.setEnabled(true);
 		user.setRole("standard");

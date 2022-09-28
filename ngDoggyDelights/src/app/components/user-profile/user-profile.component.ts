@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'src/app/models/user';
 import { Pet } from 'src/app/models/pet';
 import { Address } from 'src/app/models/address';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-user-profile',
@@ -18,7 +19,7 @@ export class UserProfileComponent implements OnInit {
   editUser: User | null = null;
   newAddress: Address | null = {} as Address;
   pets: Pet[] = [];
-
+  name = new FormControl('');
   constructor(private auth: AuthService,private route: ActivatedRoute, private router: Router, private petService: PetService) {
 
   }

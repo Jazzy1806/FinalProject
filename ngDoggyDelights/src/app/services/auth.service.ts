@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { tap, catchError, throwError, Observable } from 'rxjs';
-import {Buffer} from 'buffer';
+import { tap, catchError, throwError, Observable, map } from 'rxjs';
+import { Buffer } from 'buffer';
 import { User } from '../models/user';
 
 @Injectable({
@@ -11,6 +11,7 @@ export class AuthService {
   // Set port number to server's port
   private baseUrl = 'http://localhost:8090/';
   private url = this.baseUrl;
+  loggedInUser = {} as User;
 
   constructor(private http: HttpClient) {}
 
@@ -18,7 +19,12 @@ export class AuthService {
     // Create POST request to register a new account
     return this.http.post<User>(this.url + 'register', user).pipe(
       catchError((err: any) => {
-        console.log(err);
+        if (err.status === 409) {
+          return throwError(
+            () => '409'
+          );
+        }
+        console.log(err.status);
         return throwError(
           () => new Error('AuthService.register(): error registering user.')
         );
@@ -27,14 +33,23 @@ export class AuthService {
   }
 
   updateCredentials(user: User) {
-    return this.http.put<User>(this.url + "api/users/credentials/" + user.id, user, this.getHttpOptions()).pipe(
-      catchError((err:any) => {
-        console.error(err);
-        return throwError(
-          () => new Error('AuthService.updateUser(): error updating credentials: ' + err)
-        );
-      })
-    );
+    return this.http
+      .put<User>(
+        this.url + 'api/users/credentials/' + user.id,
+        user,
+        this.getHttpOptions()
+      )
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () =>
+              new Error(
+                'AuthService.updateUser(): error updating credentials: ' + err
+              )
+          );
+        })
+      );
   }
 
   getHttpOptions() {
@@ -48,16 +63,18 @@ export class AuthService {
   }
 
   updateUser(user: User) {
-    return this.http.put<User>(this.url + "api/users/" + user.id, user, this.getHttpOptions()).pipe(
-      catchError((err:any) => {
-        console.error(err);
-        return throwError(
-          () => new Error('AuthService.updateUser(): error updating user: ' + err)
-        );
-      })
-    );
+    return this.http
+      .put<User>(this.url + 'api/users/' + user.id, user, this.getHttpOptions())
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () =>
+              new Error('AuthService.updateUser(): error updating user: ' + err)
+          );
+        })
+      );
   }
-
 
   login(username: string, password: string): Observable<User> {
     // Make credentials
@@ -104,13 +121,16 @@ export class AuthService {
       },
     };
     return this.http.get<User>(this.baseUrl + 'authenticate', httpOptions).pipe(
-        catchError((err: any) => {
-          console.log(err);
-          return throwError(
-            () => new Error( 'AuthService.getUserById(): error retrieving user: ' + err )
-          );
-        })
-      );
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () =>
+            new Error(
+              'AuthService.getUserById(): error retrieving user: ' + err
+            )
+        );
+      })
+    );
   }
 
   checkLogin(): boolean {
@@ -128,15 +148,38 @@ export class AuthService {
     return localStorage.getItem('credentials');
   }
 
-  getAllUsers(){
-    return this.http.get<User[]>(this.url + "api/users", this.getHttpOptions()).pipe(
-      catchError((err:any) => {
-        console.error(err);
-        return throwError(
-          () => new Error('AuthService.getAllUsers(): error getting all users: ' + err)
-        );
-      })
-    );
+  getAllUsers(): Observable<User[]> {
+    return this.http
+      .get<User[]>(this.url + 'api/users', this.getHttpOptions())
+      .pipe(
+        catchError((err: any) => {
+          console.error(err);
+          return throwError(
+            () =>
+              new Error(
+                'AuthService.getAllUsers(): error getting all users: ' + err
+              )
+          );
+        })
+      );
   }
 
+  // getUserByUsername(username: string) {
+  //   this.getAllUsers().subscribe({
+  //     next: (users) => {
+  //       for (let user of users) {
+  //         if (user.username === username) {
+  //           this.loggedInUser = user;
+  //         }
+  //       }
+  //     },
+
+  //     error: (problem) => {
+  //       console.error(
+  //         'StoreListHttpComponent.reload(): error loading store list'
+  //       );
+  //       console.error(problem);
+  //     },
+  //   });
+  // }
 }

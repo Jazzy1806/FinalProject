@@ -1,10 +1,13 @@
 package com.skilldistillery.treattracker.controllers;
 
 import java.security.Principal;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +30,17 @@ public class AuthController {
 			res.setStatus(400);
 			return null;
 		}
-		user = authService.register(user);
+		try {
+			user = authService.register(user);
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("cause" + e.getCause());
+			e.printStackTrace();
+			res.setStatus(409);
+		} catch (Exception e) {
+			System.out.println(e.getClass().getSimpleName());
+			e.printStackTrace();
+			res.setStatus(400);
+		}
 		return user;
 	}
 

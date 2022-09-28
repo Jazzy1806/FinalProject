@@ -1,12 +1,13 @@
 package com.skilldistillery.treattracker.services;
 
 import java.security.Principal;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 import com.skilldistillery.treattracker.entities.User;
 
 public interface AuthService {
-	public User register(User user);
+	public User register(User user) throws SQLIntegrityConstraintViolationException;
 
 	public User getUserByUsername(String username);
 
