@@ -16,15 +16,15 @@ export class ProductReport {
 
   constructor(
     id: number = 0,
-    createdOn: Date,
-    updatedOn: Date,
+    createdOn: Date = new Date(),
+    updatedOn: Date = new Date(),
     userQuantity: number = 0,
     price: number = 0,
     isInStock: boolean = true,
     remark: string = '',
     user: User = {} as User,
-    store: Store = {} as Store,
-    product: Product = {} as Product
+    store: Store = new Store(),
+    product: Product = new Product()
   ) {
     this.id = id;
     this.createdOn = createdOn;

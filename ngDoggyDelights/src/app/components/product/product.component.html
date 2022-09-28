@@ -1,18 +1,20 @@
 <main class="contqainer">
   <h1 style="text-align: center;">The Specter Selecter</h1>
 
+  <!-- TODO: Sort Reports by Date - first 3? 5? -->
+  <!-- TODO: Product card stretches to match number of Reports... -->
   <!-- TODO: No two-way binding on edit cancel -->
   <!-- TODO: Are you sure pop-up on delete -->
   <!-- TODO: Button positioning, alignment, and color -->
 
   <!-- *** All Products *** -->
-  <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newReport">
-    <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-light btn-sm">
+  <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newProduct && !newReport">
+    <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm">
       Add a New Product
     </button>
     <div *ngFor="let product of products">
       <div *ngIf="product.enabled">
-        <div class="card" (click)="displayProduct(product); detailProduct = product; getReports(); showAll = false;">
+        <div class="card" (click)="displayProduct(product)">
           <div class="row card-body vertical-center">
             <div class="col">
               <h4>{{product.name}}</h4>
@@ -59,12 +61,11 @@
               aria-describedby="imageHelp" placeholder="URL...">
           </div>
 
-          <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="submit"
-            class="btn btn-primary btn-sm">Submit
+          <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
+            class="btn btn-outline-primary btn-sm">Submit
           </button>
 
-          <button (click)="newProduct = null; showAll = true" type="submit"
-            class="btn btn-light btn-sm">Back
+          <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-light btn-sm">Back
           </button>
         </form>
       </div>
@@ -85,28 +86,35 @@
           <span class="card-text">{{detailProduct.dateCreated}}</span><br>
           <span class="card-text">Last Updated On</span><br>
           <span class="card-text">{{detailProduct.dateUpdated}}</span><br>
-
-          <button (click)="editProduct = detailProduct; detailProduct = null" class="btn btn-light btn-sm">Edit
+          <button (click)="editProduct = detailProduct; detailProduct = null"
+            class="btn btn-outline-primary btn-sm">Edit
             Details
-          </button>
-          <button (click)="disableProduct(detailProduct); detailProduct = null; showAll = true;"
-            class="btn btn-outline-danger btn-sm">Remove
+          </button><br>
+          <button (click)="disableProduct(detailProduct); detailProduct = null" class="btn btn-danger btn-sm">Remove
           </button>
         </div>
       </div>
 
-      <div class="col" *ngIf="detailProduct;">
-        <h4>Latest Prices</h4>
-        <button (click)="detailProduct = null; newReport = getNewReport(); showAll = false"
-          class="btn btn-outline-light btn-sm">
+      <div class="col" *ngIf="detailProduct && !newReport">
+        <!-- <h4>Latest Prices</h4> -->
+
+        <button (click)="newReport = getNewReport(detailProduct)" class="btn btn-outline-primary btn-sm">
           Report a New Price
         </button><br>
-        <div class="card" *ngFor="let report of reports">
-          <div class="card-body">
-            {{report.price}}
+
+        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
+
+        <div class="card report-card" *ngFor="let report of detailProduct.reports">
+          <div class="card-body" *ngIf="report.store">
+            <span><b>{{detailProduct.name}}</b></span><br>
+            <span><b>${{report.price}}</b></span><br>
+            <!-- <span>Seen At: <b>{{report.store | json}}</b></span><br> -->
+            <span *ngIf="report.store.name">Seen At: <b>{{report.store.name}}</b></span><br>
+            <span>On: <b>{{report.createdOn}}</b></span><br>
+            <span>At: <b>{{report.createdOn}}</b></span><br>
+            <!-- Product {{report.product.id}} -->
           </div>
         </div>
-        <button (click)="detailProduct = null; showAll = true;" class="btn btn-light btn-sm">Back</button>
       </div>
     </div>
   </div>
@@ -141,11 +149,11 @@
               aria-describedby="imageHelp" placeholder={{editProduct.image}}>
           </div>
 
-          <button (click)="updateProduct(editProduct); detailProduct = editProduct; editProduct = null" type="submit"
-            class="btn btn-primary btn-sm">Submit
+          <button (click)="updateProduct(editProduct); detailProduct = editProduct; editProduct = null" type="button"
+            class="btn btn-outline-primary btn-sm">Submit
           </button>
 
-          <button (click)="detailProduct = editProduct; editProduct = null;"
+          <button (click)="detailProduct = editProduct; editProduct = null;" type="button"
             class="btn btn-light btn-sm">Back
           </button>
         </form>
@@ -154,7 +162,7 @@
   </div>
 
   <!-- *** New Report *** -->
-  <div class="container d-flex justify-content-center" *ngIf="newReport">
+  <div class="container d-flex justify-content-center" *ngIf="newReport && detailProduct">
     <div class="row center">
       <div class="card col" style="width: 25rem;"><br>
         <form>
@@ -168,17 +176,26 @@
             <textarea [(ngModel)]="newReport.remark" class="form-control" id="remarkInput" rows="3" name="remark"
               placeholder="Let us know what you thought"></textarea>
           </div>
+
+          <div class="mb-3">
+            <label for="storeInput" class="form-label">Which Store?</label>
+            <input [(ngModel)]="newReport.store.id" type="number" class="form-control" id="storeInput" name="store"
+              aria-describedby="storeHelp" placeholder="1">
+          </div>
+
           <div class="mb-3 form-check">
             <input [(ngModel)]="newReport.isInStock" type="checkbox" class="form-check-input" id="inStockCheck"
               name="isInStock">
             <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
           </div>
 
-          <button (click)="addReport(newReport); newReport = null; detailProduct = editProduct; editProduct = null"
-            type="submit" class="btn btn-primary btn-sm">Submit
+          <button (click)="addReport(newReport); newReport = null" type="button"
+            class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 
-          <button class="btn btn-light btn-sm">Back</button>
+          <button (click)="newReport = null" type="button" class="btn btn-outline-primary btn-sm">
+            Back
+          </button>
         </form>
       </div>
     </div>

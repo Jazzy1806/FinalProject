@@ -77,6 +77,7 @@ public class ProductServiceImpl implements ProductService {
 				prodUpdate.setImage(product.getImage());
 				prodUpdate.setDateUpdated(LocalDateTime.now());
 				prodUpdate.setEnabled(product.getEnabled());
+				prodUpdate.setReports(null);
 
 				prodRepo.save(prodUpdate);
 				return prodUpdate;
