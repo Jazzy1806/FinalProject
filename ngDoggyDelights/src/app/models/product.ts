@@ -13,8 +13,8 @@ export class Product {
   reports: ProductReport[] | null;
   comments: ProductComment[] | null;
   inventoryItems: Inventory[] | null;
-  dateCreated: string | null;
-  dateUpdated: string | null;
+  dateCreated = new Date;
+  dateUpdated = new Date;
   enabled: number = 1;
   // dateCreated: Date | null;
   // dateUpdated: Date | null;
@@ -29,8 +29,8 @@ export class Product {
     reports: ProductReport[] = [],
     comments: ProductComment[] = [],
     inventoryItems: Inventory[] = [],
-    dateCreated: string = '',
-    dateUpdated: string = '',
+    dateCreated = new Date,
+    dateUpdated = new Date,
     enabled: number = 1
     // dateCreated: Date,
     // dateUpdated: Date

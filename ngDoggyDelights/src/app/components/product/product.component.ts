@@ -1,8 +1,10 @@
+import { ProductReportService } from 'src/app/services/product-report.service';
 import { ProductReportComponent } from './../product-report/product-report.component';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
+import { AuthService } from 'src/app/services/auth.service';
 // import { Observable } from 'rxjs';
 
 @Component({
@@ -12,27 +14,58 @@ import { ProductReport } from 'src/app/models/product-report';
   providers: [ProductReportComponent]
 })
 export class ProductComponent implements OnInit {
+  showAll: boolean = true;
+  loggedInUser: any;
   products: Product[] = [];
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
-
   newReport: ProductReport | null = null;
   reports: ProductReport[] = [];
 
-  showAll: boolean = true;
-
   constructor(
     private prodService: ProductService,
-    private reportComp: ProductReportComponent
-  ) {}
+    private reportService: ProductReportService,
+    private reportComp: ProductReportComponent,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.reload();
-    this.reportComp.reload();
+    // this.reportComp.reload();
+    this.getLoggedInUser();
+  }
+
+  getLoggedInUser() {
+    this.authService.getLoggedInUser().subscribe({
+      next: (user) => {
+        this.loggedInUser = user;
+        // this.newComment.user = this.loggedInUser;
+        console.log('user logged in ' + user.username);
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.collectLoggedInUser(): error loading user logged in'
+        );
+        console.error(problem);
+      },
+    });
   }
 
   displayProduct(product: Product) {
+    this.detailProduct = product;
+    this.reportService.getReportsByProduct(product.id).subscribe({
+      next: (data) => {
+        console.log(data);
+
+        if (this.detailProduct) {
+          this.detailProduct.reports = data;
+        }
+      },
+      error: (err) => {
+        console.error('ProductReportComponent.getProductReports(): error loading product reports' + err);
+      },
+    });
     return product;
   }
 
@@ -41,23 +74,37 @@ export class ProductComponent implements OnInit {
     return this.newProduct;
   }
 
-  getNewReport() {
-    return this.newReport = this.reportComp.getNewReport();
+  getNewReport(product: Product) {
+    this.newReport = this.reportComp.getNewReport();
+    this.newReport.user = this.loggedInUser;
+    this.newReport.product = product;
+    return this.newReport;
   }
 
   addReport(report: ProductReport) {
     this.reportComp.addReport(report);
     this.newReport = this.reportComp.getNewReport();
+    this.reload();
   }
 
   getReports() {
-    this.reports = this.reportComp.getReports();
+    this.reports = this.reportComp.getAllReports();
+    return this.reports;
   }
+
+  // getReportsByProduct(pid: number) {
+  //   this.reports = this.reportComp.getProductReports(pid);
+  //   // this.reload();
+  //   for (let report of this.reports) {
+  //     console.log(report);
+  //   }
+  //   return this.reports;
+  // }
 
   reload() {
     this.prodService.index().subscribe({
-      next: (data) => {
-        this.products = data;
+      next: (products) => {
+        this.products = products;
       },
       error: (err) => {
         console.error(
@@ -79,8 +126,10 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  updateProduct(editProduct: Product) {
-    this.prodService.update(editProduct).subscribe({
+  updateProduct(product: Product) {
+    // console.log(product);
+
+    this.prodService.update(product).subscribe({
       next: (data) => {
         this.editProduct = null;
         this.reload();
@@ -93,7 +142,7 @@ export class ProductComponent implements OnInit {
 
   disableProduct(product: Product) {
     product.enabled = 0;
-    console.log(product);
+    // console.log(product);
 
     this.prodService.update(product).subscribe({
       next: (data) => {

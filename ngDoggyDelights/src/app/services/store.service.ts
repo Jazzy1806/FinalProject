@@ -135,4 +135,13 @@ export class StoreService {
         );
       }
 
+      storesByProdKeyword(keyword: string): Observable<Store[]> {
+        return this.http.get<Store[]>(this.url + "/search/products/" + keyword, this.getHttpOptions()).pipe(
+          catchError((err: any) => {
+            return throwError(
+              () => new Error('ProductService.storesByProdKeyword(): error finding stores: ' + err)
+            );
+          })
+        );
+      }
 }
