@@ -1,24 +1,39 @@
-<!-- <div class="registrationForm">
-  <form>
+<div class="registrationForm">
+  <form [formGroup]="form">
     <h1>Create An Account: </h1>
     <div class="container">
       <div class="row">
         <div class="col-5">
-          <label for="firstName">Name: </label><input type="text" name="firstName" placeholder="First Name"[(ngModel)]="newUser.firstName" required/>
-          <input placeholder="Last Name" type="text" name="lastName" [(ngModel)]="newUser.lastName"/><br>
-          <label for="username">Username: </label><input type="text" name="username" [(ngModel)]="newUser.username" required/><br>
-          <label for="password">Password: </label><input type="password" name="password" [(ngModel)]="newUser.password" required/><br>
+          <label for="firstName">Name: </label><input formControlName = "firstName" type="text" name="firstName" placeholder="First Name"[(ngModel)]="newUser.firstName" required/>
+          <input placeholder="Last Name" formControlName = "lastName" type="text" name="lastName" [(ngModel)]="newUser.lastName"/><br>
+          <label for="username">Username: </label><input formControlName = "username"  type="text" name="username" [(ngModel)]="newUser.username" required/><br>
+          <span *ngIf="form.touched && !isUsernameUnique ">
+            Username is already taken
+            <br>
+          </span>
+
+          <label for="password">Password: </label><input formControlName = "password" type="password" name="password" [(ngModel)]="newUser.password" required/><br>
+          <label for="password2">Retype Password: </label><input formControlName = "cnfpass" type="password"  required/><br>
+          <span *ngIf="form.touched && form.controls.cnfpass.invalid ">
+            Password and confirm password should match.
+          </span>
           <br><br><button class="btn btn-outline-primary" (click)="register(newUser)" >Register</button>
 
         </div>
         <div class="col-7">
-          <label for="email">Email: </label><input type="email" name="email" [(ngModel)]="newUser.email" required/><br>
-          <label for="phone">Phone: </label><input type="text" name="phone" [(ngModel)]="newAddress.phone" /><br>
-          <label for="image">Image: </label><input type="text" name="image" [(ngModel)]="newUser.image" /><br>
-          <label for="address">Street: </label><input type="text" name="address" [(ngModel)]="newAddress.address" /><br>
-          <label for="city">City: </label><input type="text" name="city" [(ngModel)]="newAddress.city" required/><br>
-          <label for="state">State: </label><input type="text" name="state" [(ngModel)]="newAddress.state" required/><br>
-          <label for="postalCode">Zip Code: </label><input type="text" name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
+          <label for="email">Email: </label><input formControlName="email" type="email" name="email" [(ngModel)]="newUser.email" required/><br>
+          <span *ngIf=" form.controls.email.invalid && form.touched ">
+            Email should have domain @
+            <br>
+          </span>
+          <label for="image">Image: </label><input formControlName = "email" type="text" name="image" [(ngModel)]="newUser.image" /><br>
+          <label for="address">Street: </label><input formControlName="address" type="text" name="address" [(ngModel)]="newAddress.address" /><br>
+          <label for="city">City: </label><input type="text" name="city" formControlName="city" [(ngModel)]="newAddress.city" required/><br>
+          <label for="state">State: </label><input type="text" name="state" formControlName="state" [(ngModel)]="newAddress.state" required/><br>
+          <label for="postalCode">Zip Code: </label><input type="text" formControlName="postalCode" name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
+          <span *ngIf="form.controls.zip.invalid && form.touched">
+            Zip code should be 5 digit number only.
+          </span>
           <br>
         </div>
 
@@ -29,7 +44,7 @@
       </div>
     </div>
   </form>
-</div> -->
+</div>
 <!-- <div class="registrationForm">
   <form>
     <h1>Create An Account: </h1>
@@ -88,12 +103,12 @@
 
         <div>
           registration form starts here
-          <form [formGroup]="form">
+          <form >
             <div class="form-group">
               <label for="usernameInput">User Name</label>
               <input formControlName="username" type="text" class="form-control" id="usernameInput"
-                placeholder="Enter username">
-              <span *ngIf="form.controls.username.invalid && form.touched">
+                placeholder="Enter username" [(ngModel)]="newUser.username">
+              <span *ngIf="!isUsernameUnique && form.touched">
                 Username is already taken
               </span>
             </div>
@@ -107,7 +122,7 @@
             <div class="form-group">
               <label for="confpasswordInput">Confirm Password</label>
               <input formControlName="cnfpass" type="password" class="form-control" id="confpasswordInput"
-                placeholder="Re-enter Password">
+                placeholder="Re-enter Password" [(ngModel)]="newUser.password">
             </div>
             <span *ngIf="form.controls.cnfpass.invalid && form.touched">
               Password and confirm password should match.
@@ -129,7 +144,7 @@
               Zip code should be 6 digit number only.
             </span>
 
-            <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
+            <button type="submit" class="btn btn-primary" (click)="register(newUser)">Submit</button>
 
             <br><br>
 

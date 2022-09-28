@@ -77,6 +77,7 @@ public class UserController {
 			System.out.println("cause" + e.getCause());
 			String errorMsg = "Unable to update since the username already exits. Please try again!";
 			e.printStackTrace();
+			res.setStatus(409);
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -260,7 +261,7 @@ public class UserController {
 		return updated;
 	}
 	
-	@GetMapping("user/search/{usernane}")
+	@GetMapping("user/search/{username}")
 	public User getUserByUsername(@PathVariable String username, HttpServletRequest req, HttpServletResponse res, Principal principal) {
 		User user = authService.getUserByUsername(username);
 		if (user == null ) {

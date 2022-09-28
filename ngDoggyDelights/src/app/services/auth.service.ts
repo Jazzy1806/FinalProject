@@ -19,7 +19,12 @@ export class AuthService {
     // Create POST request to register a new account
     return this.http.post<User>(this.url + 'register', user).pipe(
       catchError((err: any) => {
-        console.log(err);
+        if (err.status === 409) {
+          return throwError(
+            () => '409'
+          );
+        }
+        console.log(err.status);
         return throwError(
           () => new Error('AuthService.register(): error registering user.')
         );
@@ -159,22 +164,22 @@ export class AuthService {
       );
   }
 
-  getUserByUsername(username: string) {
-    this.getAllUsers().subscribe({
-      next: (users) => {
-        for (let user of users) {
-          if (user.username === username) {
-            this.loggedInUser = user;
-          }
-        }
-      },
+  // getUserByUsername(username: string) {
+  //   this.getAllUsers().subscribe({
+  //     next: (users) => {
+  //       for (let user of users) {
+  //         if (user.username === username) {
+  //           this.loggedInUser = user;
+  //         }
+  //       }
+  //     },
 
-      error: (problem) => {
-        console.error(
-          'StoreListHttpComponent.reload(): error loading store list'
-        );
-        console.error(problem);
-      },
-    });
-  }
+  //     error: (problem) => {
+  //       console.error(
+  //         'StoreListHttpComponent.reload(): error loading store list'
+  //       );
+  //       console.error(problem);
+  //     },
+  //   });
+  // }
 }

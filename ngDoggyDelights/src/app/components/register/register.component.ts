@@ -5,8 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user';
 import { Address } from 'src/app/models/address';
 import { Pet } from 'src/app/models/pet';
-import { Form, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { passValidator, uniqueUsernameValidator, zipcodeValidator } from './validator';
+import { Form, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { passValidator, zipcodeValidator } from './validator';
 
 @Component({
   selector: 'app-register',
@@ -20,6 +20,8 @@ export class RegisterComponent implements OnInit {
   newPet: Pet = {} as Pet;
   name = new FormControl('');
   usernameTaken = false;
+  isUsernameUnique = true;
+
 
   // this.registerForm = new FormGroup({
   //   username: new FormControl(this.)
@@ -28,8 +30,15 @@ export class RegisterComponent implements OnInit {
   constructor(private auth: AuthService, private router: Router, private fb : FormBuilder) {
     this.form = this.fb.group (
       {
-        username: ["", uniqueUsernameValidator],
+        // username: ["", uniqueUsernameUpdateValidator],
+        firstName:'',
+        lastName:'',
+        username: '',
         password: '',
+        address:'',
+        city: '',
+        state: '',
+        postalCode: '',
         email: ['',[Validators.pattern("[^ @]*@[^ @]*")]],
       cnfpass: ['', passValidator],
       zip: ['', zipcodeValidator]
@@ -67,8 +76,12 @@ export class RegisterComponent implements OnInit {
         });
       },
       error: (fail) => {
+        if (fail === '409') {
+          this.isUsernameUnique = false;
+        }
         console.error('RegisterComponent.register(): Error registering account');
-        console.error(fail);
+        console.error("fail " + fail);
+        console.error(fail === '409');
       }
     });
   }
