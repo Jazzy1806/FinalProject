@@ -59,7 +59,7 @@ public class Product {
 //	@OneToMany(mappedBy = "product")
 //	private List<Inventory> inventories;
 
-	@JsonIgnore
+	@JsonIgnoreProperties({"product"})
 	@OneToMany(mappedBy = "product")
 	private List<ProductReport> reports;
 

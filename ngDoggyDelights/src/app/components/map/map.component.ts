@@ -15,14 +15,15 @@ export class MapComponent implements OnInit {
   geocodedPlaces: google.maps.LatLngLiteral[] = [];
   productsByKeyword: Product[] = [];
   mostRecentProdUpdates: any[] = [];
+  keyword: string = '';
 
   constructor(geocoder: MapGeocoder, private productService: ProductService, private prodRepPipe: ProdRepPipe) {
-    geocoder.geocode({
-      address: '6580 Marshall Street, Arvada, CO'
-    }).subscribe(({
-      results}) => {
-        console.log(results);
-      });
+    // geocoder.geocode({
+    //   address: '6580 Marshall Street, Arvada, CO'
+    // }).subscribe(({
+    //   results}) => {
+    //     console.log(results);
+    //   });
     }
 
 
@@ -67,8 +68,8 @@ export class MapComponent implements OnInit {
       }
     }
 
-  getProductsByKeyword(keyword: string) {
-    this.productService.findByKeyword(keyword).subscribe(
+  getProductsByKeyword() {
+    this.productService.findByKeyword(this.keyword).subscribe(
       {
         next: (results) => {
           this.productsByKeyword = results;

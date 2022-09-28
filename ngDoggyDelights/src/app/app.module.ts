@@ -65,7 +65,7 @@ import { ProdRepPipe } from './pipes/prod-rep.pipe';
     HttpClientModule,
     GoogleMapsModule
   ],
-  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe],
+  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe, ProdRepPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -53,7 +53,7 @@ export class ProductService {
   }
 
   findByKeyword(keyword: string): Observable<Product[]> {
-    return this.http.get<Product[]>(this.url + "/keyword/" + keyword, this.getHttpOptions()).pipe(
+    return this.http.get<Product[]>(this.url + "keyword/" + keyword, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () => new Error('ProductService.findByKeyword(): error finding product: ' + err)
