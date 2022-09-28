@@ -12,7 +12,9 @@
     </button>
     <div *ngFor="let product of products">
       <div *ngIf="product.enabled">
-        <div class="card" (click)="displayProduct(product); detailProduct = product; getReports(); showAll = false;">
+
+        <div class="card" (click)="detailProduct = displayProduct(product); showAll = false;">
+
           <div class="row card-body vertical-center">
             <div class="col">
               <h4>{{product.name}}</h4>
@@ -63,8 +65,7 @@
             class="btn btn-primary btn-sm">Submit
           </button>
 
-          <button (click)="newProduct = null; showAll = true" type="submit"
-            class="btn btn-light btn-sm">Back
+          <button (click)="newProduct = null; showAll = true" type="submit" class="btn btn-light btn-sm">Back
           </button>
         </form>
       </div>
@@ -85,12 +86,11 @@
           <span class="card-text">{{detailProduct.dateCreated}}</span><br>
           <span class="card-text">Last Updated On</span><br>
           <span class="card-text">{{detailProduct.dateUpdated}}</span><br>
-
           <button (click)="editProduct = detailProduct; detailProduct = null" class="btn btn-light btn-sm">Edit
             Details
           </button>
           <button (click)="disableProduct(detailProduct); detailProduct = null; showAll = true;"
-            class="btn btn-outline-danger btn-sm">Remove
+            class="btn btn-danger btn-sm">Remove
           </button>
         </div>
       </div>
@@ -98,15 +98,19 @@
       <div class="col" *ngIf="detailProduct;">
         <h4>Latest Prices</h4>
         <button (click)="detailProduct = null; newReport = getNewReport(); showAll = false"
-          class="btn btn-outline-light btn-sm">
+          class="btn btn-light btn-sm">
           Report a New Price
         </button><br>
+
+        <button (click)="detailProduct = null; reports = []; showAll = true;" class="btn btn-light btn-sm">Back</button>
+
         <div class="card" *ngFor="let report of reports">
           <div class="card-body">
-            {{report.price}}
+            Product {{report.product.id}}
+            <br>
+            ${{report.price}}
           </div>
         </div>
-        <button (click)="detailProduct = null; showAll = true;" class="btn btn-light btn-sm">Back</button>
       </div>
     </div>
   </div>
@@ -145,8 +149,7 @@
             class="btn btn-primary btn-sm">Submit
           </button>
 
-          <button (click)="detailProduct = editProduct; editProduct = null;"
-            class="btn btn-light btn-sm">Back
+          <button (click)="detailProduct = editProduct; editProduct = null;" class="btn btn-light btn-sm">Back
           </button>
         </form>
       </div>
@@ -178,7 +181,10 @@
             type="submit" class="btn btn-primary btn-sm">Submit
           </button><br><br>
 
-          <button class="btn btn-light btn-sm">Back</button>
+          <button (click)="newReport = null; detailProduct = editProduct; editProduct = null"
+          type="submit" class="btn btn-light btn-sm">
+            Back
+          </button>
         </form>
       </div>
     </div>

@@ -23,10 +23,16 @@ export class ProductReportComponent implements OnInit {
   }
 
   getNewReport() {
+    this.newReport = new ProductReport();
     return this.newReport;
   }
 
-  getReports() {
+  getAllReports() {
+    return this.reports;
+  }
+
+  getProductReports(pid: number) {
+    this.getReportsByProduct(pid);
     return this.reports;
   }
 
@@ -37,6 +43,19 @@ export class ProductReportComponent implements OnInit {
       },
       error: (err) => {
         console.error('ProductReportComponent.reload(): error loading reports: ' + err);
+      },
+    });
+  }
+
+  getReportsByProduct(pid: number) {
+    this.reportService.getReportsByProduct(pid).subscribe({
+      next: (data) => {
+        this.reports = data;
+        // return this.reports;
+        // this.reload();
+      },
+      error: (err) => {
+        console.error('ProductReportComponent.getProductReports(): error loading product reports' + err);
       },
     });
   }

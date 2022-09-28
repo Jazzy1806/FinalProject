@@ -29,10 +29,10 @@ export class ProductComponent implements OnInit {
 
   ngOnInit(): void {
     this.reload();
-    this.reportComp.reload();
   }
 
   displayProduct(product: Product) {
+    this.reports = this.reportComp.getProductReports(product.id);
     return product;
   }
 
@@ -51,7 +51,12 @@ export class ProductComponent implements OnInit {
   }
 
   getReports() {
-    this.reports = this.reportComp.getReports();
+    this.reports = this.reportComp.getAllReports();
+  }
+
+  getProductReports(pid: number) {
+    this.reports = this.reportComp.getProductReports(pid);
+    return this.reports;
   }
 
   reload() {

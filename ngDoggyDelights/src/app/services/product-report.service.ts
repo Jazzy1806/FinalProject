@@ -45,10 +45,9 @@ export class ProductReportService {
     // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
     console.log(report);
 
-    // return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
     report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
-    return this.http.post<ProductReport>(this.baseUrl, report,
-      this.getHttpOptions()).pipe(
+    return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
+    // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
         catchError((err: any) => {
           // console.log(err);
           return throwError(
@@ -71,8 +70,8 @@ export class ProductReportService {
       );
   }
 
-  getReport(pid: number, ): Observable<ProductReport> {
-    return this.http.get<ProductReport>(this.url + '/1/reports/', this.getHttpOptions()).pipe(
+  getReport(pid: number): Observable<ProductReport> {
+    return this.http.get<ProductReport>(this.url + '/' + pid + '/reports/', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
@@ -84,8 +83,8 @@ export class ProductReportService {
     );
   }
 
-  getReports(pid: number): Observable<ProductReport[]> {
-    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
+  getReportsByProduct(pid: number): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/' + pid + '/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>

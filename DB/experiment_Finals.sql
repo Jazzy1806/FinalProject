@@ -730,15 +730,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (1, NULL, NULL, NULL, 9.99, 1, 'Finally!', 1, 1, 1);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (2, NULL, NULL, NULL, 10.99, 1, 'Love this stuff', 2, 2, 2);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (3, NULL, NULL, NULL, 11.99, 1, 'Took long enough', 3, 3, 3);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (4, NULL, NULL, NULL, 8.99, 1, NULL, 1, 1, 1);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (5, NULL, NULL, NULL, 7.99, 1, NULL, 1, 1, 1);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (6, NULL, NULL, NULL, 6.99, 1, NULL, 1, 1, 1);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (7, NULL, NULL, NULL, 5.99, 1, NULL, 1, 1, 1);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (8, NULL, NULL, NULL, 4.99, 1, NULL, 1, 1, 1);
-INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (9, NULL, NULL, NULL, 3.99, 1, NULL, 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (1, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 9.99, 1, 'Finally!', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (2, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 10.99, 1, 'Love this stuff', 2, 2, 2);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (3, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 11.99, 1, 'Took long enough', 3, 3, 3);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (4, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 8.99, 1, 'Blah blah blah', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (5, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 7.99, 1, 'Blah blah blah', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (6, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 6.99, 1, 'Blah blah blah', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (7, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 5.99, 1, 'Blah blah blah', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (8, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 4.99, 1, 'Blah blah blah', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (9, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 3.99, 1, 'Blah blah blah', 1, 1, 1);
+INSERT INTO `product_report` (`id`, `created_on`, `updated_on`, `user_quantity`, `price`, `is_in_stock`, `remark`, `user_id`, `product_id`, `store_id`) VALUES (10, '2022-09-28 08:54:51', '2022-09-28 08:54:51', 1, 3.99, 1, 'Blah blah blah', 1, 1, 1);
 
 COMMIT;
 

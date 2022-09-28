@@ -16,8 +16,8 @@ export class ProductReport {
 
   constructor(
     id: number = 0,
-    createdOn: Date,
-    updatedOn: Date,
+    createdOn: Date = new Date(),
+    updatedOn: Date = new Date(),
     userQuantity: number = 0,
     price: number = 0,
     isInStock: boolean = true,
