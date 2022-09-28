@@ -28,8 +28,8 @@ export class ProductReportService {
     return options;
   }
 
-  index(): Observable<ProductReport[]> {
-    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
+  index(pid: number): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/' + pid + '/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
@@ -42,13 +42,17 @@ export class ProductReportService {
   }
 
   create(report: ProductReport): Observable<ProductReport> {
+    // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    console.log(report);
+
     report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
-    return this.http.post<ProductReport>(this.baseUrl, report,
-      this.getHttpOptions()).pipe(
+
+    return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
+    // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
         catchError((err: any) => {
           // console.log(err);
           return throwError(
-            () => new Error('TodoService.create(): error creating todo: ' + err)
+            () => new Error('ProductReportService.create(): error creating report: ' + err)
           );
         })
       );
@@ -61,32 +65,32 @@ export class ProductReportService {
         catchError((err: any) => {
           // console.log(err);
           return throwError(
-            () => new Error('TodoService.update(): error updating todo: ' + err)
+            () => new Error('ProductReportService.update(): error updating report: ' + err)
           );
         })
       );
   }
 
-  getReport(pid: number, ): Observable<ProductReport> {
-    return this.http.get<ProductReport>(this.url + '/1/reports/', this.getHttpOptions()).pipe(
+  getReport(pid: number): Observable<ProductReport> {
+    return this.http.get<ProductReport>(this.url + '/' + pid + '/reports/', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
             new Error(
-              'ProductReportService.getReports(): error retrieving producReports ' + err
+              'ProductReportService.getReport(): error retrieving reports ' + err
             )
         );
       })
     );
   }
 
-  getReports(pid: number): Observable<ProductReport[]> {
-    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
+  getReportsByProduct(pid: number): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/' + pid + '/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
             new Error(
-              'ProductReportService.getReports(): error retrieving producReports ' + err
+              'ProductReportService.getReports(): error retrieving reports ' + err
             )
         );
       })

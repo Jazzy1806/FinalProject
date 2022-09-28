@@ -1,11 +1,15 @@
 main {
-  background-color: rgb(96, 110, 255);
-  color: white;
+  background-color: rgb(205, 216, 255);
 }
 
 .card {
-  margin-bottom: 3px;
-  background-color: rgb(107, 30, 238);
+  margin-bottom: 5px;
+  background-color: rgba(174, 138, 231, 0.255);
+}
+
+.report-card {
+  margin-bottom: 5px;
+  background-color: rgba(138, 149, 231, 0.255);
 }
 
 .thumbnail {
