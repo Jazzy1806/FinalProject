@@ -23,7 +23,7 @@ export class ProductReport {
     isInStock: boolean = true,
     remark: string = '',
     user: User = {} as User,
-    store: Store = new Store(),
+    store: Store = {} as Store,
     product: Product = new Product()
   ) {
     this.id = id;

@@ -62,10 +62,10 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
-	public List<Store> findStoresByProductKeywordSearch(String keyword) {
+	public Set<Store> findStoresByProductKeywordSearch(String keyword) {
 		String kw = "%" + keyword + "%";
-		List<Store> stores = storeRepo.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
-		List<Store> storeByRep = storeRepo.findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
+		Set<Store> stores = storeRepo.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
+		Set<Store> storeByRep = storeRepo.findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
 		System.out.println("stores inventory array size: " + stores.size());
 		System.out.println("stores PR array size: " + storeByRep.size());
 		stores.addAll(storeByRep);
