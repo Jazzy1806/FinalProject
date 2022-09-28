@@ -30,7 +30,7 @@
           <label for="address">Street: </label><input formControlName="address" type="text" name="address" [(ngModel)]="newAddress.address" /><br>
           <label for="city">City: </label><input type="text" name="city" formControlName="city" [(ngModel)]="newAddress.city" required/><br>
           <label for="state">State: </label><input type="text" name="state" formControlName="state" [(ngModel)]="newAddress.state" required/><br>
-          <label for="postalCode">Zip Code: </label><input type="text" formControlName="postalCode" name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
+          <label for="postalCode">Zip Code: </label><input formControlName="postalCode" type="text"  name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
           <span *ngIf="form.controls.zip.invalid && form.touched">
             Zip code should be 5 digit number only.
           </span>
@@ -95,7 +95,7 @@
   </form>
 </div> -->
 
-<div class="container-fluid">
+<!-- <div class="container-fluid">
   <div class="row justify-content-center" style="margin-top: 40px;">
     <div class="col-8">
       <div class="jumbotron">
@@ -157,7 +157,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 
 <!-- <section class="h-100 bg-dark">
