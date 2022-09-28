@@ -30,6 +30,7 @@ import { TopRatedListPipe } from './pipes/top-rated-list.pipe';
 import { DatePipe } from '@angular/common';
 import { MapComponent } from './components/map/map.component';
 import { UserComponent } from './components/user/user.component';
+import { ProdRepPipe } from './pipes/prod-rep.pipe';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { UserComponent } from './components/user/user.component';
     ProductComponent,
     MapComponent,
     TopRatedListPipe,
-    UserComponent
+    UserComponent,
+    ProdRepPipe
   ],
   imports: [
     BrowserModule,

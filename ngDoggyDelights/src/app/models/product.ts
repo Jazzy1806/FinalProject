@@ -13,8 +13,8 @@ export class Product {
   reports: ProductReport[] | null;
   comments: ProductComment[] | null;
   inventoryItems: Inventory[] | null;
-  dateCreated: string | null;
-  dateUpdated: string | null;
+  dateCreated: Date | null;
+  dateUpdated: Date | null;
 
   constructor(
     id: number = 0,
@@ -26,8 +26,8 @@ export class Product {
     reports: ProductReport[] = [],
     comments: ProductComment[] = [],
     inventoryItems: Inventory[] = [],
-    dateCreated: string = '',
-    dateUpdated: string = ''
+    dateCreated: Date,
+    dateUpdated: Date
   ) {
     this.id = id;
     this.name = name;

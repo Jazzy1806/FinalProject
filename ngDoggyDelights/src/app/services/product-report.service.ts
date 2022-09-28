@@ -42,7 +42,7 @@ export class ProductReportService {
   }
 
   create(report: ProductReport): Observable<ProductReport> {
-    report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
     return this.http.post<ProductReport>(this.baseUrl, report,
       this.getHttpOptions()).pipe(
         catchError((err: any) => {
@@ -55,7 +55,7 @@ export class ProductReportService {
   }
 
   update(report: ProductReport) {
-    report.updatedOn = this.datePipe.transform(Date.now(), 'shortDate')!;
+    report.updatedOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
     return this.http.put<ProductReport>(this.baseUrl + report.id, report,
       this.getHttpOptions()).pipe(
         catchError((err: any) => {

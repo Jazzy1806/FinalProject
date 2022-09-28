@@ -12,6 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
 @Entity
 @Table(name = "product_report")
 public class ProductReport {
@@ -20,9 +23,11 @@ public class ProductReport {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
+	@CreationTimestamp
 	@Column(name = "created_on")
 	private LocalDateTime createdOn;
 
+	@UpdateTimestamp
 	@Column(name = "updated_on")
 	private LocalDateTime updatedOn;
 

@@ -1,5 +1,9 @@
+// import { ProdRepPipe } from './../../pipes/prod-rep.pipe';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { Product } from 'src/app/models/product';
+import { ProductService } from 'src/app/services/product.service';
+import { ProdRepPipe } from 'src/app/pipes/prod-rep.pipe';
 
 @Component({
   selector: 'app-map',
@@ -9,8 +13,10 @@ import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 export class MapComponent implements OnInit {
 
   geocodedPlaces: google.maps.LatLngLiteral[] = [];
+  productsByKeyword: Product[] = [];
+  mostRecentProdUpdates: any[] = [];
 
-  constructor(geocoder: MapGeocoder) {
+  constructor(geocoder: MapGeocoder, private productService: ProductService, private prodRepPipe: ProdRepPipe) {
     geocoder.geocode({
       address: '6580 Marshall Street, Arvada, CO'
     }).subscribe(({
@@ -27,6 +33,7 @@ export class MapComponent implements OnInit {
 
     zoom = 4;
     radius = 500;
+
     center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
 
     circleCenter: google.maps.LatLngLiteral = {lat: 24, lng: 12};
@@ -59,6 +66,25 @@ export class MapComponent implements OnInit {
         this.infoWindow.open(marker);
       }
     }
+
+  getProductsByKeyword(keyword: string) {
+    this.productService.findByKeyword(keyword).subscribe(
+      {
+        next: (results) => {
+          this.productsByKeyword = results;
+          this.mostRecentProdUpdates = this.prodRepPipe.transform(this.productsByKeyword);
+          console.log(this.productsByKeyword);
+          console.log(this.mostRecentProdUpdates);
+        },
+        error: (problem) => {
+          console.error('MapHttpComponent.getProdsByKeyword(): error loading prods:');
+          console.error(problem);
+        }
+      }
+    );
+
+  }
+
 }
 
 

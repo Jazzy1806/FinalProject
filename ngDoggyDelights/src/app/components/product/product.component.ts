@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
-import { Observable } from 'rxjs';
+// import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product',
@@ -74,7 +74,7 @@ export class ProductComponent implements OnInit {
   addProduct(newProduct: Product) {
     this.prodService.create(newProduct).subscribe({
       next: (data) => {
-        this.newProduct = new Product();
+        // this.newProduct = new Product();
         this.reload();
       },
       error: (err) => {
