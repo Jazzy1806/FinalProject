@@ -1,11 +1,12 @@
-<div class="registrationForm">
+<main>
+  <div class="registrationForm">
   <form [formGroup]="form">
     <h1>Create An Account: </h1>
     <div class="container">
       <div class="row">
         <div class="col-5">
-          <label for="firstName">Name: </label><input formControlName = "firstName" type="text" name="firstName" placeholder="First Name"[(ngModel)]="newUser.firstName" required/>
-          <input placeholder="Last Name" formControlName = "lastName" type="text" name="lastName" [(ngModel)]="newUser.lastName"/><br>
+          <label for="firstName">First Name: </label><input formControlName = "firstName" type="text" name="firstName" placeholder="First Name"[(ngModel)]="newUser.firstName" required/>
+          <label for="firstName">Last Name: </label><input placeholder="Last Name" formControlName = "lastName" type="text" name="lastName" [(ngModel)]="newUser.lastName"/><br>
           <label for="username">Username: </label><input formControlName = "username"  type="text" name="username" [(ngModel)]="newUser.username" required/><br>
           <span *ngIf="form.touched && !isUsernameUnique ">
             Username is already taken
@@ -31,7 +32,7 @@
           <label for="city">City: </label><input type="text" name="city" formControlName="city" [(ngModel)]="newAddress.city" required/><br>
           <label for="state">State: </label><input type="text" name="state" formControlName="state" [(ngModel)]="newAddress.state" required/><br>
           <label for="postalCode">Zip Code: </label><input formControlName="postalCode" type="text"  name="postalCode" [(ngModel)]="newAddress.postalCode" /><br>
-          <span *ngIf="form.controls.zip.invalid && form.touched">
+          <span *ngIf="form.touched && form.controls.zip.invalid">
             Zip code should be 5 digit number only.
           </span>
           <br>
@@ -45,6 +46,7 @@
     </div>
   </form>
 </div>
+</main>
 <!-- <div class="registrationForm">
   <form>
     <h1>Create An Account: </h1>

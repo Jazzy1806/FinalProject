@@ -7,6 +7,7 @@ import com.skilldistillery.treattracker.entities.Product;
 public interface ProductService {
 
 	public List<Product> index(String username);
+	public List<Product> index();
 
 	public Product show(String username, int pid);
 

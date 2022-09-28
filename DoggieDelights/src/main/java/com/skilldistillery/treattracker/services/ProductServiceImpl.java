@@ -31,6 +31,11 @@ public class ProductServiceImpl implements ProductService {
 		}
 		return null;
 	}
+	@Override
+	public List<Product> index() {
+		return prodRepo.findAll();
+		
+	}
 
 	@Override
 	public Product show(String username, int pid) {
