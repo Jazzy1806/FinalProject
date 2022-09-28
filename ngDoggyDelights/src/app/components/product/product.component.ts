@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
+import { AuthService } from 'src/app/services/auth.service';
 // import { Observable } from 'rxjs';
 
 @Component({
@@ -16,19 +17,37 @@ export class ProductComponent implements OnInit {
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
-
   newReport: ProductReport | null = null;
   reports: ProductReport[] = [];
-
   showAll: boolean = true;
+  showDetail: boolean = false;
+  loggedInUser: any;
 
   constructor(
     private prodService: ProductService,
-    private reportComp: ProductReportComponent
-  ) {}
+    private reportComp: ProductReportComponent,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.reload();
+    this.getLoggedInUser();
+  }
+
+  getLoggedInUser() {
+    this.authService.getLoggedInUser().subscribe({
+      next: (user) => {
+        this.loggedInUser = user;
+        // this.newComment.user = this.loggedInUser;
+        console.log('user logged in ' + user.username);
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.collectLoggedInUser(): error loading user logged in'
+        );
+        console.error(problem);
+      },
+    });
   }
 
   displayProduct(product: Product) {
@@ -41,8 +60,11 @@ export class ProductComponent implements OnInit {
     return this.newProduct;
   }
 
-  getNewReport() {
-    return this.newReport = this.reportComp.getNewReport();
+  getNewReport(product: Product) {
+    this.newReport = this.reportComp.getNewReport();
+    this.newReport.user = this.loggedInUser;
+    this.newReport.product = product;
+    return this.newReport;
   }
 
   addReport(report: ProductReport) {

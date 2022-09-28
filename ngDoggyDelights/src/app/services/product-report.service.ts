@@ -46,6 +46,7 @@ export class ProductReportService {
     console.log(report);
 
     report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
+
     return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
     // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
         catchError((err: any) => {

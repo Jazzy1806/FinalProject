@@ -23,8 +23,8 @@ export class ProductReport {
     isInStock: boolean = true,
     remark: string = '',
     user: User = {} as User,
-    store: Store = {} as Store,
-    product: Product = {} as Product
+    store: Store = new Store(),
+    product: Product = new Product()
   ) {
     this.id = id;
     this.createdOn = createdOn;

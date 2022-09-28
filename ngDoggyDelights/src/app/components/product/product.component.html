@@ -7,7 +7,7 @@
 
   <!-- *** All Products *** -->
   <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newReport">
-    <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-light btn-sm">
+    <button (click)="newProduct = getNewProduct(); showAll = false; showDetail = true" class="btn btn-light btn-sm">
       Add a New Product
     </button>
     <div *ngFor="let product of products">
@@ -65,7 +65,7 @@
             class="btn btn-primary btn-sm">Submit
           </button>
 
-          <button (click)="newProduct = null; showAll = true" type="submit" class="btn btn-light btn-sm">Back
+          <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-light btn-sm">Back
           </button>
         </form>
       </div>
@@ -76,7 +76,7 @@
   <div class="container text-center d-flex justify-content-center">
     <div class="row center">
 
-      <div class="card col" *ngIf="detailProduct && !newReport"><br>
+      <div class="card col" *ngIf="detailProduct && showDetail == true && !newReport"><br>
         <img src="{{detailProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
         <div class="card-body">
           <h1 class="card-title">{{detailProduct.name}}</h1>
@@ -97,12 +97,13 @@
 
       <div class="col" *ngIf="detailProduct;">
         <h4>Latest Prices</h4>
-        <button (click)="detailProduct = null; newReport = getNewReport(); showAll = false"
+
+        <button (click)="newReport = getNewReport(detailProduct); showAll = false; showDetail = false"
           class="btn btn-light btn-sm">
           Report a New Price
         </button><br>
 
-        <button (click)="detailProduct = null; reports = []; showAll = true;" class="btn btn-light btn-sm">Back</button>
+        <button (click)="detailProduct = null; reports = []; showAll = true; "type="button" class="btn btn-light btn-sm">Back</button>
 
         <div class="card" *ngFor="let report of reports">
           <div class="card-body">
@@ -149,7 +150,7 @@
             class="btn btn-primary btn-sm">Submit
           </button>
 
-          <button (click)="detailProduct = editProduct; editProduct = null;" class="btn btn-light btn-sm">Back
+          <button (click)="detailProduct = editProduct; editProduct = null;" type="button" class="btn btn-light btn-sm">Back
           </button>
         </form>
       </div>
@@ -157,7 +158,7 @@
   </div>
 
   <!-- *** New Report *** -->
-  <div class="container d-flex justify-content-center" *ngIf="newReport">
+  <div class="container d-flex justify-content-center" *ngIf="newReport && showDetail === true">
     <div class="row center">
       <div class="card col" style="width: 25rem;"><br>
         <form>
@@ -171,6 +172,13 @@
             <textarea [(ngModel)]="newReport.remark" class="form-control" id="remarkInput" rows="3" name="remark"
               placeholder="Let us know what you thought"></textarea>
           </div>
+
+          <div class="mb-3">
+            <label for="storeInput" class="form-label">Which Store?</label>
+            <input [(ngModel)]="newReport.store.id" type="number" class="form-control" id="storeInput" name="store"
+              aria-describedby="storeHelp" placeholder="1">
+          </div>
+
           <div class="mb-3 form-check">
             <input [(ngModel)]="newReport.isInStock" type="checkbox" class="form-check-input" id="inStockCheck"
               name="isInStock">
@@ -181,8 +189,7 @@
             type="submit" class="btn btn-primary btn-sm">Submit
           </button><br><br>
 
-          <button (click)="newReport = null; detailProduct = editProduct; editProduct = null"
-          type="submit" class="btn btn-light btn-sm">
+          <button (click)="newReport = null; showDetail = true;" type="button" class="btn btn-light btn-sm">
             Back
           </button>
         </form>
