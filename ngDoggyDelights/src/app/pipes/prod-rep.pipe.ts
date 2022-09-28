@@ -21,6 +21,13 @@ export class ProdRepPipe implements PipeTransform {
     const hasValues: any = (obj: any) => Object.values(obj).some(v => v !== null && typeof v !== "undefined");
 
     if (products.length > 0) {
+
+    this.updatesByDate = [];
+    this. mostRecentProdUpdates = [];
+    this.mostRecentProdReports = [];
+    this.mostRecentInv = {} as Inventory;
+    this.mostRecentPR = {} as ProductReport;
+
     let counter: number = 0;
     let prUpdate: number = 0;
 
@@ -38,8 +45,7 @@ export class ProdRepPipe implements PipeTransform {
               this.mostRecentInv = i;
               console.log("Most recent first entry: ", this.mostRecentInv);
               counter += 1;
-            }
-            else {
+            } else {
               if (i.createdOn !== null && this.mostRecentInv.createdOn !== null) {
                 if (i.createdOn > this.mostRecentInv.createdOn) {
                   this.mostRecentInv = i;
@@ -58,19 +64,19 @@ export class ProdRepPipe implements PipeTransform {
             for (let r of this.mostRecentInv.product.reports) {
               console.log("Product report inside date comp loop: ", r);
                 if (r.createdOn !== null && this.mostRecentInv.createdOn !== null) {
-                  if (prUpdate === 0) {
-                    if (r.createdOn > this.mostRecentInv.createdOn) {
-                      this.mostRecentPR = r;
-                      console.log("Most recent PR after date eval: ", this.mostRecentPR);
-                      prUpdate = 1;
-                    }
-                  }
-                  else if (prUpdate === 1) {
+                  if (prUpdate === 1) {
                     if (r.createdOn !== null && this.mostRecentPR.createdOn !== null) {
                       if (r.createdOn > this.mostRecentPR.createdOn) {
                         this.mostRecentPR = r;
                         console.log("Most recent PR after date eval: ", this.mostRecentPR);
                       }
+                    }
+                  }
+                  else if (prUpdate === 0) {
+                    if (r.createdOn > this.mostRecentInv.createdOn) {
+                      this.mostRecentPR = r;
+                      console.log("Most recent PR after date eval: ", this.mostRecentPR);
+                      prUpdate = 1;
                     }
                   }
                 }

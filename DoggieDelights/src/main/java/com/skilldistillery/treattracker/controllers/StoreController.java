@@ -85,8 +85,8 @@ public class StoreController {
 	}
 	
 	@GetMapping("stores/search/products/{keyword}")
-	public List<Store> getStoresByProductKeywordSearch(@PathVariable String keyword, HttpServletResponse res) {
-		List<Store> stores = null;
+	public Set<Store> getStoresByProductKeywordSearch(@PathVariable String keyword, HttpServletResponse res) {
+		Set<Store> stores = null;
 		try {
 			stores = storeServ.findStoresByProductKeywordSearch(keyword);
 			System.out.println("inside method controller " + stores);

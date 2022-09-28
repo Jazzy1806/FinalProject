@@ -38,9 +38,9 @@ export class MapComponent implements OnInit {
     zoom = 4;
     radius = 500;
 
-    center: google.maps.LatLngLiteral = {lat: 24, lng: 12};
+    center: google.maps.LatLngLiteral = {lat: 42, lng: -105};
 
-    circleCenter: google.maps.LatLngLiteral = {lat: 24, lng: 12};
+    circleCenter: google.maps.LatLngLiteral = {lat: 42, lng: -105};
 
     icon = {
       url: "https://images.squarespace-cdn.com/content/v1/5b64ccb1f2e6b1be5f20a7f9/1537931479772-E0QNNNG8A211GRLS25G2/download+paw+icon.png?format=1500w", // url
@@ -56,7 +56,7 @@ export class MapComponent implements OnInit {
     };
 
 
-    markerPositions: google.maps.LatLngLiteral[] = [{lat:24, lng: 12}, {lat: 32, lng: 12}, {lat: 28, lng: 21}];
+    markerPositions: google.maps.LatLngLiteral[] = [{lat:39.816, lng: -105.068}, {lat: 39.14, lng: -105.478}, {lat: 39.87, lng: -105.62}];
 
     addMarker(event: google.maps.MapMouseEvent) {
       //currently pulling lat/long from map clicks... populate with stores/products based on keyword??

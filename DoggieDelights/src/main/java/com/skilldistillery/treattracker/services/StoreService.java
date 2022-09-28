@@ -27,7 +27,7 @@ public interface StoreService {
 	StoreComment postCommentToParentCommentToStore(String username,Store store, int parentStoreComment, StoreComment comment);
 	StoreComment updateCommentStore(Store store, StoreComment comment);
 	boolean deleteCommentStore(String username, Store store, StoreComment comment);
-	List<Store> findStoresByProductKeywordSearch(String keyword);
+	Set<Store> findStoresByProductKeywordSearch(String keyword);
 	
 	
 	
