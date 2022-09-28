@@ -2,6 +2,7 @@ import { ProductReport } from './../../models/product-report';
 import { ProductReportService } from './../../services/product-report.service';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-product-report',
@@ -15,6 +16,7 @@ export class ProductReportComponent implements OnInit {
   loggedInUser: any;
 
   constructor(private reportService: ProductReportService,
+    private datePipe: DatePipe,
     private authService: AuthService) { }
 
   ngOnInit(): void {
@@ -56,10 +58,15 @@ export class ProductReportComponent implements OnInit {
     return this.reports;
   }
 
-  reload() {
-    this.reportService.index().subscribe({
-      next: (data) => {
-        this.reports = data;
+  reload(pid: number) {
+    this.reportService.index(pid).subscribe({
+      next: (productReports) => {
+        // for (let productReport of productReports) {
+        //   for (let report of this.reports) {
+        //     report.store = productReport.store;
+        //   }
+        // }
+        this.reports = productReports;
       },
       error: (err) => {
         console.error('ProductReportComponent.reload(): error loading reports: ' + err);
@@ -84,7 +91,7 @@ export class ProductReportComponent implements OnInit {
     this.reportService.create(newReport).subscribe({
       next: (data) => {
         this.newReport = {} as ProductReport;
-        this.reload();
+        // this.reload();
       },
       error: (err) => {
         console.error('ProductReportComponent.addReport(): error creating product report' + err);

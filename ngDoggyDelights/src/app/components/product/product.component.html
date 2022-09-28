@@ -1,6 +1,8 @@
 <main class="contqainer">
   <h1 style="text-align: center;">The Specter Selecter</h1>
 
+  <!-- TODO: Sort Reports by Date - first 3? 5? -->
+  <!-- TODO: Product card stretches to match number of Reports... -->
   <!-- TODO: No two-way binding on edit cancel -->
   <!-- TODO: Are you sure pop-up on delete -->
   <!-- TODO: Button positioning, alignment, and color -->
@@ -12,7 +14,7 @@
     </button>
     <div *ngFor="let product of products">
       <div *ngIf="product.enabled">
-        <div class="card" (click)="reports = getProductReports(product.id); detailProduct = displayProduct(product)">
+        <div class="card" (click)="displayProduct(product)">
           <div class="row card-body vertical-center">
             <div class="col">
               <h4>{{product.name}}</h4>
@@ -84,7 +86,8 @@
           <span class="card-text">{{detailProduct.dateCreated}}</span><br>
           <span class="card-text">Last Updated On</span><br>
           <span class="card-text">{{detailProduct.dateUpdated}}</span><br>
-          <button (click)="editProduct = detailProduct; detailProduct = null" class="btn btn-outline-primary btn-sm">Edit
+          <button (click)="editProduct = detailProduct; detailProduct = null"
+            class="btn btn-outline-primary btn-sm">Edit
             Details
           </button><br>
           <button (click)="disableProduct(detailProduct); detailProduct = null" class="btn btn-danger btn-sm">Remove
@@ -101,11 +104,14 @@
 
         <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
 
-        <div class="card report-card" *ngFor="let report of reports">
-          <div class="card-body">
+        <div class="card report-card" *ngFor="let report of detailProduct.reports">
+          <div class="card-body" *ngIf="report.store">
+            <span><b>{{detailProduct.name}}</b></span><br>
             <span><b>${{report.price}}</b></span><br>
-            <span>{{report.store.name}}</span><br>
-            <span>{{report.createdOn}}</span><br>
+            <!-- <span>Seen At: <b>{{report.store | json}}</b></span><br> -->
+            <span *ngIf="report.store.name">Seen At: <b>{{report.store.name}}</b></span><br>
+            <span>On: <b>{{report.createdOn}}</b></span><br>
+            <span>At: <b>{{report.createdOn}}</b></span><br>
             <!-- Product {{report.product.id}} -->
           </div>
         </div>
@@ -183,7 +189,8 @@
             <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
           </div>
 
-          <button (click)="addReport(newReport); newReport = null" type="button" class="btn btn-outline-primary btn-sm">Submit
+          <button (click)="addReport(newReport); newReport = null" type="button"
+            class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 
           <button (click)="newReport = null" type="button" class="btn btn-outline-primary btn-sm">

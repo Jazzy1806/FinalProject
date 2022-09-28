@@ -1,3 +1,4 @@
+import { ProductReportService } from 'src/app/services/product-report.service';
 import { ProductReportComponent } from './../product-report/product-report.component';
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
@@ -24,12 +25,14 @@ export class ProductComponent implements OnInit {
 
   constructor(
     private prodService: ProductService,
+    private reportService: ProductReportService,
     private reportComp: ProductReportComponent,
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.reload();
+    // this.reportComp.reload();
     this.getLoggedInUser();
   }
 
@@ -50,7 +53,19 @@ export class ProductComponent implements OnInit {
   }
 
   displayProduct(product: Product) {
-    this.reports = this.reportComp.getProductReports(product.id);
+    this.detailProduct = product;
+    this.reportService.getReportsByProduct(product.id).subscribe({
+      next: (data) => {
+        console.log(data);
+
+        if (this.detailProduct) {
+          this.detailProduct.reports = data;
+        }
+      },
+      error: (err) => {
+        console.error('ProductReportComponent.getProductReports(): error loading product reports' + err);
+      },
+    });
     return product;
   }
 
@@ -77,10 +92,14 @@ export class ProductComponent implements OnInit {
     return this.reports;
   }
 
-  getProductReports(pid: number) {
-    this.reports = this.reportComp.getProductReports(pid);
-    return this.reports;
-  }
+  // getReportsByProduct(pid: number) {
+  //   this.reports = this.reportComp.getProductReports(pid);
+  //   // this.reload();
+  //   for (let report of this.reports) {
+  //     console.log(report);
+  //   }
+  //   return this.reports;
+  // }
 
   reload() {
     this.prodService.index().subscribe({

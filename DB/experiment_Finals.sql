@@ -644,16 +644,16 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 1, 12.99, 10, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (2, 2, 25.45, 12, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (3, 3, 10.99, 13, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 4, 11.99, 14, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 5, 8.99, 15, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 6, 15.99, 16, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 7, 32.50, 17, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 8, 12.99, 18, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 9, 13.99, 19, 1, NULL, NULL);
-INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 10, 14.99, 20, 1, NULL, NULL);
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 1, 12.99, 10, 1, '2022-09-28 12:10:02', '2022-09-28 12:20:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (2, 2, 25.45, 12, 1, '2022-09-28 12:11:02', '2022-09-28 12:21:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (3, 3, 10.99, 13, 1, '2022-09-28 12:12:02', '2022-09-28 12:22:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 4, 11.99, 14, 1, '2022-09-28 12:13:02', '2022-09-28 12:23:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 5, 8.99, 15, 1, '2022-09-28 12:14:02', '2022-09-28 12:24:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 6, 15.99, 16, 1, '2022-09-28 12:15:02', '2022-09-28 12:25:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 7, 32.50, 17, 1, '2022-09-28 12:16:02', '2022-09-28 12:26:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 8, 12.99, 18, 1, '2022-09-28 12:17:02', '2022-09-28 12:27:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 9, 13.99, 19, 1, '2022-09-28 12:18:02', '2022-09-28 12:28:02');
+INSERT INTO `inventory` (`store_id`, `product_id`, `price`, `quantity`, `enabled`, `created_on`, `updated_on`) VALUES (1, 10, 14.99, 20, 1, '2022-09-28 12:19:02', '2022-09-28 12:29:02');
 
 COMMIT;
 

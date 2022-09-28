@@ -28,8 +28,8 @@ export class ProductReportService {
     return options;
   }
 
-  index(): Observable<ProductReport[]> {
-    return this.http.get<ProductReport[]>(this.url + '/1/reports', this.getHttpOptions()).pipe(
+  index(pid: number): Observable<ProductReport[]> {
+    return this.http.get<ProductReport[]>(this.url + '/' + pid + '/reports', this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(
           () =>
