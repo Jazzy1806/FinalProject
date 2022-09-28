@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -72,6 +73,10 @@ public class UserController {
 		User updated = null;
 		try {
 		updated = authService.updateUserById(userId, user, principal); 
+		} catch (DataIntegrityViolationException e) {
+			System.out.println("cause" + e.getCause());
+			String errorMsg = "Unable to update since the username already exits. Please try again!";
+			e.printStackTrace();
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -232,7 +237,7 @@ public class UserController {
 		Address created = null;
 		try {
 		created = addService.addAddress(principal.getName(), address); 
-		res.setStatus(201);
+		
 		}
 		catch (Exception e) {
 			e.printStackTrace();
@@ -253,5 +258,16 @@ public class UserController {
 			res.setStatus(400);
 		}
 		return updated;
+	}
+	
+	@GetMapping("user/search/{usernane}")
+	public User getUserByUsername(@PathVariable String username, HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		User user = authService.getUserByUsername(username);
+		if (user == null ) {
+			res.setStatus(201);
+		} else {
+			res.setStatus(400);
+		}
+		return user;
 	}
 }

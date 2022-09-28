@@ -26,21 +26,25 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/store']"> Store </a>
         </li>
-        <li class="nav-item" *ngIf="! loggedIn()">
+        <!-- <li class="nav-item" *ngIf="! loggedIn()">
           <a  class="nav-link"[routerLink]="['/register']"> Register </a>
-        </li>
+        </li> -->
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/notTodayWillis']"> NotFound </a>
         </li>
-        <li class="nav-item" *ngIf="!loggedIn()">
+        <!-- <li class="nav-item" *ngIf="!loggedIn()">
           <app-login></app-login>
-        </li>
+        </li> -->
         <!-- <li  *ngIf="loggedIn()">
           <app-logout></app-logout>
         </li> -->
       </ul>
     </div>
   </div>
+  <div class="navbar-nav ms-auto" *ngIf="!loggedIn()">
+    <a type="button"  class="nav-link"[routerLink]="['/register']"> Register </a>
+  </div>
+  <div class="navbar-nav ms-auto" *ngIf="!loggedIn()"> <app-login></app-login></div>
   <div class="navbar-nav ms-auto" *ngIf="loggedIn()">
     <div class="col">
       <a class="nav-link" [routerLink]="['/profile']"> <mat-icon>person</mat-icon>

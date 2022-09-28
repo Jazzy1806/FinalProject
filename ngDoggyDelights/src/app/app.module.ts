@@ -3,7 +3,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 
 
@@ -65,7 +65,8 @@ import { MatIconModule } from '@angular/material/icon';
     HttpClientModule,
     GoogleMapsModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe],
   bootstrap: [AppComponent]

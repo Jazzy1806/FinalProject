@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable, of, delay } from 'rxjs';
 import { Address } from 'src/app/models/address';
 import { User } from 'src/app/models/user';
 import { AuthService } from 'src/app/services/auth.service';
@@ -13,6 +14,9 @@ export class UserComponent implements OnInit {
   editUser : User | null = null;
   selectedUser : User | null = null;
   newAddress: Address | null = null;
+  takenUsernames : string[] = [];
+
+
   constructor(private authService : AuthService) { }
 
   ngOnInit(): void {
@@ -24,6 +28,9 @@ export class UserComponent implements OnInit {
     this.authService.getAllUsers().subscribe({
       next: (result) => {
         this.users = result;
+        for (let user of this.users) {
+          this.takenUsernames.push(user.username);
+        }
       },
       error: (problem) => {
         console.error(
@@ -32,6 +39,9 @@ export class UserComponent implements OnInit {
         console.error(problem);
       },
     });
+  }
+  checkIfUsernameExists(username: string): Observable<boolean> {
+    return of(this.takenUsernames.includes(username)).pipe(delay(1000));
   }
 
   toggleUser(user : User) {
