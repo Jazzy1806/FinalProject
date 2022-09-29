@@ -4,13 +4,17 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductReport } from '../models/product-report';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductReportService {
-  private baseUrl = 'http://localhost:8090/';
-  private url = this.baseUrl + 'api/products';
+  // private baseUrl = 'http://localhost:8090/';
+  // private url = this.baseUrl + 'api/products';
+  private baseUrl = environment.baseUrl;
+  private uri = 'api/products';
+  private url = this.baseUrl + this.uri;
 
   constructor(
     private http: HttpClient,

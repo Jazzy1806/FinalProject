@@ -7,14 +7,18 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { StoreComment } from '../models/store-comment';
 import { Inventory } from '../models/inventory';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StoreService {
 
-  private baseUrl = 'http://localhost:8090/';
-  private url = this.baseUrl + 'api/stores';
+  // private baseUrl = 'http://localhost:8090/';
+  // private url = this.baseUrl + 'api/stores';
+  private baseUrl = environment.baseUrl;
+  private uri = 'api/stores';
+  private url = this.baseUrl + this.uri;
 
   constructor(private http: HttpClient,  private auth: AuthService) { }
 
