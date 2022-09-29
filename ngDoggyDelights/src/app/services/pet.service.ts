@@ -6,14 +6,18 @@ import { Pet } from '../models/pet';
 import { catchError, Observable, throwError } from 'rxjs';
 import { Breed } from '../models/breed';
 import { Diet } from '../models/diet';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PetService {
 
-  private baseUrl = 'http://localhost:8090/';
-  private url = this.baseUrl + 'api/pets';
+  // private baseUrl = 'http://localhost:8090/';
+  // private url = this.baseUrl + 'api/pets';
+  private baseUrl = environment.baseUrl;
+  private uri = 'api/pets';
+  private url = this.baseUrl + this.uri;
 
   constructor(private http: HttpClient, private enabledPipe: EnabledPipe, private authService: AuthService) { }
 

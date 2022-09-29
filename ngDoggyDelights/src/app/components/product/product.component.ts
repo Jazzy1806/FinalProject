@@ -1,3 +1,5 @@
+import { Store } from 'src/app/models/store';
+import { StoreService } from 'src/app/services/store.service';
 import { ProductReportService } from 'src/app/services/product-report.service';
 import { ProductReportComponent } from './../product-report/product-report.component';
 import { Component, OnInit } from '@angular/core';
@@ -5,6 +7,8 @@ import { Product } from 'src/app/models/product';
 import { ProductService } from './../../services/product.service';
 import { ProductReport } from 'src/app/models/product-report';
 import { AuthService } from 'src/app/services/auth.service';
+import { ProductCommentService } from 'src/app/services/product-comment.service';
+import { ProductComment } from 'src/app/models/product-comment';
 // import { Observable } from 'rxjs';
 
 @Component({
@@ -14,19 +18,24 @@ import { AuthService } from 'src/app/services/auth.service';
   providers: [ProductReportComponent]
 })
 export class ProductComponent implements OnInit {
-  showAll: boolean = true;
   loggedInUser: any;
+  showAll: boolean = true;
+  storeId: number = 1;
   products: Product[] = [];
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
   newReport: ProductReport | null = null;
+  newComment: ProductComment | null = null
   reports: ProductReport[] = [];
+  comments: ProductComment[] = [];
 
   constructor(
     private prodService: ProductService,
     private reportService: ProductReportService,
     private reportComp: ProductReportComponent,
+    private commentService: ProductCommentService,
+    private storeService: StoreService,
     private authService: AuthService
   ) { }
 
@@ -41,7 +50,7 @@ export class ProductComponent implements OnInit {
       next: (user) => {
         this.loggedInUser = user;
         // this.newComment.user = this.loggedInUser;
-        console.log('user logged in ' + user.username);
+        // console.log('user logged in ' + user.username);
       },
       error: (problem) => {
         console.error(
@@ -54,10 +63,10 @@ export class ProductComponent implements OnInit {
 
   displayProduct(product: Product) {
     this.detailProduct = product;
+
     this.reportService.getReportsByProduct(product.id).subscribe({
       next: (data) => {
-        console.log(data);
-
+        // console.log(data);
         if (this.detailProduct) {
           this.detailProduct.reports = data;
         }
@@ -66,12 +75,31 @@ export class ProductComponent implements OnInit {
         console.error('ProductReportComponent.getProductReports(): error loading product reports' + err);
       },
     });
+
+    this.commentService.indexByProduct(product.id).subscribe({
+      next: (comments) => {
+        // console.log(comments);
+        if (this.detailProduct) {
+          this.detailProduct.comments = comments;
+        }
+      },
+      error: (err) => {
+        console.error('ProductService.displayProduct(): error loading product comments' + err);
+      },
+    });
+
     return product;
   }
 
   getNewProduct() {
     this.newProduct = new Product();
     return this.newProduct;
+  }
+
+  getNewComment(product: Product) {
+    this.newComment = new ProductComment();
+    this.newComment.product = product;
+    return this.newComment;
   }
 
   getNewReport(product: Product) {
@@ -81,8 +109,29 @@ export class ProductComponent implements OnInit {
     return this.newReport;
   }
 
-  addReport(report: ProductReport) {
-    this.reportComp.addReport(report);
+  addReport(pid:number, sid: number, report: ProductReport) {
+    this.storeService.getStoreById(sid).subscribe({
+      next: (store) => {
+        console.log(store);
+        report.store = store;
+      },
+      error: (err) => {
+        console.error('ProductComponent.getStoreById(): error retrieving store' + err);
+      },
+    });
+
+    console.log(report);
+    this.reportService.create(pid, sid, report).subscribe({
+      next: (report) => {
+        console.log(report);
+        // report.store = store;
+      },
+      error: (err) => {
+        console.error('ProductComponent.addReport(): error adding report' + err);
+      },
+    });
+
+    // this.reportComp.addReport(pid, sid, report);
     this.newReport = this.reportComp.getNewReport();
     this.reload();
   }
@@ -126,6 +175,17 @@ export class ProductComponent implements OnInit {
     });
   }
 
+  addComment(pid: number, sid: number, comment: ProductComment) {
+    this.commentService.create(pid, sid, comment).subscribe({
+      next: (data) => {
+        this.reload();
+      },
+      error: (err) => {
+        console.error('ProductComponent.addComment(): error adding comment' + err);
+      },
+    });
+  }
+
   updateProduct(product: Product) {
     // console.log(product);
 
@@ -155,6 +215,8 @@ export class ProductComponent implements OnInit {
       },
     });
   }
+
+
 
   // deleteProduct(pid: number) {
   //   this.prodService.destroy(pid).subscribe({

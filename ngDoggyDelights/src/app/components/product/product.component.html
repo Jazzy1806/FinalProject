@@ -1,6 +1,7 @@
 <main class="contqainer">
   <h1 style="text-align: center;">The Specter Selecter</h1>
 
+  <!-- *** Actual Store Name Dropdown *** -->
   <!-- TODO: Sort Reports by Date - first 3? 5? -->
   <!-- TODO: Product card stretches to match number of Reports... -->
   <!-- TODO: No two-way binding on edit cancel -->
@@ -8,7 +9,7 @@
   <!-- TODO: Button positioning, alignment, and color -->
 
   <!-- *** All Products *** -->
-  <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newProduct && !newReport">
+  <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newProduct && !newReport && !newComment">
     <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm">
       Add a New Product
     </button>
@@ -72,11 +73,11 @@
     </div>
   </div>
 
-  <!-- *** Single Product Detail with Reports *** -->
+  <!-- *** Single Product Detail with Reports and Comments *** -->
   <div class="container text-center d-flex justify-content-center">
     <div class="row center">
 
-      <div class="card col" *ngIf="detailProduct && !newReport"><br>
+      <div class="card col" *ngIf="detailProduct && !newReport && !newComment"><br>
         <img src="{{detailProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
         <div class="card-body">
           <h1 class="card-title">{{detailProduct.name}}</h1>
@@ -95,7 +96,7 @@
         </div>
       </div>
 
-      <div class="col" *ngIf="detailProduct && !newReport">
+      <div class="col" *ngIf="detailProduct && !newReport && !newComment">
         <!-- <h4>Latest Prices</h4> -->
 
         <button (click)="newReport = getNewReport(detailProduct)" class="btn btn-outline-primary btn-sm">
@@ -116,6 +117,26 @@
           </div>
         </div>
       </div>
+
+      <div class="col" *ngIf="detailProduct && !newReport && !newComment">
+        <button (click)="newComment = getNewComment(detailProduct)" class="btn btn-outline-primary btn-sm">
+          Comment on this Product
+        </button><br>
+
+        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
+
+        <div class="card comment-card" *ngFor="let comment of detailProduct.comments">
+          <!-- <div class="card-body" *ngIf="report.store"> -->
+          <div class="card-body" *ngIf="comment">
+            <span><b>{{detailProduct.name}}</b></span><br>
+            <span><b>{{comment.title}}</b></span><br>
+            <span>{{comment.description}}</span><br>
+            <span>{{comment.rating}}</span><br>
+            <span>On: <b>{{comment.dateCreated}}</b></span><br>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 
@@ -164,7 +185,7 @@
   <!-- *** New Report *** -->
   <div class="container d-flex justify-content-center" *ngIf="newReport && detailProduct">
     <div class="row center">
-      <div class="card col" style="width: 25rem;"><br>
+      <div class="card col report-card" style="width: 25rem;"><br>
         <form>
           <div class="mb-3">
             <label for="priceInput" class="form-label">New Price:</label>
@@ -179,7 +200,7 @@
 
           <div class="mb-3">
             <label for="storeInput" class="form-label">Which Store?</label>
-            <input [(ngModel)]="newReport.store.id" type="number" class="form-control" id="storeInput" name="store"
+            <input [(ngModel)]="storeId" type="number" class="form-control" id="storeInput" name="store"
               aria-describedby="storeHelp" placeholder="1">
           </div>
 
@@ -189,11 +210,51 @@
             <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
           </div>
 
-          <button (click)="addReport(newReport); newReport = null" type="button"
+          <button (click)="addReport(detailProduct.id, storeId, newReport); newReport = null" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 
           <button (click)="newReport = null" type="button" class="btn btn-outline-primary btn-sm">
+            Back
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- *** New Comment *** -->
+  <div class="container d-flex justify-content-center" *ngIf="newComment && detailProduct">
+    <div class="row center">
+      <div class="card col report-comment" style="width: 25rem;"><br>
+        <form>
+          <div class="mb-3">
+            <label for="titleInput" class="form-label">Title:</label>
+            <input [(ngModel)]="newComment.title" type="text" class="form-control" id="titleInput" name="title"
+              aria-describedby="priceHelp" placeholder="Title...">
+          </div>
+          <div class="mb-3">
+            <label for="descriptionInput" class="form-label">Description</label>
+            <textarea [(ngModel)]="newComment.description" class="form-control" id="descriptionInput" rows="3" name="description"
+              placeholder="Let us know what you thought"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label for="ratingInput" class="form-label">Rating</label>
+            <input [(ngModel)]="newComment.rating" type="number" class="form-control" id="ratingInput" name="rating"
+              aria-describedby="storeHelp" placeholder="1">
+          </div>
+
+          <div class="mb-3">
+            <label for="storeInput" class="form-label">Which Store?</label>
+            <input [(ngModel)]="storeId" type="number" class="form-control" id="storeInput" name="store"
+              aria-describedby="storeHelp" placeholder="1">
+          </div>
+
+          <button (click)="displayProduct(detailProduct) ;addComment(detailProduct.id, storeId, newComment); newComment = null" type="button"
+            class="btn btn-outline-primary btn-sm">Submit
+          </button><br><br>
+
+          <button (click)="newComment = null" type="button" class="btn btn-outline-primary btn-sm">
             Back
           </button>
         </form>

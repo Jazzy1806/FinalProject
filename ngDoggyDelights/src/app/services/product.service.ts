@@ -6,13 +6,17 @@ import { Product } from '../models/product';
 import { AuthService } from './auth.service';
 import { DatePipe } from '@angular/common';
 import { Store } from '../models/store';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  private baseUrl = 'http://localhost:8090/';
-  private url = this.baseUrl + 'api/products/';
+  // private baseUrl = 'http://localhost:8090/';
+  // private url = this.baseUrl + 'api/products/';
+  private baseUrl = environment.baseUrl;
+  private uri = 'api/products/';
+  private url = this.baseUrl + this.uri;
 
   constructor(
     private http: HttpClient,
