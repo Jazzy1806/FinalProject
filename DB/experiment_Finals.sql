@@ -320,7 +320,6 @@ DROP TABLE IF EXISTS `breed` ;
 CREATE TABLE IF NOT EXISTS `breed` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(80) NULL,
-  `color` VARCHAR(45) NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -345,6 +344,7 @@ DROP TABLE IF EXISTS `ingredient` ;
 CREATE TABLE IF NOT EXISTS `ingredient` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
+  `type` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB;
 
@@ -503,24 +503,14 @@ SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (1, '11924 Se Division', 'Portland', 'Oregon', '97266', '503-761-5974');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (2, '111 Sw Fifth Ave Suite 3150', 'Portland', 'Oregon', '97204', '503-217-4114');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (3, '1441 North Marine Drive', 'Portland', 'Oregon', '97217', '503-894-9279');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (4, '20360 Sw Westside Dr', 'Portland', 'Oregon', '97078', '503-277-8642');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (5, '5934 Se Duke St', 'Portland', 'Oregon', '97206', '503-771-4637');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (6, '5934 Se Duke St', 'Portland', 'Oregon', '97206', '503-771-4637');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (7, '5934 Se Duke St', 'Portland', 'Oregon', '97206', '503-771-4637');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (8, 'Guest address', 'Guest city', 'Guest state', '97206', '111-111-1111');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (9, '4540 Haul Road', 'Portland', 'Oregon', '97206', '650-938-9509');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (10, '606 Wilson Street', 'Portland', 'Oregon', '93546', '760-924-1991');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (11, '194 Franklin Avenue', 'Portland', 'Oregon', '32810', '386-216-1071');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (12, '3362 Braxton Street', 'Portland', 'Oregon', '60606', '815-534-3849');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (13, '4043 Radio Park Drive', 'Portland', 'Oregon', '30648', '912-552-3444');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (14, '4841 Scheuvront Drive', 'Portland', 'Oregon', '80202', '303-534-4325');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (15, '4712 Chicago Avenue', 'Portland', 'Oregon', '93721', '559-618-2099');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (16, '2249 Stratford Court', 'Portland', 'Oregon', '27565', '919-693-9547');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (17, '3720 Yorkie Lane', 'Portland', 'Oregon', '31401', '912-916-2432');
-INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (18, '2574 Meadow Lane', 'Portland', 'Oregon', '94597', '707-293-3186');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (1, '4875 Ward Road', 'Wheat Ridge', 'Colorado', '80033', '720-522-6689');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (2, '9870 West 48th Avenue', 'Wheat Ridge', 'Colorado', '80033', '720-522-7385');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (3, '3595 Wynkoop Street', 'Denver', 'Colorado', '80216', '720-687-6854');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (4, '4265 Barr Lane', 'Westminster', 'Colorado', '80031', '303-687-3512');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (5, '2600 Lawrence Street', 'Denver', 'Colorado', '80205', '720-786-3458');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (6, '1497 South Brentwood Street', 'Lakewood', 'Colorado', '80232', '303-965-6873');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (7, '1708 West Baltic Place', 'Englewood', 'Colorado', '80110', '720-357-3540');
+INSERT INTO `address` (`id`, `address`, `city`, `state`, `postal_code`, `phone`) VALUES (8, '5839 Pierce Street', 'Arvada', 'Colorado', '80003', '303-354-6824');
 
 COMMIT;
 
@@ -585,9 +575,18 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `squad` (`id`, `name`) VALUES (1, 'Technology');
-INSERT INTO `squad` (`id`, `name`) VALUES (2, 'Human Resouces');
-INSERT INTO `squad` (`id`, `name`) VALUES (3, 'Engineering');
+INSERT INTO `squad` (`id`, `name`) VALUES (1, 'Husky');
+INSERT INTO `squad` (`id`, `name`) VALUES (2, 'Stafforshire Terrier');
+INSERT INTO `squad` (`id`, `name`) VALUES (3, 'Brindel Boxer');
+INSERT INTO `squad` (`id`, `name`) VALUES (4, 'Shitzu');
+INSERT INTO `squad` (`id`, `name`) VALUES (5, 'Labrador');
+INSERT INTO `squad` (`id`, `name`) VALUES (6, 'Poodle');
+INSERT INTO `squad` (`id`, `name`) VALUES (7, 'Doberman');
+INSERT INTO `squad` (`id`, `name`) VALUES (8, 'German Shepherd');
+INSERT INTO `squad` (`id`, `name`) VALUES (9, 'Border Collie');
+INSERT INTO `squad` (`id`, `name`) VALUES (10, 'Chow');
+INSERT INTO `squad` (`id`, `name`) VALUES (11, 'Golden Retriever');
+INSERT INTO `squad` (`id`, `name`) VALUES (12, 'Rottweiler');
 
 COMMIT;
 
@@ -597,7 +596,9 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `group_message` (`id`, `message`, `created`, `squad_id`, `user_id`) VALUES (1, 'Is this showing?', NULL, 3, 1);
+INSERT INTO `group_message` (`id`, `message`, `created`, `squad_id`, `user_id`) VALUES (1, 'Is this showing?', '2022-09-28 12:10:02', 3, 1);
+INSERT INTO `group_message` (`id`, `message`, `created`, `squad_id`, `user_id`) VALUES (2, 'This is a message', '2022-09-28 12:11:02', 1, 1);
+INSERT INTO `group_message` (`id`, `message`, `created`, `squad_id`, `user_id`) VALUES (3, 'This is also a message', '2022-09-28 12:12:02', 1, 2);
 
 COMMIT;
 
@@ -607,9 +608,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (1, 'First Message', NULL, 1, 2);
-INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (2, 'Second Message', NULL, 2, 1);
-INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (3, 'Third Message', NULL, 3, 1);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (1, 'First Message', '2022-09-28 12:10:02', 1, 2);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (2, 'Second Message', '2022-09-28 12:11:02', 2, 1);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (3, 'Third Message', '2022-09-28 12:13:02', 3, 1);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (4, 'Quadernary message', '2022-09-28 12:14:02', 2, 1);
+INSERT INTO `message` (`id`, `message_content`, `created`, `message_from`, `message_to`) VALUES (5, 'Penta message', '2022-09-28 12:15:02', 1, 2);
 
 COMMIT;
 
@@ -619,7 +622,11 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (1, 3, 1);
+INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (1, 1, 1);
+INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (2, 2, 2);
+INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (3, 3, 3);
+INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (4, 1, 2);
+INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (5, 1, 3);
 
 COMMIT;
 
@@ -665,7 +672,7 @@ START TRANSACTION;
 USE `doggydb`;
 INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (1, 'Specter', 70.0, 1, 'male', NULL, NULL, 1, 'white-black');
 INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (2, 'Peepers', 80.1, 2, 'female', NULL, NULL, 1, 'brown');
-INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (3, 'Marley', 56.7, 3, 'non-binary', NULL, NULL, 1, 'brown-white');
+INSERT INTO `pet` (`id`, `name`, `weight`, `user_id`, `gender`, `image`, `birth_date`, `enabled`, `color`) VALUES (3, 'Marley', 56.7, 3, 'male', NULL, NULL, 1, 'brown-white');
 
 COMMIT;
 
@@ -675,9 +682,18 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `breed` (`id`, `name`, `color`) VALUES (1, 'Husky', 'white-black');
-INSERT INTO `breed` (`id`, `name`, `color`) VALUES (2, 'Staffordshire Terrier', 'brown');
-INSERT INTO `breed` (`id`, `name`, `color`) VALUES (3, 'Brindel Boxer', 'brown-white');
+INSERT INTO `breed` (`id`, `name`) VALUES (1, 'Husky');
+INSERT INTO `breed` (`id`, `name`) VALUES (2, 'Staffordshire Terrier');
+INSERT INTO `breed` (`id`, `name`) VALUES (3, 'Brindel Boxer');
+INSERT INTO `breed` (`id`, `name`) VALUES (4, 'Shitzu');
+INSERT INTO `breed` (`id`, `name`) VALUES (5, 'Labrador');
+INSERT INTO `breed` (`id`, `name`) VALUES (6, 'Poodle');
+INSERT INTO `breed` (`id`, `name`) VALUES (7, 'Doberman');
+INSERT INTO `breed` (`id`, `name`) VALUES (8, 'German Shepherd');
+INSERT INTO `breed` (`id`, `name`) VALUES (9, 'Border Collie');
+INSERT INTO `breed` (`id`, `name`) VALUES (10, 'Chow');
+INSERT INTO `breed` (`id`, `name`) VALUES (11, 'Golden Retriever');
+INSERT INTO `breed` (`id`, `name`) VALUES (12, 'Rottweiler');
 
 COMMIT;
 
@@ -699,14 +715,31 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `ingredient` (`id`, `name`) VALUES (1, 'chicken');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (2, 'soy');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (3, 'beef');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (4, 'rice');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (5, 'salmon');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (6, 'white fish');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (7, 'pork');
-INSERT INTO `ingredient` (`id`, `name`) VALUES (8, 'lamb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (1, 'Lamb', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (2, 'Chicken', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (3, 'Salmon', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (4, 'Beef', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (5, 'Pea Protein', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (6, 'Soybean Flour', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (7, 'Canola Meal', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (8, 'Corn Germ Meal', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (9, 'Corn Gluten Meal', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (10, 'Dried Egg Product', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (11, 'Chicken by-product Meal', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (12, 'Barley', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (13, 'Whole Wheat', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (14, 'Pea Starch', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (15, 'Pea Fiber', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (16, 'Oatmeal', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (17, 'Dried Beet Pulp', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (18, 'Lentil Flour', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (19, 'Corn', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (20, 'Wheat Bran Aleurone', 'carb');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (21, 'Beef Fat', 'fat');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (22, 'Fish Oil', 'fat');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (23, 'Sunflower Oil', 'fat');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (24, 'Soybean Oil', 'fat');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (25, 'Vegetable Oil', 'fat');
 
 COMMIT;
 
