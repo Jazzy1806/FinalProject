@@ -94,10 +94,9 @@
                         </div>
                         <div class="col-md-6 mb-4">
                           <br /><label>Role: </label><br /><br />
-                            <select class=" form-select form-select-sm" [(ngModel)]="editUser.role" aria-label="Default select example">
-                              <option selected></option>
-                              <option selected value="1">Standard</option>
-                              <option selected value="2">Admin</option>
+                            <select class=" form-select form-select-sm" name="role" [(ngModel)]="editUser.role" aria-label="Default select example">
+                              <option  *ngFor="let role of roles" value="{{role}}">{{role}}</option>
+
                             </select>
                         </div>
                       </div>

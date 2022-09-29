@@ -18,7 +18,7 @@ export class UserComponent implements OnInit {
 
 
   constructor(private authService : AuthService) { }
-
+  roles = ['standard', 'admin'];
   ngOnInit(): void {
   this.usersLoad();
 
@@ -63,6 +63,8 @@ export class UserComponent implements OnInit {
       next: (result) => {
         this.editUser = null;
         this.selectedUser = result;
+        console.log("role" + this.selectedUser.role);
+
         this.usersLoad();
       },
       error: (problem) => {

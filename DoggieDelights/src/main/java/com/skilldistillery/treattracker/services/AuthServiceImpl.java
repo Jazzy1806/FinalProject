@@ -92,6 +92,7 @@ public class AuthServiceImpl implements AuthService {
 				updated.setAddress(newAdd);
 				updated.setBio(user.getBio());
 				updated.setImage(user.getImage());
+				updated.setRole(user.getRole());
 				return userRepo.saveAndFlush(updated);
 			}
 		}
