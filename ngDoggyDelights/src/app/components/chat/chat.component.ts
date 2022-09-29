@@ -24,7 +24,7 @@ export class ChatComponent implements OnInit {
   groupMessage: MessageGroup = {} as MessageGroup;
   selectedUser: User = {} as User;
   selectedGroup: Group = {} as Group;
-  userLoggedIn: User | null = {} as User;
+  userLoggedIn: User= {} as User;
 
 
   constructor(private auth: AuthService, private userProfile: UserProfileComponent, private chatService: ChatService, private socketService: WebsocketService) {
@@ -110,6 +110,7 @@ export class ChatComponent implements OnInit {
     this.chatService.getGroupUsers(groupId, userId).subscribe({
       next: (result: User[]) => {
         this.otherUsers = result;
+        this.fetchGroupMessages(groupId);
       },
       error: (nojoy) => {
         console.error('ChatHttpComponent.getPersonalMsgs(): error fetching msgs:' + nojoy);

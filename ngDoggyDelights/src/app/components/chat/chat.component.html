@@ -5,23 +5,24 @@
         <div class="contacts-list">
             <div class="inbox-categories" *ngFor="let group of groups; let i = index">
                 <div *ngIf="i === 0" data-toggle="tab" [attr.data-target]="'#' + group.name" class="active"> {{group.name}} </div>
-                <div *ngIf="i > 0" data-toggle="tab" [attr.data-target]="'#' + group.name"> {{group.name}} </div>
+                <div *ngIf="i > 0" data-toggle="tab" [attr.data-target]="'#' + group.name" name="selectedGroup" [(ngModel)]="selectedGroup" (click)="fetchUsers(group.id, userLoggedIn.id)"> {{group.name}} </div>
 
             </div>
-            <div class="tab-content" *ngFor="let group of groups; let i = index">
-                <div id="{{group.name}}" class="contacts-outter-wrapper tab-pane active">
-                    <form class="panel-search-form info form-group has-feedback no-margin-bottom">
+            <div class="tab-content" >
+                <div id="{{selectedGroup.name}}" class="contacts-outter-wrapper tab-pane active">
+                    <!-- <form class="panel-search-form info form-group has-feedback no-margin-bottom">
                         <input type="text" class="form-control" name="search" placeholder="Search">
                         <span class="fa fa-search form-control-feedback"></span>
-                    </form>
+                    </form> -->
                     <div class="contacts-outter">
-                        <ul class="list-unstyled contacts"> <!--looping through group members on left panel with last message underneath-->
-                            <li *nfIf="i === 0" data-toggle="tab" [attr.data-target]="'#' + group.name + '-message-' + (i + 1)" class="active">
+                        <ul class="list-unstyled contacts" *ngFor="let msg of groupMessages; let i = index"> <!--looping through group members on left panel with last message underneath-->
+                            <li *nfIf="i === 0" data-toggle="tab" [attr.data-target]="'#' + selectedGroup.name + '-message-' + (i + 1)" class="active">
+                              <li *nfIf="i > 0" data-toggle="tab" [attr.data-target]="'#' + selectedGroup.name + '-message-' + (i + 1)">
                                 <div class="message-count"> {{i + 1}} </div>
                                 <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
 
                                 <div class="vcentered info-combo">
-                                    <h3 class="no-margin-bottom name"> John Doe </h3>
+                                    <h3 class="no-margin-bottom name"> {{msg.user.firstName}} </h3>
                                     <h5> Hah, too late, I already bought it and my team is impleting the new design right now.</h5>
                                 </div>
                                 <div class="contacts-add">

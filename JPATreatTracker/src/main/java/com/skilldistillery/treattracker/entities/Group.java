@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -25,7 +26,13 @@ public class Group {
 	@JsonIgnoreProperties({"groups"})
 	@ManyToMany(mappedBy = "groups")
 	private List<User> users;
+	
+	@JsonIgnoreProperties({"group"})
+	@OneToMany(mappedBy="group")
+	private List<MessageGroup> groupMessages;	
 
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -49,6 +56,16 @@ public class Group {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+	
+	
+
+	public List<MessageGroup> getGroupMessages() {
+		return groupMessages;
+	}
+
+	public void setGroupMessages(List<MessageGroup> groupMessages) {
+		this.groupMessages = groupMessages;
 	}
 
 	@Override

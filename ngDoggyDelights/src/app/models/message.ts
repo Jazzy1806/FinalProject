@@ -1,10 +1,16 @@
+import { User } from "./user";
+
 export class Message {
 
+  id: number;
   message: string;
-  fromLogin: number;
+  fromUser: User;
+  toUser: User;
 
-  constructor(message: string, fromLogin: number) {
+  constructor(id: number, message: string, fromUser: User, toUser: User) {
+    this.id = id;
     this.message = message;
-    this.fromLogin = fromLogin;
+    this.fromUser = fromUser;
+    this.toUser = toUser;
   }
 }

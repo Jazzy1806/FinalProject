@@ -20,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 public class User {
@@ -67,12 +68,24 @@ public class User {
 	@OneToMany(mappedBy="user")
 	private List<Store> stores;
 	
+	@JsonIgnoreProperties({"users", "groupMessages"})
 	@ManyToMany
 	@JoinTable(name = "group_member", 
 	joinColumns = @JoinColumn(name = "user_id"), 
 	inverseJoinColumns = @JoinColumn(name = "squad_id"))
 	private List<Group> groups;
 	
+	@JsonIgnoreProperties({"user", "group"})
+	@OneToMany(mappedBy="user")
+	private List<MessageGroup> groupMessages;	
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="fromUser")
+	private List<Message> messagesSent;	
+
+	@JsonIgnore
+	@OneToMany(mappedBy="toUser")
+	private List<Message> messagesReceived;	
 	
 	public User() {}
 
@@ -212,6 +225,32 @@ public class User {
 
 	public void setGroups(List<Group> groups) {
 		this.groups = groups;
+	}
+	
+	
+
+	public List<MessageGroup> getGroupMessages() {
+		return groupMessages;
+	}
+
+	public void setGroupMessages(List<MessageGroup> groupMessages) {
+		this.groupMessages = groupMessages;
+	}
+
+	public List<Message> getMessagesSent() {
+		return messagesSent;
+	}
+
+	public void setMessagesSent(List<Message> messagesSent) {
+		this.messagesSent = messagesSent;
+	}
+
+	public List<Message> getMessagesReceived() {
+		return messagesReceived;
+	}
+
+	public void setMessagesReceived(List<Message> messagesReceived) {
+		this.messagesReceived = messagesReceived;
 	}
 
 	@Override
