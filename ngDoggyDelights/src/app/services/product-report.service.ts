@@ -4,13 +4,17 @@ import { Observable, catchError, throwError } from 'rxjs';
 import { AuthService } from './auth.service';
 import { ProductReport } from '../models/product-report';
 import { DatePipe } from '@angular/common';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductReportService {
-  private baseUrl = 'http://localhost:8090/';
-  private url = this.baseUrl + 'api/products';
+  // private baseUrl = 'http://localhost:8090/';
+  // private url = this.baseUrl + 'api/products';
+  private baseUrl = environment.baseUrl;
+  private uri = 'api/products';
+  private url = this.baseUrl + this.uri;
 
   constructor(
     private http: HttpClient,
@@ -41,14 +45,15 @@ export class ProductReportService {
     );
   }
 
-  create(report: ProductReport): Observable<ProductReport> {
+  create(pid: number, sid: number, report: ProductReport): Observable<ProductReport> {
     // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
     console.log(report);
 
     report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
 
-    return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
-    // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
+    return this.http.post<ProductReport>(this.url + '/' + pid + '/stores/' + sid + '/reports', report,
+      this.getHttpOptions()).pipe(
+        // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
         catchError((err: any) => {
           // console.log(err);
           return throwError(
