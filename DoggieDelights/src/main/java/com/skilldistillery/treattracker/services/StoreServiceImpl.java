@@ -1,11 +1,14 @@
 package com.skilldistillery.treattracker.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
+import com.skilldistillery.treattracker.entities.SortByRate;
 import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.entities.User;
@@ -46,6 +50,62 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public List<Store> storesAscendingOrderByRate() {
+		List<Store> sortedStore = new ArrayList<>();
+		List<Store> unSortedStore = new ArrayList<>(storeRepo.findAll());
+		List<Double> rateList = new ArrayList<>();
+		double avgRate = 0;
+		double sumRate = 0;
+		int count = 0;
+		for (Store store : storeRepo.findAll()) {
+			for (StoreComment comment : store.getComments()) {
+				sumRate += comment.getRating();
+				count++;
+
+			}
+			avgRate = sumRate / count;
+			rateList.add(avgRate);
+		}
+		
+
+		//By default the LinkedHashMap preserves the insertion order.
+		Map<Store, Double> unsortedMap = new LinkedHashMap<>();
+		for (int i = 0; i < unSortedStore.size(); i++) {
+			unsortedMap.put(storeRepo.findAll().get(i), rateList.get(i));
+		}
+		System.out.println("before sorting " + unsortedMap);
+		TreeMap<Store, Double> map = new TreeMap<Store, Double>(new SortByRate());
+		for (int i = 0; i < unSortedStore.size(); i++) {
+			map.put(storeRepo.findAll().get(i), rateList.get(i));
+		}
+		System.out.println("after sorting " + map);
+//		TreeMap<Store, Double> tree_map = new TreeMap<Store, Double>();
+//		for (Map.Entry<Store, Double> entry : tree_map.entrySet()) {
+//			sortedStore.add(entry.getKey());
+//			System.out.println(" [" + entry.getKey().getId()+"-"+ entry.getKey().getName() + ", " + entry.getValue() + "]");
+//			
+//		}
+		return sortedStore;
+	}
+
+//	 private static Map<Store, Double> sortedHashMapByValues(Map<Store, Double> hashmap) {
+//	       // Create an ArrayList and insert all hashmap key-value pairs.
+//	       List arrayList = new ArrayList<>();
+////	       for (Map.Entry entry : hashmap.entrySet()) {
+////	           arrayList.add(entry);
+////	       }
+//	 
+//	       // Sort the Arraylist using a custom comparator.
+//	       Collections.sort(arrayList, new Comparator<>() {
+//	           @Override
+//	           public int compare(Map.Entry o1, Map.Entry o2) {
+//	               if ( o1.getValue() == o2.getValue() )
+//	                   return o1.getKey().compareTo(o2.getKey());
+//	 
+//	               return Integer.compare(o1.getValue() , o2.getValue());
+//	           }
+//	       });
+	@Override
 	public Store findStorebyId(int storeId, String username) {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
@@ -64,8 +124,12 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Set<Store> findStoresByProductKeywordSearch(String keyword) {
 		String kw = "%" + keyword + "%";
-		Set<Store> stores = storeRepo.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
-		Set<Store> storeByRep = storeRepo.findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
+		Set<Store> stores = storeRepo
+				.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(
+						kw, kw, kw);
+		Set<Store> storeByRep = storeRepo
+				.findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(
+						kw, kw, kw);
 		System.out.println("stores inventory array size: " + stores.size());
 		System.out.println("stores PR array size: " + storeByRep.size());
 		stores.addAll(storeByRep);
@@ -111,6 +175,9 @@ public class StoreServiceImpl implements StoreService {
 			if (store.getWebsiteUrl() != null) {
 				existingStore.setWebsiteUrl(store.getWebsiteUrl());
 			}
+			if (store.isEnabled()) {
+				existingStore.setEnabled(store.isEnabled());
+			} 
 			System.out.println("inside stockservice impl" + existingStore);
 			return storeRepo.saveAndFlush(existingStore);
 		}
@@ -175,7 +242,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return price;
 	}
-	
+
 	@Override
 	public Inventory findInventoryByStoreAndProduct(String username, Store store, Product prod) {
 		Inventory item = inventoryRepo.findByStoreIdAndProductId(store.getId(), prod.getId());
@@ -187,11 +254,11 @@ public class StoreServiceImpl implements StoreService {
 		User user = userRepo.findByUsername(username);
 		Inventory existingInventory = inventoryRepo.findByStoreIdAndProductId(store.getId(), product.getId());
 		if (user != null) {
-			if (inventory.getQuantity() != null ) {
+			if (inventory.getQuantity() != null) {
 				existingInventory.setQuantity(inventory.getQuantity());
 				System.out.println("inside store service " + inventory.getQuantity());
-				
-			System.out.println(inventoryRepo.saveAndFlush(existingInventory));
+
+				System.out.println(inventoryRepo.saveAndFlush(existingInventory));
 			}
 		}
 		return existingInventory;
@@ -217,6 +284,7 @@ public class StoreServiceImpl implements StoreService {
 	public List<StoreComment> findStoreComments(String username, Store store) {
 		return store.getComments();
 	}
+
 	// return all of comments of store
 	@Override
 	public StoreComment findStoreCommentById(String username, Store store, int storeCommentId) {

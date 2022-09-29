@@ -18,7 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-public class Store {
+public class Store  implements Comparable<Store>{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -235,8 +235,12 @@ public class Store {
 
 	@Override
 	public String toString() {
-		return "Store [id=" + id + ", name=" + name + ", address=" + address + ", description=" + description
-				+ ", websiteUrl=" + websiteUrl + ", logoUrl=" + logoUrl + ", chain=" + chain + "]";
+		return "Store [id=" + id + ", name=" + name + "]";
+	}
+
+	@Override
+	public int compareTo(Store store) {
+		return this.name.compareTo(store.name);
 	}
 	
 	
