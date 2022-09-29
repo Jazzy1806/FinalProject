@@ -20,9 +20,11 @@
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/search']"> Search By Map</a>
         </li>
+        <div *ngIf="loggedInUser?.role === 'admin'">
         <li class="nav-item">
           <a class="nav-link"[routerLink]="['/user']"> User</a>
         </li>
+      </div>
         <li class="nav-item">
           <a class="nav-link" [routerLink]="['/store']"> Store </a>
         </li>
@@ -47,7 +49,7 @@
   <div class="navbar-nav ms-auto" *ngIf="!loggedIn()"> <app-login></app-login></div>
   <div class="navbar-nav ms-auto" *ngIf="loggedIn()">
     <div class="col">
-      <a class="nav-link" [routerLink]="['/profile']"> <mat-icon>person</mat-icon>
+      <a class="nav-link text-dark" [routerLink]="['/profile']"> <mat-icon>person</mat-icon>
         {{loggedInUser?.username}} </a>
     </div>
     <div class="col">

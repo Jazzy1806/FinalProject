@@ -5,7 +5,8 @@
         <div class="d-flex justify-content-end">
           <form class="form-group mx-sm-3 mb-2">
             <input type="search" size="30" style="height:32px" class="rounded my-2" name="storeSearch"
-              [(ngModel)]="storeSearch" placeholder="find products by brand and description" aria-label="Search" aria-describedby="search-addon" />
+              [(ngModel)]="storeSearch" placeholder="find products by brand and description" aria-label="Search"
+              aria-describedby="search-addon" />
             <button type="submit" class="btn btn-sm btn-secondary my-1"
               (click)="searchProductsByStore(storeSearch)">Search</button>
 
@@ -155,16 +156,6 @@
                 </div>
               </div>
             </div>
-
-            <!-- <div class="d-flex flex-row">
-          <div class="m-2" *ngFor="let product of store.products">
-            <img
-              style="width: 140px; height: 120px"
-              src="{{ product.image }}"
-            />
-            <p>{{ product.name }}</p>
-          </div>
-        </div> -->
           </div>
         </div>
         <div class="d-flex justify-content-end my-0">
@@ -190,7 +181,7 @@
               {{ comment.title }}
               <cite class="text-muted small">{{ comment.createdOn }}</cite>
             </p>
-            <div class="d-flex justify-content-end">
+            <div *ngIf="loggedInUser.role === 'admin'" class="d-flex justify-content-end">
               <button class="btn btn-sm btn-danger" type="submit"
                 (click)="deleteStoreComment(selectedStore, comment.id)">
                 Delete
@@ -247,12 +238,14 @@
                         }}</span>
                     </li>
                     <li *ngFor="let item of product.inventoryItems">Quantity: {{ item.quantity }}
-                      <form #prodQty="ngForm" class="form-group mx-sm-3 mb-2">
-                        <input type="search" class="rounded" maxlength="4" size="4" name="quantity" ngModel
-                          placeholder="" aria-label="Search" aria-describedby="search-addon" />
-                        <button type="submit" class="btn btn-sm btn-secondary mb-2"
-                          (click)="updateProdInventoryByStore(selectedStore, product, prodQty)">Update</button>
-                      </form>
+                      <div *ngIf="loggedInUser === selectedStore.owner || loggedInUser.role === 'admin'">
+                        <form #prodQty="ngForm" class="form-group mx-sm-3 mb-2">
+                          <input type="search" class="rounded" maxlength="4" size="4" name="quantity" ngModel
+                            placeholder="" aria-label="Search" aria-describedby="search-addon" />
+                          <button type="submit" class="btn btn-sm btn-secondary mb-2"
+                            (click)="updateProdInventoryByStore(selectedStore, product, prodQty)">Update</button>
+                        </form>
+                      </div>
                     </li>
 
                   </ul>

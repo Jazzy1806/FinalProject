@@ -4,6 +4,7 @@ import { Inventory } from "./inventory";
 import { Chain } from "./chain";
 import { StoreComment } from "./store-comment";
 import { Product } from "./product";
+import { User } from './user';
 
 export class Store {
   id: number;
@@ -18,10 +19,11 @@ export class Store {
   products: Product[] | null = null;
   productReports: ProductReport[] | null;
   enabled: boolean = false;
+  owner?: User;
 
 
   constructor(  id: number = 0, name: string = "", description: string ="", websiteUrl: string="", logoUrl: string="",
-                productReports: ProductReport[], inventories: Inventory[] =[], comments: StoreComment[]= [], enabled : boolean = false, address?: Address, chain?: Chain,) {
+                productReports: ProductReport[], inventories: Inventory[] =[], comments: StoreComment[]= [], enabled : boolean = false, address?: Address, chain?: Chain, owner? : User) {
     this.id = id;
     this.name = name;
     this.description = description;
@@ -33,6 +35,7 @@ export class Store {
     this.chain = chain;
     this.comments = comments;
     this.enabled = enabled;
+    this.owner = owner;
 
 
   }
