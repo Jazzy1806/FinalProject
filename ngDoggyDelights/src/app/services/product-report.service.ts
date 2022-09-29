@@ -45,14 +45,15 @@ export class ProductReportService {
     );
   }
 
-  create(report: ProductReport): Observable<ProductReport> {
+  create(pid: number, sid: number, report: ProductReport): Observable<ProductReport> {
     // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
     console.log(report);
 
     report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
 
-    return this.http.post<ProductReport>(this.url + '/1/stores/1/reports', report, this.getHttpOptions()).pipe(
-    // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
+    return this.http.post<ProductReport>(this.url + '/' + pid + '/stores/' + sid + '/reports', report,
+      this.getHttpOptions()).pipe(
+        // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
         catchError((err: any) => {
           // console.log(err);
           return throwError(

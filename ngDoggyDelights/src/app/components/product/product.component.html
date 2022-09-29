@@ -200,7 +200,7 @@
 
           <div class="mb-3">
             <label for="storeInput" class="form-label">Which Store?</label>
-            <input [(ngModel)]="newReport.store.id" type="number" class="form-control" id="storeInput" name="store"
+            <input [(ngModel)]="storeId" type="number" class="form-control" id="storeInput" name="store"
               aria-describedby="storeHelp" placeholder="1">
           </div>
 
@@ -210,7 +210,7 @@
             <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
           </div>
 
-          <button (click)="addReport(newReport); newReport = null" type="button"
+          <button (click)="addReport(detailProduct.id, storeId, newReport); newReport = null" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 

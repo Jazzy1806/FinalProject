@@ -204,19 +204,19 @@ DROP TABLE IF EXISTS `group_member` ;
 
 CREATE TABLE IF NOT EXISTS `group_member` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `user_id` INT NOT NULL,
   `squad_id` INT NOT NULL,
+  `user_id` INT NOT NULL,
   PRIMARY KEY (`id`),
-  INDEX `fk_group_member_user1_idx` (`user_id` ASC),
   INDEX `fk_group_member_group1_idx` (`squad_id` ASC),
-  CONSTRAINT `fk_group_member_user1`
-    FOREIGN KEY (`user_id`)
-    REFERENCES `user` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
+  INDEX `fk_group_member_user1_idx` (`user_id` ASC),
   CONSTRAINT `fk_group_member_group1`
     FOREIGN KEY (`squad_id`)
     REFERENCES `squad` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_group_member_user1`
+    FOREIGN KEY (`user_id`)
+    REFERENCES `user` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -619,7 +619,7 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `group_member` (`id`, `user_id`, `squad_id`) VALUES (1, 2, 3);
+INSERT INTO `group_member` (`id`, `squad_id`, `user_id`) VALUES (1, 3, 1);
 
 COMMIT;
 

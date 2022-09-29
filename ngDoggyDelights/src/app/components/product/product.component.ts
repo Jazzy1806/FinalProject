@@ -1,3 +1,5 @@
+import { Store } from 'src/app/models/store';
+import { StoreService } from 'src/app/services/store.service';
 import { ProductReportService } from 'src/app/services/product-report.service';
 import { ProductReportComponent } from './../product-report/product-report.component';
 import { Component, OnInit } from '@angular/core';
@@ -33,6 +35,7 @@ export class ProductComponent implements OnInit {
     private reportService: ProductReportService,
     private reportComp: ProductReportComponent,
     private commentService: ProductCommentService,
+    private storeService: StoreService,
     private authService: AuthService
   ) { }
 
@@ -106,8 +109,29 @@ export class ProductComponent implements OnInit {
     return this.newReport;
   }
 
-  addReport(report: ProductReport) {
-    this.reportComp.addReport(report);
+  addReport(pid:number, sid: number, report: ProductReport) {
+    this.storeService.getStoreById(sid).subscribe({
+      next: (store) => {
+        console.log(store);
+        report.store = store;
+      },
+      error: (err) => {
+        console.error('ProductComponent.getStoreById(): error retrieving store' + err);
+      },
+    });
+
+    console.log(report);
+    this.reportService.create(pid, sid, report).subscribe({
+      next: (report) => {
+        console.log(report);
+        // report.store = store;
+      },
+      error: (err) => {
+        console.error('ProductComponent.addReport(): error adding report' + err);
+      },
+    });
+
+    // this.reportComp.addReport(pid, sid, report);
     this.newReport = this.reportComp.getNewReport();
     this.reload();
   }

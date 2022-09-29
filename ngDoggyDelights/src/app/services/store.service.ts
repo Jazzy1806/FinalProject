@@ -20,7 +20,7 @@ export class StoreService {
   private uri = 'api/stores';
   private url = this.baseUrl + this.uri;
 
-  constructor(private http: HttpClient,  private auth: AuthService) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   getHttpOptions() {
     let options = {
@@ -40,112 +40,123 @@ export class StoreService {
           () => new Error('StoreService.index(): error retrieving store list: ' + err)
         );
       })
-      );
-    }
+    );
+  }
 
-    productsByStore(storeId :number): Observable<Product[]>{
-      return this.http.get<Product[]>(this.url + '/' + storeId + '/products', this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.log(err);
-          return throwError(
-            () =>
-              new Error(
-                'storeService.productsByStore(): error retrieving products by store: ' +
-                  err
-              )
-          );
-        })
-      );
-    }
-
-    commentsByStore(storeId: number): Observable<StoreComment[]>{
-      return this.http.get<StoreComment[]>(this.url + '/' + storeId + '/comments', this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.log(err);
-          return throwError(
-            () =>
-              new Error(
-                'storeService.commentsByStore(): error retrieving comments by store: ' +
-                  err
-              )
-          );
-        })
-      );
-    }
-
-    createStoreComment(storeId: number, storeComment : StoreComment): Observable<StoreComment> {
-      return this.http.post<StoreComment>(this.url + '/' + storeId + '/comments/comment',storeComment, this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.error(err);
-          return throwError(
-             () => new Error( 'storeService.createStoreComment(): error creating Store Comment: ' + err )
-          );
-        })
-      );
-    }
-
-    destroyStoreComment(storeId: number, storeCommentId: number): Observable<void> {
-      return this.http.delete<void>(this.url +'/'+ storeId + '/comments/' + storeCommentId, this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.error(err);
-          return throwError(
-             () => new Error( 'StoreService.destroyStoreComment(): error deleting Store Comment: ' + err )
-          );
-        })
-      );
-    }
-
-    createStore(store : Store): Observable<Store> {
-      return this.http.post<Store>(this.url ,store, this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.error(err);
-          return throwError(
-             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
-          );
-        })
-      );
-    }
-
-    getInventoryByStore(store:Store, product : Product):Observable<Inventory> {
-      return this.http.get<Inventory>(this.url + "/" + store.id + "/product/" + product.id +"/inventory", this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.error(err);
-          return throwError(
-             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
-          );
-        })
-      );
-     }
-
-     updateProdInventoryQuantity(store: Store, product : Product, inventory : Inventory): Observable<Inventory> {
-      return this.http.put<Inventory>(this.url + "/" + store.id + "/product/" + product.id +"/inventory" ,inventory, this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.error(err);
-          return throwError(
-             () => new Error( 'storeService.createStore(): error creating Store: ' + err )
-          );
-        })
-      );
-     }
-
-     searchStore(keyword: string):Observable<Store[]> {
-      return this.http.get<Store[]>(this.url + '/search/' + keyword + '?sorted=true', this.getHttpOptions()).pipe(
-        catchError((err: any) => {
-          console.log(err);
-          return throwError(
-            () => new Error('StoreService.searchStore(): error retrieving store list by keyword: ' + err)
-          );
-        })
+  productsByStore(storeId: number): Observable<Product[]> {
+    return this.http.get<Product[]>(this.url + '/' + storeId + '/products', this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () =>
+            new Error(
+              'storeService.productsByStore(): error retrieving products by store: ' +
+              err
+            )
         );
-      }
+      })
+    );
+  }
 
-      storesByProdKeyword(keyword: string): Observable<Store[]> {
-        return this.http.get<Store[]>(this.url + "/search/products/" + keyword, this.getHttpOptions()).pipe(
-          catchError((err: any) => {
-            return throwError(
-              () => new Error('ProductService.storesByProdKeyword(): error finding stores: ' + err)
-            );
-          })
+  commentsByStore(storeId: number): Observable<StoreComment[]> {
+    return this.http.get<StoreComment[]>(this.url + '/' + storeId + '/comments', this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () =>
+            new Error(
+              'storeService.commentsByStore(): error retrieving comments by store: ' +
+              err
+            )
         );
-      }
+      })
+    );
+  }
+
+  createStoreComment(storeId: number, storeComment: StoreComment): Observable<StoreComment> {
+    return this.http.post<StoreComment>(this.url + '/' + storeId + '/comments/comment', storeComment, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('storeService.createStoreComment(): error creating Store Comment: ' + err)
+        );
+      })
+    );
+  }
+
+  destroyStoreComment(storeId: number, storeCommentId: number): Observable<void> {
+    return this.http.delete<void>(this.url + '/' + storeId + '/comments/' + storeCommentId, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('StoreService.destroyStoreComment(): error deleting Store Comment: ' + err)
+        );
+      })
+    );
+  }
+
+  createStore(store: Store): Observable<Store> {
+    return this.http.post<Store>(this.url, store, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('storeService.createStore(): error creating Store: ' + err)
+        );
+      })
+    );
+  }
+
+  getInventoryByStore(store: Store, product: Product): Observable<Inventory> {
+    return this.http.get<Inventory>(this.url + "/" + store.id + "/product/" + product.id + "/inventory", this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('storeService.createStore(): error creating Store: ' + err)
+        );
+      })
+    );
+  }
+
+  updateProdInventoryQuantity(store: Store, product: Product, inventory: Inventory): Observable<Inventory> {
+    return this.http.put<Inventory>(this.url + "/" + store.id + "/product/" + product.id + "/inventory", inventory, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.error(err);
+        return throwError(
+          () => new Error('storeService.createStore(): error creating Store: ' + err)
+        );
+      })
+    );
+  }
+
+  searchStore(keyword: string): Observable<Store[]> {
+    return this.http.get<Store[]>(this.url + '/search/' + keyword + '?sorted=true', this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('StoreService.searchStore(): error retrieving store list by keyword: ' + err)
+        );
+      })
+    );
+  }
+
+  storesByProdKeyword(keyword: string): Observable<Store[]> {
+    return this.http.get<Store[]>(this.url + "/search/products/" + keyword, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        return throwError(
+          () => new Error('ProductService.storesByProdKeyword(): error finding stores: ' + err)
+        );
+      })
+    );
+  }
+
+  getStoreById(sid: number): Observable<Store> {
+    return this.http.get<Store>(this.url + '/' + sid, this.getHttpOptions()).pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('StoreService.getStoreById(): error retrieving store by id: ' + err)
+        );
+      })
+    );
+  }
 }
