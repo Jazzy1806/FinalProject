@@ -11,6 +11,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -64,6 +66,12 @@ public class User {
 	@JsonIgnore
 	@OneToMany(mappedBy="user")
 	private List<Store> stores;
+	
+	@ManyToMany
+	@JoinTable(name = "group_member", 
+	joinColumns = @JoinColumn(name = "user_id"), 
+	inverseJoinColumns = @JoinColumn(name = "squad_id"))
+	private List<Group> groups;
 	
 	
 	public User() {}
@@ -195,6 +203,15 @@ public class User {
 
 	public void setProductReports(List<ProductReport> productReports) {
 		this.productReports = productReports;
+	}
+	
+
+	public List<Group> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Group> groups) {
+		this.groups = groups;
 	}
 
 	@Override

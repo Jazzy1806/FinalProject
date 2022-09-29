@@ -1,5 +1,6 @@
 import { Timestamp } from "rxjs";
 import { Address } from "./address";
+import { Group } from "./group";
 import { Pet } from "./pet";
 
 
@@ -18,10 +19,11 @@ export class User {
   image: string = '';
   address: Address | null;
   pets: Pet[] | null;
+  groups: Group[] | null;
 
 
   constructor(  id: number, firstName: string, lastName: string, email: string,
-      username: string, password: string, enabled: boolean, dateCreated: Date,
+      username: string, password: string, groups: Group[], enabled: boolean, dateCreated: Date,
       dateUpdated: Date, role: string, bio: string, image: string="https://www.kindpng.com/picc/m/79-793845_meet-greet-person-and-dog-icon-hd-png.png", address: Address, pets: Pet[]) {
     this.id = id;
     this.firstName = firstName;
@@ -37,5 +39,6 @@ export class User {
     this.image = image;
     this.address = address;
     this.pets = pets;
+    this.groups = groups;
   }
 }

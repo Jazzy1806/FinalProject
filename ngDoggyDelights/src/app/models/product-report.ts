@@ -11,7 +11,7 @@ export class ProductReport {
   isInStock: boolean;
   remark: string;
   user: User;
-  store: Store;
+  store: Store = {} as Store;
   product: Product;
 
   constructor(

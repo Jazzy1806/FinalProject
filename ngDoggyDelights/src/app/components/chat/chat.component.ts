@@ -1,8 +1,11 @@
+import { WebsocketService } from './../../services/websocket.service';
 import { ChatService } from './../../services/chat.service';
 import { Component, OnInit } from '@angular/core';
 import { Message } from 'src/app/models/message';
 import { MessageGroup } from 'src/app/models/message-group';
 import { User } from 'src/app/models/user';
+import { Group } from 'src/app/models/group';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-chat',
@@ -14,17 +17,27 @@ export class ChatComponent implements OnInit {
   personalMessages: Message[] = [];
   groupMessages: MessageGroup[] = [];
   otherUsers: User[] = [];
-  groups: any[] = [];
+  groups: Group[] = [];
   message: Message = {} as Message;
   groupMessage: MessageGroup = {} as MessageGroup;
   selectedUser: User = {} as User;
-  selectedGroup: any = {};    //create group entity???
+  selectedGroup: Group = {} as Group;
+  loggedInUser: User = {} as User;
 
-  constructor(private chatService: ChatService) { }
+
+  constructor(private authService: AuthService, private chatService: ChatService, private socketService: WebsocketService) {
+    this.loggedInUser = this.authService.loggedInUser;
+   }
 
   ngOnInit(): void {
-    //initialize all websocket connections in loop (for groups)  **PersonalConnect & GroupConnect from websocketServe
-    //click events on chat boxes to fetch all messages
+    this.chatService.getGroups(this.loggedInUser.id);
+    this.socketService.personalConnect();
+    this.socketService.groupConnect();
+
+    //pull groupusers when group is selected
+    //pull group messages when group is selected
+    //save this for when user is selected - click event
+    // this.chatService.getPersonalMessages(this.loggedInUser.id, this.selectedUser.id);
   }
 
   fetchMessages(fromUser: number, toUser: number) {

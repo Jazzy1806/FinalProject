@@ -37,6 +37,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ProdRepPipe } from './pipes/prod-rep.pipe';
 import { ChatComponent } from './components/chat/chat.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -63,7 +64,8 @@ import { ChatComponent } from './components/chat/chat.component';
     TopRatedListPipe,
     UserComponent,
     ProdRepPipe,
-    ChatComponent
+    ChatComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

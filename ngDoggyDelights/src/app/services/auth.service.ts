@@ -1,3 +1,4 @@
+import { environment } from './../../environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { tap, catchError, throwError, Observable, map } from 'rxjs';
@@ -9,7 +10,9 @@ import { User } from '../models/user';
 })
 export class AuthService {
   // Set port number to server's port
-  private baseUrl = 'http://localhost:8090/';
+  // private baseUrl = 'http://localhost:8090/';
+  private baseUrl = environment.baseUrl;
+
   private url = this.baseUrl;
   loggedInUser = {} as User;
 

@@ -14,13 +14,14 @@ public class UserAndGroupService {
 	JdbcTemplate jdbcTemplate;
 	
 	
-	public List<Map<String, Object>> fetchAll(String myId) {
-		List<Map<String, Object>> getAllUser = jdbcTemplate.queryForList("SELECT u.* FROM user u WHERE u.id != ?", myId);
+	public List<Map<String, Object>> fetchAll(int groupId, int myId) {
+		List<Map<String, Object>> getAllUser = jdbcTemplate.queryForList("select u.* from user u join group_member gm on u.id=gm.user_id"
+													+ " join squad s on gm.squad_id=s.id where s.id=? and u.id != ?", groupId, myId);
 		return getAllUser;
 	}
-	public List<Map<String, Object>> fetchAllGroup(String groupId) {
-		List<Map<String, Object>> getAllUser = jdbcTemplate.queryForList("SELECT s.* FROM squad s JOIN group_member gm " +
+	public List<Map<String, Object>> fetchAllGroup(int groupId) {
+		List<Map<String, Object>> getAllGroups = jdbcTemplate.queryForList("SELECT s.* FROM squad s JOIN group_member gm " +
 											"ON gm.squad_id = s.id AND gm.user_id = ?", groupId);
-		return getAllUser;
+		return getAllGroups;
 	}
 }

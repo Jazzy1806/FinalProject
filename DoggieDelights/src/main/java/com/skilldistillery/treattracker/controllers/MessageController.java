@@ -56,17 +56,17 @@ public class MessageController {
 	
 //	@GetMapping("/fetchAllUsers/{myId}")
 //	public List<Map<String, Object>> fetchAll(@PathVariable("myId") String myId) {
-	@GetMapping("/fetchUsers/{myId}")
-	public List<Map<String, Object>> fetchUsers(@PathVariable("myId") String myId) {
-		return uagService.fetchAll(myId);
+	@GetMapping("/fetchGroupUsers/{groupId}/{myId}")
+	public List<Map<String, Object>> fetchUsers(@PathVariable("groupId") int groupId, @PathVariable("myId") int myId) {
+		return uagService.fetchAll(groupId, myId);
 	}
 
 	
 //	@GetMapping("/fetchAllGroups/{groupid}")
 //	public List<Map<String, Object>> fetchAllGroup(@PathVariable("groupid") String groupid) {
-	@GetMapping("/fetchGroups/{groupid}")
-	public List<Map<String, Object>> fetchGroups(@PathVariable("groupid") String groupid) {
-		return uagService.fetchAllGroup(groupid);
+	@GetMapping("/fetchGroups/{myId}")
+	public List<Map<String, Object>> fetchGroups(@PathVariable("myId") int myId) {
+		return uagService.fetchAllGroup(myId);
 	}
 	
 	

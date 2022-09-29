@@ -1,12 +1,16 @@
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AddressService {
 
-    private baseUrl = 'http://localhost:8090/';
-    private url = this.baseUrl + 'api/addresses';
+    // private baseUrl = 'http://localhost:8090/';
+    // private url = this.baseUrl + this.uri;
+    private baseUrl = environment.baseUrl;
+    private uri = 'api/addresses';
+    private url = this.baseUrl + this.uri;
 
   //   constructor(private http: HttpClient, private datePipe: DatePipe, private authService: AuthService) { }
 

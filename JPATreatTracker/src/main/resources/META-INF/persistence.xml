@@ -20,6 +20,7 @@
 		<class>com.skilldistillery.treattracker.entities.Ingredient</class>
 		<class>com.skilldistillery.treattracker.entities.Message</class>
 		<class>com.skilldistillery.treattracker.entities.MessageGroup</class>
+		<class>com.skilldistillery.treattracker.entities.Group</class>
 		
 		
 		<properties>

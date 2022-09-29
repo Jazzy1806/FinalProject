@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/internal/operators/catchError';
 import { Message } from '../models/message';
 import { MessageGroup } from '../models/message-group';
 import { User } from '../models/user';
+import { Group } from '../models/group';
 
 @Injectable({
   providedIn: 'root'
@@ -82,9 +83,9 @@ export class ChatService {
     );
   }
 
-  getUsers(userId: number): Observable<User[]> {
+  getGroupUsers(groupId: number, userId: number): Observable<User[]> {
 //get fetchUsers/{myId} *no api in front
-return this.http.get<User[]>(this.url + 'fetchUsers/' + userId, this.getHttpOptions()).pipe(
+return this.http.get<User[]>(this.url + 'fetchGroupUsers/' + groupId + '/' + userId, this.getHttpOptions()).pipe(
   catchError((err:any) => {
     console.log(err);
     return throwError(
@@ -96,7 +97,7 @@ return this.http.get<User[]>(this.url + 'fetchUsers/' + userId, this.getHttpOpti
 
   getGroups(userId: number) {
     //get fetchUsers/{myId} *no api in front
-    return this.http.get<any[]>(this.url + 'fetchGroups/' + userId, this.getHttpOptions()).pipe(
+    return this.http.get<Group[]>(this.url + 'fetchGroups/' + userId, this.getHttpOptions()).pipe(
       catchError((err:any) => {
         console.log(err);
         return throwError(
