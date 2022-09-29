@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `updated_on` TIMESTAMP NULL,
   `role` VARCHAR(45) NULL,
   `bio` TEXT NULL,
-  `profile_image_url` VARCHAR(200) NULL,
+  `profile_image_url` VARCHAR(2000) NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_user_address1_idx` (`address_id` ASC),
   UNIQUE INDEX `username_UNIQUE` (`username` ASC),
