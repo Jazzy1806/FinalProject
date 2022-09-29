@@ -70,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
 		User updated = null;
 		if (userOpt.isPresent()) {
 			updated = userOpt.get();
-			if (updated.getUsername().equals(principal.getName()) || userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
+//			if (updated.getUsername().equals(principal.getName()) || userRepo.findByUsername(principal.getName()).getRole().equals("1")) {
 				updated.setFirstName(user.getFirstName());
 				updated.setLastName(user.getLastName());
 				updated.setEmail(user.getEmail());
@@ -94,7 +94,7 @@ public class AuthServiceImpl implements AuthService {
 				updated.setBio(user.getBio());
 				updated.setImage(user.getImage());
 				return userRepo.saveAndFlush(updated);
-			}
+//			}
 		}
 		return updated;
 	}

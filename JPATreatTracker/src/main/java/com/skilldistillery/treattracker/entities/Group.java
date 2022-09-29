@@ -22,7 +22,7 @@ public class Group {
 	
 	private String name;
 	
-	@JsonIgnoreProperties({"users"})
+	@JsonIgnoreProperties({"groups"})
 	@ManyToMany(mappedBy = "groups")
 	private List<User> users;
 

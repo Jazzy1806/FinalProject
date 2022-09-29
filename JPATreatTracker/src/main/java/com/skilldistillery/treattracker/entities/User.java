@@ -49,7 +49,7 @@ public class User {
 	private String role;
 	private String bio;
 	@Column(name="profile_image_url")
-	private String image;
+	private String image = "https://www.kindpng.com/picc/m/79-793845_meet-greet-person-and-dog-icon-hd-png.png";
 	
 	@OneToOne
 	@JoinColumn(name="address_id")
