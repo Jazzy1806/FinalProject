@@ -26,6 +26,9 @@ export class LoginComponent implements OnInit {
   openModal(){
     this.formModal.show();
   }
+  closeModal(){
+    this.formModal.hide();
+  }
   // login(){
   //   this.formModal.hide();
   // }

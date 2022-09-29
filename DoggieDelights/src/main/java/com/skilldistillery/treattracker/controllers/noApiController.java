@@ -33,7 +33,8 @@ public class noApiController {
 	}
 	@GetMapping("stores")
 	public List<Store> storeList(HttpServletRequest req, HttpServletResponse res) {
-		return storeService.findAllStores();
+		return storeService.storesAscendingOrderByRate();
+//		return storeService.findAllStores();
 	}
 
 }

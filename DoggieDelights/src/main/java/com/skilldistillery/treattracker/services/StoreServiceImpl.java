@@ -1,6 +1,8 @@
 package com.skilldistillery.treattracker.services;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -54,57 +56,69 @@ public class StoreServiceImpl implements StoreService {
 		List<Store> sortedStore = new ArrayList<>();
 		List<Store> unSortedStore = new ArrayList<>(storeRepo.findAll());
 		List<Double> rateList = new ArrayList<>();
+		List<Integer> rates = new ArrayList<>();//list of rates in each store
 		double avgRate = 0;
-		double sumRate = 0;
+		double sum = 0;
 		int count = 0;
-		for (Store store : storeRepo.findAll()) {
+		//loop thru all of stores
+		for (Store store : unSortedStore) {
+			
 			for (StoreComment comment : store.getComments()) {
-				sumRate += comment.getRating();
-				count++;
-
+				rates.add(comment.getRating());
+				sum += comment.getRating();
 			}
-			avgRate = sumRate / count;
+			avgRate = sum/rates.size();
+			System.out.println(store + "rating " + rates + " avg " + avgRate);
 			rateList.add(avgRate);
+			rates = new ArrayList<>();
+			sum = 0;
+			avgRate = 0;
 		}
-		
-
+		System.out.println(rateList);
 		//By default the LinkedHashMap preserves the insertion order.
+		//to maitain store with its corresponding rate
 		Map<Store, Double> unsortedMap = new LinkedHashMap<>();
 		for (int i = 0; i < unSortedStore.size(); i++) {
 			unsortedMap.put(storeRepo.findAll().get(i), rateList.get(i));
 		}
 		System.out.println("before sorting " + unsortedMap);
-		TreeMap<Store, Double> map = new TreeMap<Store, Double>(new SortByRate());
-		for (int i = 0; i < unSortedStore.size(); i++) {
-			map.put(storeRepo.findAll().get(i), rateList.get(i));
-		}
-		System.out.println("after sorting " + map);
-//		TreeMap<Store, Double> tree_map = new TreeMap<Store, Double>();
-//		for (Map.Entry<Store, Double> entry : tree_map.entrySet()) {
-//			sortedStore.add(entry.getKey());
-//			System.out.println(" [" + entry.getKey().getId()+"-"+ entry.getKey().getName() + ", " + entry.getValue() + "]");
-//			
-//		}
+		
+		 // Now, getting all entries from map and convert it to a list using entrySet() method
+        List<Map.Entry<Store, Double> > list
+            = new ArrayList<Map.Entry<Store, Double> >(
+                unsortedMap.entrySet());
+     // Using collections class sort method and inside which we are using custom comparator to compare value of map
+        Collections.sort(
+            list,
+            new Comparator<Map.Entry<Store, Double> >() {
+                // Comparing two entries by value
+                public int compare(
+                    Map.Entry<Store, Double> entry1,
+                    Map.Entry<Store, Double> entry2)  {
+ 
+                    // Subtracting the entries
+                    return (int) (entry1.getValue()- entry2.getValue());
+                }
+            });
+        
+     // Iterating over the sorted map
+        // using the for each method
+        for (Map.Entry<Store, Double> l : list) {
+ 
+            // Printing the sorted map
+            // using getKey()  and getValue() methods
+            System.out.println("Key ->"
+                               + " " + l.getKey()
+                               + ": Value ->"
+                               + l.getValue());
+            sortedStore.add(l.getKey());
+        }
+        System.out.println("after sorting: "+ sortedStore);
+
 		return sortedStore;
 	}
 
-//	 private static Map<Store, Double> sortedHashMapByValues(Map<Store, Double> hashmap) {
-//	       // Create an ArrayList and insert all hashmap key-value pairs.
-//	       List arrayList = new ArrayList<>();
-////	       for (Map.Entry entry : hashmap.entrySet()) {
-////	           arrayList.add(entry);
-////	       }
-//	 
-//	       // Sort the Arraylist using a custom comparator.
-//	       Collections.sort(arrayList, new Comparator<>() {
-//	           @Override
-//	           public int compare(Map.Entry o1, Map.Entry o2) {
-//	               if ( o1.getValue() == o2.getValue() )
-//	                   return o1.getKey().compareTo(o2.getKey());
-//	 
-//	               return Integer.compare(o1.getValue() , o2.getValue());
-//	           }
-//	       });
+
 	@Override
 	public Store findStorebyId(int storeId, String username) {
 		User user = userRepo.findByUsername(username);
