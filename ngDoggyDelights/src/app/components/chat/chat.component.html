@@ -3,11 +3,10 @@
 <div class="container">
     <div class="panel messages-panel">
         <div class="contacts-list">
-            <div class="inbox-categories">
-                <div data-toggle="tab" data-target="#inbox" class="active"> Inbox </div>
-                <div data-toggle="tab" data-target="#sent"> Sent </div>
-                <div data-toggle="tab" data-target="#marked"> Marked </div>
-                <div data-toggle="tab" data-target="#drafts"> Drafts </div>
+            <div class="inbox-categories" *ngFor="let group of groups; let i = index">
+                <div data-toggle="tab" [attr.data-target]="'#' + group.name" class="active"> {{group.name}} </div>
+                <!-- <div *ngIf="i > 0" data-toggle="tab" [attr.data-target]="'#' + group.name"> {{group.name}} </div> -->
+
             </div>
             <div class="tab-content">
                 <div id="inbox" class="contacts-outter-wrapper tab-pane active">

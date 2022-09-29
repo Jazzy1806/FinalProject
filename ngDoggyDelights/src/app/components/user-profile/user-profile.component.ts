@@ -36,6 +36,7 @@ export class UserProfileComponent implements OnInit {
         this.router.navigateByUrl('noSuchTodo');
       }
     });
+    console.log(this.loggedInUser);
 
     this.petService.index().subscribe(
       {
@@ -54,10 +55,14 @@ export class UserProfileComponent implements OnInit {
     setNewAddress() {
       this.editUser = this.loggedInUser;
       if (this.editUser !== null && this.editUser !== undefined) {
-      if (this.editUser.address !== undefined || this.editUser.address !== null) {
+        if (this.editUser.address !== undefined || this.editUser.address !== null) {
         this.newAddress = this.editUser.address;
       }
     }
+    }
+
+    startChat() {
+        this.router.navigateByUrl('chat');
     }
 
     updateCredentials() {

@@ -16,7 +16,7 @@ export class User {
   dateUpdated: Date | null;
   role: string = '';
   bio: string = '';
-  image: string = '';
+  image: string = 'https://www.kindpng.com/picc/m/79-793845_meet-greet-person-and-dog-icon-hd-png.png';
   address: Address | null;
   pets: Pet[] | null;
   groups: Group[] | null;

@@ -19,6 +19,9 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(user: User): Observable<User> {
+    if (user.image === '' || user.image === null) {
+      user.image = "https://www.kindpng.com/picc/m/79-793845_meet-greet-person-and-dog-icon-hd-png.png";
+    }
     // Create POST request to register a new account
     return this.http.post<User>(this.url + 'register', user).pipe(
       catchError((err: any) => {

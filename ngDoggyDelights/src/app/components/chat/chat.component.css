@@ -805,7 +805,7 @@ margin-bottom: 20px;
 }
 
 .profile-main .profile-background {
-background-image: url('../images/samples/forest.png');
+/* background-image: url('../images/samples/forest.png'); */
 background-repeat: no-repeat;
 background-size: 100%;
 background-position: center;

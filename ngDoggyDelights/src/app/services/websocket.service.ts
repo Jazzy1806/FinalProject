@@ -1,10 +1,8 @@
 import { ChatService } from './chat.service';
 import { AuthService } from './auth.service';
-import { MessageGroup } from './../models/message-group';
 import { Injectable } from '@angular/core';
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
-import { Message } from '../models/message';
 import { User } from '../models/user';
 
 
