@@ -50,7 +50,7 @@ export class ChatService {
 
   sendPersonalMessage(toUser: number, message: Message) {
     //post req to app/chat/{to}
-    return this.http.post<Message>(this.url + 'app/chat' + toUser, message, this.getHttpOptions()).pipe(
+    return this.http.post<Message>(this.url + 'app/chat/' + toUser, message, this.getHttpOptions()).pipe(
       catchError((err:any) => {
         console.log(err);
         return throwError(

@@ -4,20 +4,20 @@
     <div class="panel messages-panel">
         <div class="contacts-list">
             <div class="inbox-categories" *ngFor="let group of groups; let i = index">
-                <div data-toggle="tab" [attr.data-target]="'#' + group.name" class="active"> {{group.name}} </div>
-                <!-- <div *ngIf="i > 0" data-toggle="tab" [attr.data-target]="'#' + group.name"> {{group.name}} </div> -->
+                <div *ngIf="i === 0" data-toggle="tab" [attr.data-target]="'#' + group.name" class="active"> {{group.name}} </div>
+                <div *ngIf="i > 0" data-toggle="tab" [attr.data-target]="'#' + group.name"> {{group.name}} </div>
 
             </div>
-            <div class="tab-content">
-                <div id="inbox" class="contacts-outter-wrapper tab-pane active">
+            <div class="tab-content" *ngFor="let group of groups; let i = index">
+                <div id="{{group.name}}" class="contacts-outter-wrapper tab-pane active">
                     <form class="panel-search-form info form-group has-feedback no-margin-bottom">
                         <input type="text" class="form-control" name="search" placeholder="Search">
                         <span class="fa fa-search form-control-feedback"></span>
                     </form>
                     <div class="contacts-outter">
-                        <ul class="list-unstyled contacts">
-                            <li data-toggle="tab" data-target="#inbox-message-1" class="active">
-                                <div class="message-count"> 1 </div>
+                        <ul class="list-unstyled contacts"> <!--looping through group members on left panel with last message underneath-->
+                            <li *nfIf="i === 0" data-toggle="tab" [attr.data-target]="'#' + group.name + '-message-' + (i + 1)" class="active">
+                                <div class="message-count"> {{i + 1}} </div>
                                 <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
 
                                 <div class="vcentered info-combo">
@@ -26,47 +26,6 @@
                                 </div>
                                 <div class="contacts-add">
                                     <span class="message-time"> 2:32 <sup>AM</sup></span>
-                                    <i class="fa fa-trash-o"></i>
-                                    <i class="fa fa-paperclip"></i>
-                                </div>
-                            </li>
-                            <li data-toggle="tab" data-target="#inbox-message-2">
-                                <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-
-                                <div class="vcentered info-combo">
-                                    <h3 class="no-margin-bottom name"> John Doe </h3>
-                                    <h5> Of course, just call me before that, in case I forget. </h5>
-                                </div>
-                                <div class="contacts-add">
-                                    <span class="message-time"> 3:56 <sup>AM</sup></span>
-                                    <i class="fa fa-trash-o"></i>
-                                    <i class="fa fa-paperclip"></i>
-                                </div>
-                            </li>
-                            <li data-toggle="tab" data-target="#inbox-message-3">
-                                <div class="message-count"> 1 </div>
-                                <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-
-                                <div class="vcentered info-combo">
-                                    <h3 class="no-margin-bottom name"> John Doe</h3>
-                                    <h5> Hey, you asked for my feedback, it's brilliant. Damn, I</h5>
-                                </div>
-                                <div class="contacts-add">
-                                    <span class="message-time"> 5:21 <sup>AM</sup></span>
-                                    <i class="fa fa-trash-o"></i>
-                                    <i class="fa fa-paperclip"></i>
-                                </div>
-                            </li>
-                            <li data-toggle="tab" data-target="#inbox-message-4">
-                                <div class="message-count"> 2 </div>
-                                <img alt="" class="img-circle medium-image" src="https://bootdey.com/img/Content/avatar/avatar1.png">
-
-                                <div class="vcentered info-combo">
-                                    <h3 class="no-margin-bottom name"> John Doe </h3>
-                                    <h5> And invite Daniel too, please </h5>
-                                </div>
-                                <div class="contacts-add">
-                                    <span class="message-time"> 6:13 <sup>AM</sup></span>
                                     <i class="fa fa-trash-o"></i>
                                     <i class="fa fa-paperclip"></i>
                                 </div>

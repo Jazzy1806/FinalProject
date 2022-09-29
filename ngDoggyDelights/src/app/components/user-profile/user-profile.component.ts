@@ -63,7 +63,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     startChat() {
-        this.router.navigateByUrl('app/chat');
+        this.router.navigateByUrl('chat');
     }
 
     updateCredentials() {

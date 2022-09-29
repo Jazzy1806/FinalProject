@@ -50,6 +50,7 @@ export class ChatComponent implements OnInit {
           console.log(this.userLoggedIn);
           this.socketService.personalConnect(this.userLoggedIn);
           this.socketService.groupConnect(this.userLoggedIn);
+          this.fetchGroups(this.userLoggedIn.id);
       },
       error: (err) => {
         console.error("Error retrieving user:");

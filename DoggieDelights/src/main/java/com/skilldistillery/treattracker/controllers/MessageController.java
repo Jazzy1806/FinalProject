@@ -67,7 +67,7 @@ public class MessageController {
 //	public List<Map<String, Object>> fetchAllGroup(@PathVariable("groupid") String groupid) {
 	@GetMapping("/fetchGroups/{myId}")
 	public List<Map<String, Object>> fetchGroups(@PathVariable("myId") int myId, Principal principal) {
-		return uagService.fetchAllGroup(principal.getName());
+		return uagService.fetchAllGroup(myId);
 	}
 	
 	

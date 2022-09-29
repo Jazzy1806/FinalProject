@@ -36,7 +36,7 @@ export class WebsocketService {
 
       console.log(_this.user.id);
 
-      _this.stompClient.subscribe('/topic/messages' + _this.user.id, function (waiting) {
+      _this.stompClient.subscribe('/topic/messages/' + _this.user.id, function (waiting) {
         _this.onNewMessage(waiting);
       });
     });
@@ -58,7 +58,7 @@ export class WebsocketService {
       console.log('Connected: ' + frame);
 
       console.log(_this.user.id);
-      _this.stompClient2.subscribe('/topic/messages/group' + _this.user.id, function (waiting) {
+      _this.stompClient2.subscribe('/topic/messages/group/' + _this.user.id, function (waiting) {
         _this.onNewGroupMessage(waiting);
       });
     });
