@@ -38,6 +38,16 @@ export class StoreService {
       })
       );
     }
+  indexHome(): Observable<Store[]> {
+    return this.http.get<Store[]>(this.baseUrl + "home/stores" + '?sorted=true').pipe(
+      catchError((err: any) => {
+        console.log(err);
+        return throwError(
+          () => new Error('StoreService.indexHome(): error retrieving store list: ' + err)
+        );
+      })
+      );
+    }
 
     productsByStore(storeId :number): Observable<Product[]>{
       return this.http.get<Product[]>(this.url + '/' + storeId + '/products', this.getHttpOptions()).pipe(

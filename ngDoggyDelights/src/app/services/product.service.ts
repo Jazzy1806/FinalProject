@@ -42,6 +42,18 @@ export class ProductService {
       })
     );
   }
+  indexHome(): Observable<Product[]> {
+    return this.http.get<Product[]>(this.baseUrl + "home/products").pipe(
+      catchError((err: any) => {
+        return throwError(
+          () =>
+            new Error(
+              'ProductService.index(): error retrieving products ' + err
+            )
+        );
+      })
+    );
+  }
 
   create(product: Product): Observable<Product> {
     return this.http.post<Product>(this.url, product, this.getHttpOptions()).pipe(
