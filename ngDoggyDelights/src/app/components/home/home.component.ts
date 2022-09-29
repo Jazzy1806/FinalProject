@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
   }
 
   storeLoad() {
-    this.storeService.index().subscribe(
+    this.storeService.indexHome().subscribe(
       {
         next: (stores) => {
           this.stores = stores;
@@ -61,7 +61,7 @@ export class HomeComponent implements OnInit {
   }
 
   productLoad(){
-    this.prodService.index().subscribe({
+    this.prodService.indexHome().subscribe({
       next: (data) => {
         this.products = data;
         console.log("list of products "+ this.products);

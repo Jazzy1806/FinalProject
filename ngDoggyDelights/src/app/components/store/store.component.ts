@@ -17,7 +17,8 @@ export class StoreComponent implements OnInit {
   selected: Store | null = null;
   // @Output() stores = new EventEmitter<Store []>() ;
   stores: Store[] | null = null;
-  activeStores: Store[] | null = null;
+  activeStores: Store[] =[];
+  deativateStores: Store [] = [];
   selectedStore = {} as Store;
   storeName: string | null = '';
   products: Product[] | null = null;
@@ -61,19 +62,21 @@ export class StoreComponent implements OnInit {
   reload() {
     this.storeService.index().subscribe({
       next: (stores) => {
-        // console.log('inside reload method');
-        // console.log('storecomments is null' + this.storeComments == null);
-
-        this.stores = stores;
+         this.stores = stores;
         for (let store of stores) {
           console.log('store' + store.name);
           this.productsByStore(store);
           console.log('products ' + this.products);
           console.log('enable status in reload' + store.enabled);
           if (store.enabled) {
-            this.activeStores?.push(store);
-            console.log('size of active stores: ' + this.activeStores?.length);
+            this.activeStores.push(store);
+            console.log('size of active stores: ' + this.activeStores.length);
+          } else {
+            this.deativateStores.push(store);
+            console.log('size of inactive stores: ' + this.deativateStores.length);
+
           }
+
         }
       },
       error: (problem) => {
@@ -84,8 +87,15 @@ export class StoreComponent implements OnInit {
       },
     });
   }
-  deactivateStore(store: Store) {
+  toggleStore(store: Store) {
+    if (store.enabled) {
     store.enabled = false;
+    console.log("deactive store" + store.name);
+    } else {
+      store.enabled = true;
+      console.log("active store" + store.name);
+    }
+
   }
 
   productsByStore(store: Store) {
@@ -220,6 +230,29 @@ export class StoreComponent implements OnInit {
 
   searchStore(keyword: string) {
     this.storeService.searchStore(keyword).subscribe({
+      next: (stores) => {
+        this.stores = stores;
+        for (let store of stores) {
+          console.log('store' + store.name);
+          this.productsByStore(store);
+          // console.log('products ' + this.products);
+          // console.log('enable status in reload' + store.enabled);
+          if (store.enabled) {
+            this.activeStores?.push(store);
+            console.log('size of active stores: ' + this.activeStores?.length);
+          }
+        }
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.reload(): error loading store list'
+        );
+        console.error(problem);
+      },
+    });
+  }
+  searchProductsByStore(keyword: string) {
+    this.storeService.storesByProdKeyword(keyword).subscribe({
       next: (stores) => {
         this.stores = stores;
         for (let store of stores) {

@@ -2,32 +2,35 @@
   <div id="greeting" class="row h-25">
     <!-- <h1>Pups deserve the best</h1> -->
     <div class="col mr-0">
-    <img style="height:300px;width: 100%;" src="https://img.freepik.com/premium-photo/word-food-question-mark-made-dry-cat-dog-food-pet-care-veterinary-concept_573550-414.jpg?w=900">
-  </div>
+      <img style="height:300px;width: 100%;"
+        src="https://img.freepik.com/premium-photo/word-food-question-mark-made-dry-cat-dog-food-pet-care-veterinary-concept_573550-414.jpg?w=900">
+    </div>
     <!-- <button type ="submit" class="btn btn-lg btn-outline-primary" (click)="openModal()">Login</button> -->
     <div class="col mr-0">
-      <img style="height:300px;width: 100%;" src="https://img.freepik.com/premium-photo/word-eat-question-mark-made-dry-food-with-empty-bowl-pet-care-veterinary-concept_573550-418.jpg?w=900">
+      <img style="height:300px;width: 100%;"
+        src="https://img.freepik.com/premium-photo/word-eat-question-mark-made-dry-food-with-empty-bowl-pet-care-veterinary-concept_573550-418.jpg?w=900">
     </div>
   </div>
   <div class="text-center" style="font-family: Papyrus; font-size: 100px;">WE GOT YOU!</div>
-  <div class="wrapper">
-    <div class="row w-100" id="top"></div>
-    <div class="row w-100" id="bottom"></div>
+  <div class="mr-5" >
+    <h2 style="margin-right: 50px">Popular stores</h2>
   </div>
   <div id="bodyContent">
-    <h2>Top rated stores</h2>
     <div *ngIf="stores" class="my-5 text-center">
       <div class="card-columns mr-auto mt-4">
         <div class="row">
           <div class="col"></div>
           <div class="col">
-            <div class="card">
-              <img
-                class="card-img-top img-fluid ng-image hover-zoom"
+            <div class="card store">
+              <img class="card-img-top img-fluid ng-image hover-zoom"
                 src="https://images.unsplash.com/photo-1582902904617-8915e59fa2b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
-                alt=""
-              />
-              <div class="card-body">
+                alt="" />
+              <!-- <div class="mt-0 d-flex justify-content-start">
+                <div class="card-img-overlay mx-5 px-4">
+                  <p class="card-title bg-warning ">Top 3</p>
+                </div>
+              </div> -->
+              <div class="card-body ">
                 <h4 class="card-title">{{ stores[0].name }}</h4>
                 <p class="card-text">About Store</p>
               </div>
@@ -39,12 +42,10 @@
             </div>
           </div>
           <div class="col">
-            <div class="card">
-              <img
-                class="card-img-top img-fluid ng-image hover-zoom"
+            <div class="card store">
+              <img class="card-img-top img-fluid ng-image hover-zoom"
                 src="https://images.unsplash.com/photo-1582902904617-8915e59fa2b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
-                alt=""
-              />
+                alt="" />
               <div class="card-body">
                 <h4 class="card-title">{{ stores[1].name }}</h4>
                 <p class="card-text">About Store</p>
@@ -57,12 +58,10 @@
             </div>
           </div>
           <div class="col">
-            <div class="card">
-              <img
-                class="card-img-top img-fluid ng-image hover-zoom"
+            <div class="card store">
+              <img class="card-img-top img-fluid ng-image hover-zoom"
                 src="https://images.unsplash.com/photo-1582902904617-8915e59fa2b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80"
-                alt=""
-              />
+                alt="" />
               <div class="card-body">
                 <h4 class="card-title">{{ stores[2].name }}</h4>
                 <p class="card-text">About Store</p>
@@ -79,19 +78,13 @@
       </div>
     </div>
 
-    <div
-      *ngIf="products"
-      class="container my-0 justify-content-center d-flex flex-row"
-    >
+    <div *ngIf="products" class="container my-0 justify-content-center d-flex flex-row">
       <div class="container-fluid py-2">
         <div class="slider-wrap d-flex justify-content-center flex-row">
           <div class="slider-main">
             <div class="item text-center" *ngFor="let product of products">
               <div class="text">
-                <img
-                  style="width: 140px; height: 120px"
-                  src="{{ product.image }}"
-                />
+                <img style="width: 140px; height: 120px" src="{{ product.image }}" />
                 <p>{{ product.name }}</p>
               </div>
             </div>
@@ -106,34 +99,30 @@
   </div>
 
 </main>
-<footer
-	class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-3 mb-0 border-top bg-light mt-auto">
+<footer class="d-flex flex-wrap justify-content-between align-items-center py-3 mt-3 mb-0 border-top bg-light mt-auto">
 
-		<!-- <a href="/"
+  <!-- <a href="/"
 			class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"> <svg
 				class="bi" width="30" height="24">
 				<use xlink:href="#bootstrap" /></svg>
 		</a> <span class="text-muted text-light">&copy; BAND MATE Contact:
 			720 499 9999</span> -->
-      <div
-      *ngIf="products"
-      class="container my-0 justify-content-center d-flex flex-row"
-    >
-      <div class="container-fluid py-2">
-        <div class="slider-wrap-footer d-flex justify-content-center flex-row">
-          <div class="slider-main">
-            <div class="item-footer text-center" *ngFor="let product of products">
-              <div class="text-footer text-dark">
-                <p>{{ product.brand }}</p>
-              </div>
+  <div *ngIf="products" class="container my-0 justify-content-center d-flex flex-row">
+    <div class="container-fluid py-2">
+      <div class="slider-wrap-footer d-flex justify-content-center flex-row">
+        <div class="slider-main">
+          <div class="item-footer text-center" *ngFor="let product of products">
+            <div class="text-footer text-dark">
+              <p>{{ product.brand }}</p>
             </div>
           </div>
-          <div class="button-area">
-            <button class="btn btn-sm btn-info prev" appPrev></button>
-            <button class="btn btn-sm btn-info next" appNext></button>
-          </div>
+        </div>
+        <div class="button-area">
+          <button class="btn btn-sm btn-info prev" appPrev></button>
+          <button class="btn btn-sm btn-info next" appNext></button>
         </div>
       </div>
     </div>
+  </div>
 
 </footer>
