@@ -92,12 +92,19 @@
                           <input class="col-10" type="text" placeholder="Phone Number" name="phone"
                             [(ngModel)]="newAddress.phone" />
                         </div>
+                        <div class="col-md-6 mb-4">
+                          <br /><label>Role: </label><br /><br />
+                            <select class=" form-select form-select-sm" name="role" [(ngModel)]="editUser.role" aria-label="Default select example">
+                              <option  *ngFor="let role of roles" value="{{role}}">{{role}}</option>
+
+                            </select>
+                        </div>
                       </div>
                   <!-- </ng-template> -->
-                  <button type="submit" class="btn btn-info btn-lg col-md-4 mb-1" (click)="updateUser(editUser)">
+                  <button type="submit" class="btn btn-info btn-sm col-md-3 mb-1" (click)="updateUser(editUser)">
                     Update
                   </button>
-                  <button type="button" class="btn btn-info btn-lg col-md-4 mb-1" style="margin-left: 10px"
+                  <button type="button" class="btn btn-info btn-sm col-md-3 mb-1" style="margin-left: 10px"
                     (click)="editUser = null">
                     Cancel
                   </button>
