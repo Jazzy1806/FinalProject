@@ -15,7 +15,7 @@ export class ProductService {
   // private baseUrl = 'http://localhost:8090/';
   // private url = this.baseUrl + 'api/products/';
   private baseUrl = environment.baseUrl;
-  private uri = 'api/products';
+  private uri = 'api/products/';
   private url = this.baseUrl + this.uri;
 
   constructor(
