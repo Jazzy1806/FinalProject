@@ -30,13 +30,14 @@ export class UserProfileComponent implements OnInit {
           this.loggedInUser = userData;
       },
       error: (err) => {
-        console.error("Error retrieving todo:");
+        console.error("Error retrieving user:");
         console.error(err);
         //if todo id doesn't exist, will direct user to notFound page
-        this.router.navigateByUrl('noSuchTodo');
+        this.router.navigateByUrl('nosuchuser');
       }
     });
     console.log(this.loggedInUser);
+    // localStorage.setItem('userLoggedIn, )
 
     this.petService.index().subscribe(
       {
@@ -62,7 +63,7 @@ export class UserProfileComponent implements OnInit {
     }
 
     startChat() {
-        this.router.navigateByUrl('chat');
+        this.router.navigateByUrl('app/chat');
     }
 
     updateCredentials() {

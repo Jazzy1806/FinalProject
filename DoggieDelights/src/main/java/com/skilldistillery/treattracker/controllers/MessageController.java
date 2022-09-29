@@ -1,5 +1,6 @@
 package com.skilldistillery.treattracker.controllers;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -65,8 +66,8 @@ public class MessageController {
 //	@GetMapping("/fetchAllGroups/{groupid}")
 //	public List<Map<String, Object>> fetchAllGroup(@PathVariable("groupid") String groupid) {
 	@GetMapping("/fetchGroups/{myId}")
-	public List<Map<String, Object>> fetchGroups(@PathVariable("myId") int myId) {
-		return uagService.fetchAllGroup(myId);
+	public List<Map<String, Object>> fetchGroups(@PathVariable("myId") int myId, Principal principal) {
+		return uagService.fetchAllGroup(principal.getName());
 	}
 	
 	

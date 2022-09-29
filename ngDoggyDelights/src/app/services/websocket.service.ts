@@ -21,11 +21,11 @@ export class WebsocketService {
 
 
   constructor(private authService: AuthService, private chatService: ChatService) {
-    this.user = this.authService.loggedInUser;
    }
 
 
-  personalConnect() {
+  personalConnect(loggedInUser: User) {
+    this.user = loggedInUser;
     const socket = new SockJS('http://localhost:8090/doggiedelights');
     this.stompClient = Stomp.over(socket);
 
@@ -33,6 +33,8 @@ export class WebsocketService {
     this.stompClient.connect({}, function (frame) {
       _this.connectedPersonal = true;
       console.log('Connected: ' + frame);
+
+      console.log(_this.user.id);
 
       _this.stompClient.subscribe('/topic/messages' + _this.user.id, function (waiting) {
         _this.onNewMessage(waiting);
@@ -45,7 +47,8 @@ export class WebsocketService {
     this.chatService.getPersonalMessages(msg.message_from, msg.message_to);
   }
 
-  groupConnect() {
+  groupConnect(loggedInUser: User) {
+    this.user = loggedInUser;
     const socket2 = new SockJS('http://localhost:8090/doggiedelights');
     this.stompClient2 = Stomp.over(socket2);
 
@@ -54,6 +57,7 @@ export class WebsocketService {
       _this.connectedGroup = true;
       console.log('Connected: ' + frame);
 
+      console.log(_this.user.id);
       _this.stompClient2.subscribe('/topic/messages/group' + _this.user.id, function (waiting) {
         _this.onNewGroupMessage(waiting);
       });

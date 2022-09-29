@@ -27,7 +27,7 @@ const routes: Routes = [
   { path: 'product', component: ProductComponent},
   { path: 'reports', component: ProductReportComponent},
   { path: 'user', component: UserComponent},
-  { path: 'chat', component: ChatComponent},
+  { path: 'app/chat', component: ChatComponent},
 
   { path: '**', component: NotFoundComponent }
 ];

@@ -24,16 +24,32 @@ export class ChatComponent implements OnInit {
   groupMessage: MessageGroup = {} as MessageGroup;
   selectedUser: User = {} as User;
   selectedGroup: Group = {} as Group;
-  userLoggedIn: User | null = null;
+  userLoggedIn: User | null = {} as User;
 
 
   constructor(private auth: AuthService, private userProfile: UserProfileComponent, private chatService: ChatService, private socketService: WebsocketService) {
   }
 
   ngOnInit(): void {
+    this.getLoggedInUser();
+    console.log(this.userLoggedIn);
+    // this.fetchGroups(this.loggedInUser.id);
+    // console.log(this.groups);
+
+
+    //pull groupusers when group is selected
+    //pull group messages when group is selected
+    //save this for when user is selected - click event
+    // this.chatService.getPersonalMessages(this.loggedInUser.id, this.selectedUser.id);
+  }
+
+  getLoggedInUser() {
     this.auth.getLoggedInUser().subscribe({
       next: (userData) => {
           this.userLoggedIn = userData;
+          console.log(this.userLoggedIn);
+          this.socketService.personalConnect(this.userLoggedIn);
+          this.socketService.groupConnect(this.userLoggedIn);
       },
       error: (err) => {
         console.error("Error retrieving user:");
@@ -41,16 +57,6 @@ export class ChatComponent implements OnInit {
         //if todo id doesn't exist, will direct user to notFound page
       }
     });
-    console.log(this.userLoggedIn);
-    // this.fetchGroups(this.loggedInUser.id);
-    console.log(this.groups);
-    this.socketService.personalConnect();
-    this.socketService.groupConnect();
-
-    //pull groupusers when group is selected
-    //pull group messages when group is selected
-    //save this for when user is selected - click event
-    // this.chatService.getPersonalMessages(this.loggedInUser.id, this.selectedUser.id);
   }
 
   fetchMessages(fromUser: number, toUser: number) {

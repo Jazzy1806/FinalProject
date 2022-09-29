@@ -23,8 +23,8 @@ export class ChatService {
 
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    this.loggedInUser = this.authService.loggedInUser;
    }
+
 
   getHttpOptions() {
     let options = {
