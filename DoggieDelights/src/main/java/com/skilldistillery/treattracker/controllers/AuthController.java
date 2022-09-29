@@ -1,11 +1,9 @@
 package com.skilldistillery.treattracker.controllers;
 
 import java.security.Principal;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;

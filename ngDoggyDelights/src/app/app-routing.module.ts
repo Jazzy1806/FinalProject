@@ -1,3 +1,4 @@
+import { ChatComponent } from './components/chat/chat.component';
 import { MapComponent } from './components/map/map.component';
 import { ProductComponent } from './components/product/product.component';
 import { PetComponent } from './components/pet/pet.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   { path: 'product', component: ProductComponent},
   { path: 'reports', component: ProductReportComponent},
   { path: 'user', component: UserComponent},
+  { path: 'chat', component: ChatComponent},
 
   { path: '**', component: NotFoundComponent }
 ];

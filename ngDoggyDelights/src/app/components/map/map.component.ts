@@ -35,12 +35,12 @@ export class MapComponent implements OnInit {
 
     @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
 
-    zoom = 4;
+    zoom = 12;
     radius = 500;
 
-    center: google.maps.LatLngLiteral = {lat: 42, lng: -105};
+    center: google.maps.LatLngLiteral = {lat: 39.816, lng: -105.068};
 
-    circleCenter: google.maps.LatLngLiteral = {lat: 42, lng: -105};
+    circleCenter: google.maps.LatLngLiteral = {lat: 39.816, lng: -105.068};
 
     icon = {
       url: "https://images.squarespace-cdn.com/content/v1/5b64ccb1f2e6b1be5f20a7f9/1537931479772-E0QNNNG8A211GRLS25G2/download+paw+icon.png?format=1500w", // url

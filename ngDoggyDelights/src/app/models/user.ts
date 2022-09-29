@@ -22,7 +22,7 @@ export class User {
 
   constructor(  id: number, firstName: string, lastName: string, email: string,
       username: string, password: string, enabled: boolean, dateCreated: Date,
-      dateUpdated: Date, role: string, bio: string, image: string, address: Address, pets: Pet[]) {
+      dateUpdated: Date, role: string, bio: string, image: string="https://www.kindpng.com/picc/m/79-793845_meet-greet-person-and-dog-icon-hd-png.png", address: Address, pets: Pet[]) {
     this.id = id;
     this.firstName = firstName;
     this.lastName = lastName;

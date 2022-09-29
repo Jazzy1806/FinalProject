@@ -32,6 +32,7 @@ public class AuthServiceImpl implements AuthService {
 		user.setRole("standard");
 		Address address = user.getAddress();
 		addressRepo.saveAndFlush(address);
+		user.setAddress(address);
 		return userRepo.saveAndFlush(user);
 	}
 

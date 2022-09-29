@@ -1,3 +1,4 @@
+import { WebsocketService } from './services/websocket.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { AuthService } from './services/auth.service';
@@ -35,6 +36,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
 
 import { ProdRepPipe } from './pipes/prod-rep.pipe';
+import { ChatComponent } from './components/chat/chat.component';
 
 
 
@@ -60,7 +62,8 @@ import { ProdRepPipe } from './pipes/prod-rep.pipe';
     MapComponent,
     TopRatedListPipe,
     UserComponent,
-    ProdRepPipe
+    ProdRepPipe,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +76,7 @@ import { ProdRepPipe } from './pipes/prod-rep.pipe';
     MatIconModule,
     ReactiveFormsModule
   ],
-  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe, ProdRepPipe],
+  providers: [NgbActiveModal, AuthService, NgbAccordionConfig, EnabledPipe, DatePipe, ProdRepPipe, WebsocketService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

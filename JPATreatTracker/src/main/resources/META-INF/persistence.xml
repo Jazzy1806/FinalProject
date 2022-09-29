@@ -18,6 +18,8 @@
 		<class>com.skilldistillery.treattracker.entities.Inventory</class>
 		<class>com.skilldistillery.treattracker.entities.InventoryId</class>
 		<class>com.skilldistillery.treattracker.entities.Ingredient</class>
+		<class>com.skilldistillery.treattracker.entities.Message</class>
+		<class>com.skilldistillery.treattracker.entities.MessageGroup</class>
 		
 		
 		<properties>
