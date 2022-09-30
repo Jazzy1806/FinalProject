@@ -1,6 +1,3 @@
-main {
-  background-color: antiquewhite;
-}
 input[type=text]:focus {
   background-color: lightblue;
 }

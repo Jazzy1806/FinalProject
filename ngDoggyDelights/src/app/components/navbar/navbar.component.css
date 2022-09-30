@@ -2,15 +2,17 @@ a {
   padding-left: 15px;
   font-size: 20px;
   font-weight: bold;
-  color: indigo;
+  color:darkslategrey;
 }
 
 .container-fluid{
   padding-left:0px;
-  padding-right:0px
+  padding-right:0px;
+
 }
 
 footer{
   height: 130px;
    font-family: 'Open Sans', sans-serif;
 }
+

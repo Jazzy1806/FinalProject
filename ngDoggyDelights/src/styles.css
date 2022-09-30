@@ -7,17 +7,22 @@
   color: white !important;
   font-weight: bold;
   font-family: arial;
-  background-color: rgb(49, 86, 92) !important;
+  /* background-color: rgb(49, 86, 92) !important; */
+  background-color: rgba(17, 87, 77, 0.255) !important;
+
+
   border-color: white !important;
   caret-color: white !important;
 }
 
 .accordion-button:hover {
-  background-color: black !important;
+  background-color: rgb(49, 86, 92) !important;
 }
 
 body {
-  background-color: rgb(123, 146, 150);
+  /* background-color: rgb(108, 132, 136); */
+  background-color: rgba(138, 217, 231, 0.255);
+
 }
 
 .container-fluid {
