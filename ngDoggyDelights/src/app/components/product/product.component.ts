@@ -1,5 +1,5 @@
 import { Store } from 'src/app/models/store';
-import { StoreService } from 'src/app/services/store.service';
+import { NgForm } from '@angular/forms';
 import { ProductReportService } from 'src/app/services/product-report.service';
 import { ProductReportComponent } from './../product-report/product-report.component';
 import { Component, OnInit } from '@angular/core';
@@ -25,7 +25,11 @@ export class ProductComponent implements OnInit {
   storeId: number = 1;
   store: Store = {} as Store;
   products: Product[] = [];
-  AllIngredients: Ingredient[] = [];
+  iid: number = 0;
+
+  hasIng: boolean = false;
+
+  allIngredients: Ingredient[] = [];
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
@@ -46,6 +50,7 @@ export class ProductComponent implements OnInit {
   ngOnInit(): void {
     this.reload();
     this.getLoggedInUser();
+    this.getAllIngredients();
   }
 
   getLoggedInUser() {
@@ -65,7 +70,7 @@ export class ProductComponent implements OnInit {
   getAllIngredients() {
     this.ingredientService.index().subscribe({
       next: (data) => {
-        this.AllIngredients = data;
+        this.allIngredients = data;
       },
       error: (err) => {
         console.error('ProductReportComponent.displayProduct(): error loading ingredients' + err);
@@ -175,6 +180,8 @@ export class ProductComponent implements OnInit {
   }
 
   addProduct(newProduct: Product) {
+    console.log(newProduct);
+
     this.prodService.create(newProduct).subscribe({
       next: (data) => {
         this.reload();
@@ -183,6 +190,39 @@ export class ProductComponent implements OnInit {
         console.error('ProductComponent.addProduct(): error adding product' + err);
       },
     });
+  }
+
+  addIngredient(id: number, product: Product) {
+    console.log(id - 1);
+
+    // if (product.ingredients.includes(this.allIngredients[iid])) {
+    console.log(id - 1);
+    console.log(this.allIngredients[id - 1]);
+
+    product.ingredients.push(this.allIngredients[id - 1]);
+    console.log(product);
+
+    // }
+    return product;
+  }
+
+  changeIngredient(id: number, product: Product, hasIng: boolean) {
+    id--;
+    console.log(this.allIngredients[id]);
+
+    if (!product.ingredients.includes(this.allIngredients[id])) {
+      product.ingredients.push(this.allIngredients[id]);
+    } else {
+      let index = (ing: Ingredient) => ing.id === this.allIngredients[id].id;
+      console.log(product.ingredients.findIndex(index));
+
+      product.ingredients.splice(product.ingredients.findIndex(index), 1);
+
+      console.log('after reomve');
+    }
+
+    console.log(product);
+    return product;
   }
 
   updateProduct(product: Product) {

@@ -19,6 +19,7 @@ public class Ingredient {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
+	private String type;
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "ingredients")
@@ -60,6 +61,14 @@ public class Ingredient {
 		this.name = name;
 	}
 
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	public List<Product> getProducts() {
 		return products;
 	}
@@ -85,4 +94,9 @@ public class Ingredient {
 		return id == other.id;
 	}
 
+	@Override
+	public String toString() {
+		return "Ingredient [id=" + id + ", name=" + name + ", type=" + type + "]";
+	}
+	
 }

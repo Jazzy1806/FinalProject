@@ -62,9 +62,47 @@
               aria-describedby="imageHelp" placeholder="URL...">
           </div>
 
-          <div *ngFor="let ingredient of AllIngredients">
-            <span>{{ingredient.name}} </span>
+
+          <!-- <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
+            <input name="first" ngModel required #first="ngModel">
+            <input name="last" ngModel>
+            <button>Submit</button>
+          </form> -->
+
+          <!-- <div class="mb-3 form-check">
+            <input [(ngModel)]="newReport.isInStock" type="checkbox" class="form-check-input" id="inStockCheck" name="isInStock">
+            <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
+          </div> -->
+
+          <!-- <form [formGroup]=”form” (submit)=”submit(form.value)”>
+            <div *ngFor=”let skill of skills.controls; let i=index”>
+             <input type=”checkbox” [formControl]=”skill”/> {{user.skills[i].name}}
+            </div>
+            <button type=”submit”>Submit</button>
+          </form> -->
+
+          <!-- <li *ngFor="let item of product.inventoryItems">Quantity: {{ item.quantity }}
+            <form #prodQty="ngForm" class="form-group mx-sm-3 mb-2">
+
+              <input type="search" class="rounded" maxlength="4" size="4" name="quantity" ngModel placeholder=""
+                aria-label="Search" aria-describedby="search-addon" />
+
+              <button type="submit" class="btn btn-sm btn-secondary mb-2"
+                (click)="updateProdInventoryByStore(selectedStore, product, prodQty)">Update</button>
+
+            </form>
+          </li> -->
+
+          <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
+            <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox" class="form-check-input" name="hasIng" [ngModel]="hasIng">
+            <label class="form-check-label" for="ingredientId">{{ingredient.name}}</label>
           </div>
+
+          <!-- <div *ngFor="let ingredient of AllIngredients">
+            <span>{{ingredient.name}} </span>
+          </div> -->
+
+
 
           <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
             class="btn btn-outline-primary btn-sm">Submit
