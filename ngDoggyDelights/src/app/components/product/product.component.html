@@ -1,5 +1,5 @@
-<main class="contqainer">
-  <h1 style="text-align: center;">The Specter Selecter</h1>
+<main class="container">
+  <h1 style="text-align: center;">Specter's Selecters</h1>
 
   <!-- TODO: Actual Store Name Dropdown *** -->
   <!-- TODO: Sort Reports by Date - first 3? 5? -->
@@ -10,7 +10,7 @@
 
   <!-- *** All Products *** -->
   <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newProduct && !newReport && !newComment">
-    <div>
+    <div class="col text-center">
       <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm"
         style="margin-bottom: 5px;">
         Add a New Product
