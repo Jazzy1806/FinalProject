@@ -291,8 +291,8 @@ export class StoreComponent implements OnInit {
     this.storeService.addProductForStore(store, inventory).subscribe({
       next: (inventory) =>{
         this.reload();
-        console.log("inside processAddProductToStore " + inventory.product.name);
-
+        console.log("inside processAddProductToStore " + inventory.product?.name);
+        this.newInventory = {} as Inventory;
       },
       error: (problem) => {
         console.error(

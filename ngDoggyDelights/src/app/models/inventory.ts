@@ -5,8 +5,8 @@ export class Inventory {
   id: number;
   price: number | null;
   quantity: number | null;
-  store: Store;
-  product: Product;
+  store?: Store;
+  product?: Product;
   enabled: boolean;
   createdOn: Date | null;
   updatedOn: Date | null;

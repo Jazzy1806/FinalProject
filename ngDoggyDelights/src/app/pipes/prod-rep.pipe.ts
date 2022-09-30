@@ -35,11 +35,12 @@ export class ProdRepPipe implements PipeTransform {
     for (let p of products) {
       for (let s of storesWithProduct) {
         console.log("Store: ", s);
-        if (s.inventories !== null) {
+        if (s.inventories !== null && s.inventories !== undefined) {
           console.log("Store inventory: ", s.inventories);
+
         for (let i of s.inventories) {
           console.log("Inv Item in loop: ", i);
-          if (p.id === i.product.id && i.createdOn !== null) {
+          if (p.id === i.product?.id && i.createdOn !== null) {
             if (counter === 0) {
               console.log("Inv Item after ID match: ", i);
               this.mostRecentInv = i;
@@ -60,7 +61,7 @@ export class ProdRepPipe implements PipeTransform {
         counter = 0;
 
         if (this.mostRecentInv !== null && hasValues(this.mostRecentInv)) {
-          if (this.mostRecentInv.product?.reports !== null && hasValues(this.mostRecentInv.product?.reports)) {
+          if (this.mostRecentInv.product?.reports !== null && hasValues(this.mostRecentInv.product?.reports )&& this.mostRecentInv.product?.reports  !== undefined) {
             for (let r of this.mostRecentInv.product.reports) {
               console.log("Product report inside date comp loop: ", r);
                 if (r.createdOn !== null && this.mostRecentInv.createdOn !== null) {
@@ -85,7 +86,7 @@ export class ProdRepPipe implements PipeTransform {
         }
           else { //if mostREcentIV is null/undefined- still run the loop
               console.log("Store: ", s);
-              if (s.productReports !== null) {
+              if (s.productReports !== null && s.productReports !== undefined) {
                 console.log("Store reports: ", s.productReports);
               for (let r of s.productReports) {
                 console.log("Prod Rep in loop: ", r);

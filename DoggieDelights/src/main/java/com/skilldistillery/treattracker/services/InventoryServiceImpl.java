@@ -46,7 +46,7 @@ public class InventoryServiceImpl implements InventoryService {
 			//prodRepo.saveAndFlush(newProd);
 			inventory.setProduct(newProd2);
 			inventory.setStore(store);
-			store.addInventory(newInventory);
+			//store.addInventory(newInventory);
 			newInventory = inventoryRepo.saveAndFlush(inventory);
 			System.out.println("new Inventory " + newInventory);
 			return newInventory;

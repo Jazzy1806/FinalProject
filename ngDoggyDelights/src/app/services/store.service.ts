@@ -172,7 +172,10 @@ export class StoreService {
   }
 
   addProductForStore(store : Store, inventory:Inventory): Observable<Inventory>{
-
+    delete inventory.store?.owner;
+   // delete inventory.product?.reports;
+    delete inventory.store?.inventories;
+    delete inventory.store?.productReports;
     return this.http.post<Inventory>(this.url + "/" + store.id + "/inventory",inventory, this.getHttpOptions() ).pipe(
       catchError((err: any) => {
         console.log(
