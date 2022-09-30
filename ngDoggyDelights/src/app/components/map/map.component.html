@@ -9,25 +9,26 @@
 
 
 
-              <google-map height="510px"
+              <google-map height="520px"
                 width="100%"
-                [center]="center"
-                [zoom]="zoom"
-                (mapClick)="addMarker($event)">
+                [center]="mapCenter"
+                [zoom]="zoom">
+                <!-- (mapClick)="addMarker($event)"> -->
 
                 <map-circle [center]="circleCenter"
                             [radius]="radius">
                 </map-circle>
                <map-marker #marker="mapMarker"
-                  *ngFor="let markerPosition of markerPositions"
-                  [position]="markerPosition"
-                  [options]="markerOptions"
-
+                  *ngFor="let marker of markers"
+                  [position]="marker.position"
+                  [title]="marker.title"
+                  [options]="marker.options"
                   (mapClick)="openInfoWindow(marker)"></map-marker>
 
-                <map-info-window>Info Window Content</map-info-window>
+                <map-info-window>
+                  Testing
 
-
+                </map-info-window>
 
               </google-map>
 
@@ -42,7 +43,7 @@
         <div class="col-md-5 col-sm-5 mb-0">
                 <div class="row d-flex justify-content-center align-items-center">
                   <div class="col-lg-12 col-xl-12">
-                    <div class="card rounded-2">
+                    <div class="card rounded-2" *ngIf="!displayStore">
                       <img id="bannerImg" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOHGL57bcvl0AkqLUmUGBLvqJBrhKobPSpNQ&usqp=CAU"
                         style="border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
                         <div class="card-body p-md-4">
@@ -55,12 +56,12 @@
                           </div>
                           <div class="row">
                             <div class="col-md-12 col-lg-12 mb-4">
-                              <br><input type="text" id="searchTextField" placeholder="Search by city or zip code" autocomplete="on" />
+                              <br><input type="text" id="searchTextField" name="searchCenter" placeholder="Search by city or zip code" autocomplete="on" [(ngModel)]="searchCenter"/>
                             </div>
                           </div>
                           <div class="row">
                             <div class="col-md-5">
-                              <select class="select form-control-lg">
+                              <select class="select form-control-lg" name="distance" [(ngModel)]="distance">
                                 <option value="" disabled selected>Distance</option>
                                 <option value="1">1 mile</option>
                                 <option value="5">5 miles</option>
@@ -70,11 +71,48 @@
                               </select>
                             </div>
                             <div class="col-md-6">
-                              <input class="btn btn-info btn-lg col-md-7 mb-2" type="submit" (click)="getProductsByKeyword()"/>
+                              <input class="btn btn-info btn-lg col-md-7 mb-2" type="submit" (click)="setMapOptions();getProductsByKeyword()"/>
                             </div>
                           </div>
                         </form>
                       </div>
                     </div>
+
+
+
+                    <div class="card rounded-2" *ngIf="displayStore">
+                        <img id="bannerImg" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Petco_store.JPG/640px-Petco_store.JPG"
+                          style="border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
+                          <div class="card-body p-md-4">
+                          <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">{{selectedStore.name}}</h3>
+                          <form>
+                            <div class="row">
+                              <div class="col-md-12 col-sm-12 mb-4">
+                                <input type="text" id="keyword" name="keyword" placeholder="Search by keyword" [(ngModel)]="keyword"/>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-12 col-lg-12 mb-4">
+                                <br><input type="text" id="searchTextField" name="searchCenter" placeholder="Search by city or zip code" autocomplete="on" [(ngModel)]="searchCenter"/>
+                              </div>
+                            </div>
+                            <div class="row">
+                              <div class="col-md-5">
+                                <select class="select form-control-lg" name="distance" [(ngModel)]="distance">
+                                  <option value="" disabled selected>Distance</option>
+                                  <option value="1">1 mile</option>
+                                  <option value="5">5 miles</option>
+                                  <option value="10">10 miles</option>
+                                  <option value="25">25 miles</option>
+                                  <option value="50">50 miles</option>
+                                </select>
+                              </div>
+                              <div class="col-md-6">
+                                <input class="btn btn-info btn-lg col-md-7 mb-2" type="submit" (click)="setMapOptions();getProductsByKeyword()"/>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </div>
