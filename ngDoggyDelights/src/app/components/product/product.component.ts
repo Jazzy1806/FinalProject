@@ -26,6 +26,7 @@ export class ProductComponent implements OnInit {
   store: Store = {} as Store;
   products: Product[] = [];
   iid: number = 0;
+  isCollapsed: boolean = true;
 
   hasIng: boolean = false;
 

@@ -65,16 +65,36 @@
               aria-describedby="imageHelp" placeholder="URL...">
           </div>
 
-          <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
+          <div>
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+              aria-controls="collapseExample" style="margin-bottom: 5px;">
+              Select Ingredients
+            </button>
+          </div>
+          <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="container justify-content-center">
+            <div class="card">
+              <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
+                <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox"
+                  class="form-check-input" name="hasIng" [ngModel]="hasIng">
+                <label class="form-check-label" for="ingredientId">{{ingredient.name}}</label>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
             <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox"
               class="form-check-input" name="hasIng" [ngModel]="hasIng">
             <label class="form-check-label" for="ingredientId">{{ingredient.name}}</label>
-          </div>
+          </div> -->
 
+
+
+          <br>
           <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
-            class="btn btn-outline-primary btn-sm">Submit
-          </button>
-          <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-light btn-sm">Back
+            class="btn btn-outline-primary btn-sm" style="margin-bottom: 5px;">Submit
+          </button><br>
+          <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-outline-primary btn-sm">Back
           </button>
         </form>
       </div>
@@ -96,10 +116,10 @@
           <div *ngFor="let ingredient of detailProduct.ingredients">{{ingredient.name}}</div><br>
 
 
-          <span class="card-text">Created On</span><br>
+          <span class="card-text"><b>Created On</b></span><br>
           <span class="card-text">{{detailProduct.dateCreated}}</span><br><br>
-          <span class="card-text">Last Updated On</span><br>
-          <span class="card-text">{{detailProduct.dateUpdated}}</span><br>
+          <span class="card-text"><b>Last Updated On</b></span><br>
+          <span class="card-text">{{detailProduct.dateUpdated}}</span><br><br>
           <button (click)="editProduct = detailProduct; detailProduct = null" class="btn btn-outline-primary btn-sm"
             style="margin-bottom: 5px;">Edit
             Details
