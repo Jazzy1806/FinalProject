@@ -1,3 +1,5 @@
+import { ProductReport } from 'src/app/models/product-report';
+import { Inventory } from 'src/app/models/inventory';
 // import { ProdRepPipe } from './../../pipes/prod-rep.pipe';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
@@ -6,6 +8,7 @@ import { ProductService } from 'src/app/services/product.service';
 import { ProdRepPipe } from 'src/app/pipes/prod-rep.pipe';
 import { Store } from 'src/app/models/store';
 import { StoreService } from 'src/app/services/store.service';
+import { Address } from 'src/app/models/address';
 
 @Component({
   selector: 'app-map',
@@ -14,19 +17,18 @@ import { StoreService } from 'src/app/services/store.service';
 })
 export class MapComponent implements OnInit {
 
-  geocodedPlaces: google.maps.LatLngLiteral[] = [];
   productsByKeyword: Product[] = [];
   storesByKeyword: Store[] = [];
   mostRecentProdUpdates: any[] = [];
   keyword: string = '';
 
+  storeMatchProducts: Store[] = [];
+  addressArray: Address[] = [];
+  geocoderResultArray: any[] = [];
+  geocodedPlaces: google.maps.LatLngLiteral[] = [];
+
   constructor(geocoder: MapGeocoder, private productService: ProductService, private storeService: StoreService, private prodRepPipe: ProdRepPipe) {
-    // geocoder.geocode({
-    //   address: '6580 Marshall Street, Arvada, CO'
-    // }).subscribe(({
-    //   results}) => {
-    //     console.log(results);
-    //   });
+
     }
 
 
@@ -35,12 +37,12 @@ export class MapComponent implements OnInit {
 
     @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
 
-    zoom = 4;
+    zoom = 11;
     radius = 500;
 
-    center: google.maps.LatLngLiteral = {lat: 42, lng: -105};
+    center: google.maps.LatLngLiteral = {lat: 39.81, lng: -105.06};
 
-    circleCenter: google.maps.LatLngLiteral = {lat: 42, lng: -105};
+    circleCenter: google.maps.LatLngLiteral = {lat: 39.81, lng: -105.06};
 
     icon = {
       url: "https://images.squarespace-cdn.com/content/v1/5b64ccb1f2e6b1be5f20a7f9/1537931479772-E0QNNNG8A211GRLS25G2/download+paw+icon.png?format=1500w", // url
@@ -51,6 +53,8 @@ export class MapComponent implements OnInit {
 
     markerOptions: google.maps.MarkerOptions = {
         draggable: false,
+        animation: google.maps.Animation.DROP,
+        // label: ,
         icon: this.icon
 
     };
@@ -95,6 +99,7 @@ export class MapComponent implements OnInit {
           console.log(this.storesByKeyword);
           this.mostRecentProdUpdates = this.prodRepPipe.transform(this.productsByKeyword, this.storesByKeyword);
           console.log(this.mostRecentProdUpdates);
+          this.geocodeSearchResults();
         },
         error: (problem) => {
           console.error('MapHttpComponent.getProdsByKeyword(): error loading prods:');
@@ -105,7 +110,49 @@ export class MapComponent implements OnInit {
 
   }
 
-}
+
+  geocodeSearchResults() {
+    for (let r of this.mostRecentProdUpdates) {
+
+
+      // for (let r of report) {
+        if (r !== null && r !== undefined) {
+          console.log(r.store?.address);
+          console.log(r.price);
+          console.log(r.quantity);
+          console.log(r.id.storeId);
+
+      }
+      this.storeService.getStoreById(r.id.storeId).subscribe({
+        next: (stores) => {
+          let store = stores;
+          console.log(store);
+          this.storeMatchProducts.push(store);
+          if (store.address !== null && store.address !== undefined) {
+            this.addressArray.push(store.address);
+          }
+          console.log(this.addressArray);
+          console.log(this.addressArray[0]);
+        },
+        error: (problem) => {
+          console.error(
+            'StoreListHttpComponent.geocode(): error loading store list'
+          );
+          console.error(problem);
+        },
+      });
+    }
+    }
+
+    }
+       // geocoder.geocode({
+    //   address: '6580 Marshall Street, Arvada, CO'
+    // }).subscribe(({
+    //   results}) => {
+    //     console.log(results);
+
+    //   });
+
 
 
 

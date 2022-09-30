@@ -13,7 +13,11 @@
           <form>
             <label for="username">Username: </label><input type="text" name="username" [(ngModel)]="loginUser.username"/>
             <label for="password">Password: </label><input type="password" name="password" [(ngModel)]="loginUser.password"/>
+            <div *ngIf="isErrorInLogged">
+              <p class="text-danger"> Either username or password doesn't match. Please try again!</p>
+            </div>
             <button id="loginBtn" class="btn btn-outline-primary" (click)="login(loginUser)">Login</button>
+            <a type="button" id="loginBtn" class="btn btn-outline-primary" href="#register" (click)="closeModal()">Register</a>
           </form>
         </div>
       </div>

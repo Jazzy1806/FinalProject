@@ -1,11 +1,16 @@
 package com.skilldistillery.treattracker.services;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
+import com.skilldistillery.treattracker.entities.SortByRate;
 import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.entities.User;
@@ -46,6 +52,74 @@ public class StoreServiceImpl implements StoreService {
 	}
 
 	@Override
+	public List<Store> storesAscendingOrderByRate() {
+		List<Store> sortedStore = new ArrayList<>();
+		List<Store> unSortedStore = new ArrayList<>(storeRepo.findAll());
+		List<Double> rateList = new ArrayList<>();
+		List<Integer> rates = new ArrayList<>();//list of rates in each store
+		double avgRate = 0;
+		double sum = 0;
+		int count = 0;
+		//loop thru all of stores
+		for (Store store : unSortedStore) {
+			
+			for (StoreComment comment : store.getComments()) {
+				rates.add(comment.getRating());
+				sum += comment.getRating();
+			}
+			avgRate = sum/rates.size();
+			System.out.println(store + "rating " + rates + " avg " + avgRate);
+			rateList.add(avgRate);
+			rates = new ArrayList<>();
+			sum = 0;
+			avgRate = 0;
+		}
+		System.out.println(rateList);
+		//By default the LinkedHashMap preserves the insertion order.
+		//to maitain store with its corresponding rate
+		Map<Store, Double> unsortedMap = new LinkedHashMap<>();
+		for (int i = 0; i < unSortedStore.size(); i++) {
+			unsortedMap.put(storeRepo.findAll().get(i), rateList.get(i));
+		}
+		System.out.println("before sorting " + unsortedMap);
+		
+		 // Now, getting all entries from map and convert it to a list using entrySet() method
+        List<Map.Entry<Store, Double> > list
+            = new ArrayList<Map.Entry<Store, Double> >(
+                unsortedMap.entrySet());
+     // Using collections class sort method and inside which we are using custom comparator to compare value of map
+        Collections.sort(
+            list,
+            new Comparator<Map.Entry<Store, Double> >() {
+                // Comparing two entries by value
+                public int compare(
+                    Map.Entry<Store, Double> entry1,
+                    Map.Entry<Store, Double> entry2)  {
+ 
+                    // Subtracting the entries
+                    return (int) (entry1.getValue()- entry2.getValue());
+                }
+            });
+        
+     // Iterating over the sorted map
+        // using the for each method
+        for (Map.Entry<Store, Double> l : list) {
+ 
+            // Printing the sorted map
+            // using getKey()  and getValue() methods
+            System.out.println("Key ->"
+                               + " " + l.getKey()
+                               + ": Value ->"
+                               + l.getValue());
+            sortedStore.add(l.getKey());
+        }
+        System.out.println("after sorting: "+ sortedStore);
+
+		return sortedStore;
+	}
+
+
+	@Override
 	public Store findStorebyId(int storeId, String username) {
 		User user = userRepo.findByUsername(username);
 		if (user != null) {
@@ -64,8 +138,12 @@ public class StoreServiceImpl implements StoreService {
 	@Override
 	public Set<Store> findStoresByProductKeywordSearch(String keyword) {
 		String kw = "%" + keyword + "%";
-		Set<Store> stores = storeRepo.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
-		Set<Store> storeByRep = storeRepo.findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(kw, kw, kw);
+		Set<Store> stores = storeRepo
+				.findByInventories_Product_NameIgnoreCaseLikeOrInventories_Product_BrandIgnoreCaseLikeOrInventories_Product_DescriptionIgnoreCaseLike(
+						kw, kw, kw);
+		Set<Store> storeByRep = storeRepo
+				.findByProductReports_Product_NameIgnoreCaseLikeOrProductReports_Product_BrandIgnoreCaseLikeOrProductReports_Product_DescriptionIgnoreCaseLike(
+						kw, kw, kw);
 		System.out.println("stores inventory array size: " + stores.size());
 		System.out.println("stores PR array size: " + storeByRep.size());
 		stores.addAll(storeByRep);
@@ -111,6 +189,9 @@ public class StoreServiceImpl implements StoreService {
 			if (store.getWebsiteUrl() != null) {
 				existingStore.setWebsiteUrl(store.getWebsiteUrl());
 			}
+			if (store.isEnabled()) {
+				existingStore.setEnabled(store.isEnabled());
+			} 
 			System.out.println("inside stockservice impl" + existingStore);
 			return storeRepo.saveAndFlush(existingStore);
 		}
@@ -175,7 +256,7 @@ public class StoreServiceImpl implements StoreService {
 		}
 		return price;
 	}
-	
+
 	@Override
 	public Inventory findInventoryByStoreAndProduct(String username, Store store, Product prod) {
 		Inventory item = inventoryRepo.findByStoreIdAndProductId(store.getId(), prod.getId());
@@ -187,11 +268,11 @@ public class StoreServiceImpl implements StoreService {
 		User user = userRepo.findByUsername(username);
 		Inventory existingInventory = inventoryRepo.findByStoreIdAndProductId(store.getId(), product.getId());
 		if (user != null) {
-			if (inventory.getQuantity() != null ) {
+			if (inventory.getQuantity() != null) {
 				existingInventory.setQuantity(inventory.getQuantity());
 				System.out.println("inside store service " + inventory.getQuantity());
-				
-			System.out.println(inventoryRepo.saveAndFlush(existingInventory));
+
+				System.out.println(inventoryRepo.saveAndFlush(existingInventory));
 			}
 		}
 		return existingInventory;
@@ -217,6 +298,7 @@ public class StoreServiceImpl implements StoreService {
 	public List<StoreComment> findStoreComments(String username, Store store) {
 		return store.getComments();
 	}
+
 	// return all of comments of store
 	@Override
 	public StoreComment findStoreCommentById(String username, Store store, int storeCommentId) {

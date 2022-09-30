@@ -12,8 +12,8 @@ export class ProdRepPipe implements PipeTransform {
   mostRecentProdUpdates: Inventory[] = [];
   mostRecentProdReports: ProductReport[] = [];
 
-  mostRecentInv: Inventory = {} as Inventory;
-  mostRecentPR: ProductReport = {} as ProductReport;
+  mostRecentInv: Inventory = new Inventory();
+  mostRecentPR: ProductReport = new ProductReport();
 
   updatesByDate: any[] = [];
 
@@ -128,10 +128,14 @@ export class ProdRepPipe implements PipeTransform {
   }
 
   if (this.mostRecentProdUpdates.length > 0) {
-    this.updatesByDate.push(this.mostRecentProdUpdates);
+    for (let update of this.mostRecentProdUpdates) {
+      this.updatesByDate.push(update);
+    }
   }
   if (this.mostRecentProdReports.length > 0) {
-    this.updatesByDate.push(this.mostRecentProdReports);
+    for (let update of this.mostRecentProdReports) {
+      this.updatesByDate.push(update);
+    }
   }
   return this.updatesByDate;
   }

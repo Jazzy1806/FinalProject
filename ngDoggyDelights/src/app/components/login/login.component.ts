@@ -12,6 +12,7 @@ declare var window:any;
 export class LoginComponent implements OnInit {
   formModal:any;
   loginUser: User = {} as User;
+  isErrorInLogged = false;
 
   constructor(public activeModal: NgbActiveModal, private authService: AuthService, private router: Router) { }
 
@@ -24,6 +25,9 @@ export class LoginComponent implements OnInit {
 
   openModal(){
     this.formModal.show();
+  }
+  closeModal(){
+    this.formModal.hide();
   }
   // login(){
   //   this.formModal.hide();
@@ -39,6 +43,7 @@ export class LoginComponent implements OnInit {
         error: (problem) => {
           console.error('RegisterComponent.register(): Error logging in user:');
           console.error(problem);
+          this.isErrorInLogged = true;
         }
       });
       error: (fail: any) => {

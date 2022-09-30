@@ -11,7 +11,9 @@ import com.skilldistillery.treattracker.entities.StoreComment;
 
 public interface StoreService {
 	List<Store> findAllStores();
+	List<Store> storesAscendingOrderByRate();
 	Store findStorebyId(int storeId, String username);
+	
 	List<Store> findStoresByKeyword(String keyword);
 	Store createStore(String username, Store newStore);
 	Store updateStore(Store store, int storeId, String username);
