@@ -10,9 +10,12 @@
 
   <!-- *** All Products *** -->
   <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newProduct && !newReport && !newComment">
-    <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm">
-      Add a New Product
-    </button>
+    <div>
+      <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm"
+        style="margin-bottom: 5px;">
+        Add a New Product
+      </button>
+    </div>
     <div *ngFor="let product of products">
       <div *ngIf="product.enabled">
         <div class="card" (click)="displayProduct(product)">
@@ -62,52 +65,15 @@
               aria-describedby="imageHelp" placeholder="URL...">
           </div>
 
-
-          <!-- <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
-            <input name="first" ngModel required #first="ngModel">
-            <input name="last" ngModel>
-            <button>Submit</button>
-          </form> -->
-
-          <!-- <div class="mb-3 form-check">
-            <input [(ngModel)]="newReport.isInStock" type="checkbox" class="form-check-input" id="inStockCheck" name="isInStock">
-            <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
-          </div> -->
-
-          <!-- <form [formGroup]=”form” (submit)=”submit(form.value)”>
-            <div *ngFor=”let skill of skills.controls; let i=index”>
-             <input type=”checkbox” [formControl]=”skill”/> {{user.skills[i].name}}
-            </div>
-            <button type=”submit”>Submit</button>
-          </form> -->
-
-          <!-- <li *ngFor="let item of product.inventoryItems">Quantity: {{ item.quantity }}
-            <form #prodQty="ngForm" class="form-group mx-sm-3 mb-2">
-
-              <input type="search" class="rounded" maxlength="4" size="4" name="quantity" ngModel placeholder=""
-                aria-label="Search" aria-describedby="search-addon" />
-
-              <button type="submit" class="btn btn-sm btn-secondary mb-2"
-                (click)="updateProdInventoryByStore(selectedStore, product, prodQty)">Update</button>
-
-            </form>
-          </li> -->
-
           <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
-            <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox" class="form-check-input" name="hasIng" [ngModel]="hasIng">
+            <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox"
+              class="form-check-input" name="hasIng" [ngModel]="hasIng">
             <label class="form-check-label" for="ingredientId">{{ingredient.name}}</label>
           </div>
-
-          <!-- <div *ngFor="let ingredient of AllIngredients">
-            <span>{{ingredient.name}} </span>
-          </div> -->
-
-
 
           <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button>
-
           <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-light btn-sm">Back
           </button>
         </form>
@@ -119,7 +85,7 @@
   <div class="container text-center d-flex justify-content-center">
     <div class="row center">
 
-      <div class="card col" *ngIf="detailProduct && !newReport && !newComment"><br>
+      <div class="card col-6" *ngIf="detailProduct && !newReport && !newComment"><br>
         <img src="{{detailProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
         <div class="card-body">
           <h1 class="card-title">{{detailProduct.name}}</h1>
@@ -131,57 +97,70 @@
 
 
           <span class="card-text">Created On</span><br>
-          <span class="card-text">{{detailProduct.dateCreated}}</span><br>
+          <span class="card-text">{{detailProduct.dateCreated}}</span><br><br>
           <span class="card-text">Last Updated On</span><br>
           <span class="card-text">{{detailProduct.dateUpdated}}</span><br>
-          <button (click)="editProduct = detailProduct; detailProduct = null"
-            class="btn btn-outline-primary btn-sm">Edit
+          <button (click)="editProduct = detailProduct; detailProduct = null" class="btn btn-outline-primary btn-sm"
+            style="margin-bottom: 5px;">Edit
             Details
           </button><br>
-          <button (click)="disableProduct(detailProduct); detailProduct = null" class="btn btn-danger btn-sm">Remove
+          <button (click)="disableProduct(detailProduct); detailProduct = null"
+            class="btn btn-outline-danger btn-sm">Remove
           </button>
         </div>
       </div>
 
       <div class="col" *ngIf="detailProduct && !newReport && !newComment">
         <!-- <h4>Latest Prices</h4> -->
+        <div class="card report-card">
+          <div class="card-body">
+            <span><b>Latest Prices</b></span>
+          </div>
+        </div>
+        <div class="card report-card" *ngFor="let report of detailProduct.reports">
+          <div class="card-body" *ngIf="report.store">
+            <span><b>${{report.price}}</b></span><br>
+            <span *ngIf="report.store.name"><b>{{report.store.name}}</b></span><br>
+            <span>{{report.remark}}</span><br>
+            <span>{{report.createdOn}}</span><br>
+          </div>
+        </div>
 
-        <button (click)="newReport = getNewReport(detailProduct)" class="btn btn-outline-primary btn-sm">
+        <button (click)="newReport = getNewReport(detailProduct)" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">
           Report a New Price
         </button><br>
 
-        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
-
-        <div class="card report-card" *ngFor="let report of detailProduct.reports">
-          <div class="card-body" *ngIf="report.store">
-            <span><b>{{detailProduct.name}}</b></span><br>
-            <span><b>${{report.price}}</b></span><br>
-            <!-- <span>Seen At: <b>{{report.store | json}}</b></span><br> -->
-            <span *ngIf="report.store.name">Seen At: <b>{{report.store.name}}</b></span><br>
-            <span>On: <b>{{report.createdOn}}</b></span><br>
-            <span>At: <b>{{report.createdOn}}</b></span><br>
-            <!-- Product {{report.product.id}} -->
-          </div>
-        </div>
+        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">Back
+        </button>
       </div>
 
       <div class="col" *ngIf="detailProduct && !newReport && !newComment">
-        <button (click)="newComment = getNewComment(detailProduct)" class="btn btn-outline-primary btn-sm">
-          Comment on this Product
-        </button><br>
-
-        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
-
+        <div class="card comment-card">
+          <div class="card-body">
+            <span><b>Comments</b></span>
+          </div>
+        </div>
         <div class="card comment-card" *ngFor="let comment of detailProduct.comments">
           <!-- <div class="card-body" *ngIf="report.store"> -->
           <div class="card-body" *ngIf="comment">
             <span><b>{{detailProduct.name}}</b></span><br>
             <span><b>{{comment.title}}</b></span><br>
             <span>{{comment.description}}</span><br>
-            <span>{{comment.rating}}</span><br>
-            <span>On: <b>{{comment.dateCreated}}</b></span><br>
+            <!-- <span>{{comment.rating}}</span><br> -->
+            <span>{{comment.dateCreated}}</span><br>
           </div>
         </div>
+
+        <button (click)="newComment = getNewComment(detailProduct)" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">
+          Comment on this Product
+        </button><br>
+
+        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">Back</button>
+
       </div>
 
     </div>
@@ -191,7 +170,7 @@
   <div class="container d-flex justify-content-center" *ngIf="editProduct">
     <div class="row center">
       <div class="card col" style="width: 25rem;"><br>
-        <img src="{{editProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
+        <!-- <img src="{{editProduct.image}}" class="rounded mx-auto d-block cardImage" alt="..."> -->
         <form>
           <div class="mb-3">
             <label for="nameInput" class="form-label">Name</label>
@@ -218,11 +197,11 @@
           </div>
 
           <button (click)="updateProduct(editProduct); detailProduct = editProduct; editProduct = null" type="button"
-            class="btn btn-outline-primary btn-sm">Submit
-          </button>
+            class="btn btn-outline-primary btn-sm" style="margin-bottom: 5px;">Submit
+          </button><br>
 
           <button (click)="detailProduct = editProduct; editProduct = null;" type="button"
-            class="btn btn-light btn-sm">Back
+            class="btn btn-outline-primary btn-sm">Back
           </button>
         </form>
       </div>

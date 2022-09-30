@@ -208,20 +208,16 @@ export class ProductComponent implements OnInit {
 
   changeIngredient(id: number, product: Product, hasIng: boolean) {
     id--;
-    console.log(this.allIngredients[id]);
-
+    // console.log(this.allIngredients[id]);
     if (!product.ingredients.includes(this.allIngredients[id])) {
       product.ingredients.push(this.allIngredients[id]);
     } else {
       let index = (ing: Ingredient) => ing.id === this.allIngredients[id].id;
-      console.log(product.ingredients.findIndex(index));
-
+      // console.log(product.ingredients.findIndex(index));
       product.ingredients.splice(product.ingredients.findIndex(index), 1);
-
-      console.log('after reomve');
+      // console.log('after reomve');
     }
-
-    console.log(product);
+    // console.log(product);
     return product;
   }
 
