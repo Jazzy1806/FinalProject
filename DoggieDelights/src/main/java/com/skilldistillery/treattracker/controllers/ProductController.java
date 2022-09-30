@@ -192,9 +192,13 @@ public class ProductController {
 		Store store = storeService.findStorebyId(sid, principal.getName());
 		ProductReport created = null;
 
+//		System.out.println(user);
+//		System.out.println(store);
+//		System.out.println(report);
+
 		if (user != null & store != null) {
 			try {
-				created = prodReportService.create(principal.getName(), report);
+				created = prodReportService.create(principal.getName(), report, pid, sid);
 				res.setStatus(201);
 				StringBuffer url = req.getRequestURL();
 				url.append("/").append(created.getId());
@@ -250,6 +254,21 @@ public class ProductController {
 	/*
 	 * -------- Ingredients --------
 	 */
+
+	// GET /products/{productId}/ingredients find all ingredients
+	@GetMapping("ingredients")
+	public List<Ingredient> getAllIngredients(HttpServletRequest req, HttpServletResponse res, Principal principal) {
+		User user = authService.getUserByUsername(principal.getName());
+		List<Ingredient> ingredients = null;
+
+		if (user != null) {
+			ingredients = ingredientService.getAll(principal.getName());
+			if (ingredients == null) {
+				res.setStatus(404);
+			}
+		}
+		return ingredients;
+	}
 
 	// GET /products/{productId}/ingredients find all ingredients
 	@GetMapping("products/{pid}/ingredients")
@@ -412,7 +431,7 @@ public class ProductController {
 
 		if (user != null & store != null) {
 			try {
-				newComment = commentService.create(principal.getName(), comment);
+				newComment = commentService.create(principal.getName(), comment, pid);
 				res.setStatus(201);
 				StringBuffer url = req.getRequestURL();
 				url.append("/").append(newComment.getId());
@@ -438,7 +457,7 @@ public class ProductController {
 		if (user != null & store != null & product != null & parentComment != null) {
 			replyComment = new ProductComment();
 			try {
-				replyComment = commentService.create(principal.getName(), comment);
+				replyComment = commentService.create(principal.getName(), comment, pid);
 				replyComment.setParentProductComment(parentComment);
 
 				if (commentService.update(principal.getName(), pcid, replyComment) == null) {

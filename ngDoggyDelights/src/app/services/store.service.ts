@@ -43,6 +43,8 @@ export class StoreService {
 
       );
     }
+
+    // for home page
   indexHome(): Observable<Store[]> {
     return this.http.get<Store[]>(this.baseUrl + "home/stores" + '?sorted=true').pipe(
       catchError((err: any) => {

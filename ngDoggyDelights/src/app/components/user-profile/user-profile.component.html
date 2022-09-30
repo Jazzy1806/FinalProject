@@ -1,15 +1,5 @@
 <div class="container">
   <div class="main-body">
-    <!-- Breadcrumb Little navbar showing path-->
-    <!-- <nav aria-label="breadcrumb" class="main-breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-            <li class="breadcrumb-item"><a href="javascript:void(0)">User</a></li>
-            <li class="breadcrumb-item active" aria-current="page">User Profile</li>
-          </ol>
-        </nav> -->
-    <!-- /Breadcrumb -->
-
     <div class="row gutters-sm">
       <div class="col-md-4 mb-3">
         <!--left column of profile-->
@@ -33,7 +23,7 @@
             <div class="row">
               <div class="col-sm-12 alight-items-center" style="margin-left: 25px">
                 <button type="button" class="btn btn-info btn-lg col-md-4 mb-2" (click)="setNewAddress()">Edit</button>
-                <button type="button" class="btn btn-info btn-lg col-md-6 mb-2" style="margin-left: 10px" (click)="editUser = loggedInUser; credentials = true">Change Password</button>
+                <button type="button" class="btn btn-info btn-lg col-md-7 mb-2" style="margin-left: 10px" (click)="editUser = loggedInUser; credentials = true">Change Password</button>
               </div>
             </div>
           </div>
@@ -145,10 +135,15 @@
                               </div>
                             </div>
                             <div class="row">
-                              <div class="col-md-6 mb-4">
+                              <div class="col-md-5 mb-4">
                                 <br /><label>Phone Number: </label><br /><br />
                                 <input class="col-10" type="text" placeholder="Phone Number" name="phone"
                                   [(ngModel)]="newAddress.phone" />
+                              </div>
+                              <div class="col-md-6 mb-4">
+                                <br /><label>Profile Image: </label><br /><br />
+                                <input class="col-10" type="text" placeholder="Profile Picture" name="image"
+                                  [(ngModel)]="editUser.image" />
                               </div>
                             </div>
                         <!-- </ng-template> -->

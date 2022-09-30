@@ -10,7 +10,7 @@ public interface ProductCommentService {
 
 	public ProductComment show(String username, int cid);
 
-	public ProductComment create(String username, ProductComment comment);
+	public ProductComment create(String username, ProductComment comment, int pid);
 
 	public ProductComment update(String username, int pcid, ProductComment comment);
 

@@ -5,7 +5,7 @@ export class ProductComment {
   description: string = '';
   rating: number = 0;
   dateCreated: Date = new Date();
-  product: Product = new Product();
+  product?: Product = new Product();
 
   constructor(
     id: number = 0,

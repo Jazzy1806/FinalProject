@@ -5,12 +5,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.skilldistillery.treattracker.entities.Address;
 import com.skilldistillery.treattracker.entities.Inventory;
 import com.skilldistillery.treattracker.entities.Product;
-import com.skilldistillery.treattracker.entities.SortByRate;
 import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.entities.StoreComment;
 import com.skilldistillery.treattracker.entities.User;
@@ -103,6 +102,7 @@ public class StoreServiceImpl implements StoreService {
         
      // Iterating over the sorted map
         // using the for each method
+        Map<Store, Double> sortedMap = new LinkedHashMap<>();
         for (Map.Entry<Store, Double> l : list) {
  
             // Printing the sorted map
@@ -112,9 +112,11 @@ public class StoreServiceImpl implements StoreService {
                                + ": Value ->"
                                + l.getValue());
             sortedStore.add(l.getKey());
+            sortedMap.put(l.getKey(), l.getValue());
         }
         System.out.println("after sorting: "+ sortedStore);
-
+        System.out.println("sorted map " + sortedMap);
+        
 		return sortedStore;
 	}
 

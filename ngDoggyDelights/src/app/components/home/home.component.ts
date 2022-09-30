@@ -6,7 +6,6 @@ import { StoreService } from 'src/app/services/store.service';
 import { Store } from 'src/app/models/store';
 import { Product } from 'src/app/models/product';
 declare var window:any;
-declare function siteFooter() : any;
 
 @Component({
   selector: 'app-home',
@@ -26,7 +25,6 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.storeLoad();
     this.productLoad();
-    siteFooter();
   }
 
   openModal() {

@@ -9,7 +9,7 @@ export class Product {
   brand: string = '';
   description: string = '';
   image: string = '';
-  ingredients: Ingredient[] | null;
+  ingredients: Ingredient[];
   reports: ProductReport[] | null;
   comments: ProductComment[] | null;
   inventoryItems: Inventory[] | null;
