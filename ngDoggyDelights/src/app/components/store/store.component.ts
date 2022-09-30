@@ -32,6 +32,8 @@ export class StoreComponent implements OnInit {
   quantity = 0;
   updatedInventory = {} as Inventory;
   storeSearch = '';
+  newProduct = new Product();
+  newInventory = {} as Inventory;
 
   constructor(
     private storeService: StoreService,
@@ -95,7 +97,6 @@ export class StoreComponent implements OnInit {
       store.enabled = true;
       console.log("active store" + store.name);
     }
-
   }
 
   productsByStore(store: Store) {
@@ -126,6 +127,7 @@ export class StoreComponent implements OnInit {
         this.storeComments = comments;
         this.selectedStore = store;
         console.log('selected Store ' + this.selectedStore.name);
+        console.log("loggedInUser role "+ this.loggedInUser.role);
 
         this.storeName = store.name;
         for (let comment of comments) {
@@ -177,6 +179,7 @@ export class StoreComponent implements OnInit {
     this.storeService.createStore(store).subscribe({
       next: (result) => {
         console.log('inside createStorecomponent ts');
+        this.reload();
       },
       error: (nojoy) => {
         console.error(
@@ -186,7 +189,7 @@ export class StoreComponent implements OnInit {
       },
     });
     this.isCollapsed = true;
-    this.reload();
+
   }
 
   inventoryByStoreAndProd(store: Store, prod: Product): void {
@@ -274,4 +277,33 @@ export class StoreComponent implements OnInit {
       },
     });
   }
+
+  addNewProduct(store: Store){
+    this.selectedStore = store;
+    this.newInventory.store = this.selectedStore;
+    console.log("this.selectedStore" + this.newInventory.store);
+
+  }
+
+  processAddProductToStore(store : Store, inventory : Inventory) {
+    inventory.product = this.newProduct;
+    console.log(inventory.product.name);
+
+    this.storeService.addProductForStore(store, inventory).subscribe({
+      next: (inventory) =>{
+        this.reload();
+        console.log("inside processAddProductToStore " + inventory.product?.name);
+        this.newInventory = {} as Inventory;
+
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.addProductToStore(): error adding product to store'
+        );
+        console.error(problem);
+      },
+    });
+
+  }
+
 }

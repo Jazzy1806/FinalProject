@@ -285,4 +285,20 @@ public class StoreController {
 			res.setStatus(400);
 		}
 	}
+	
+	//add newProduct to a given store
+	@PostMapping("stores/{storeId}/inventory")
+	public Inventory addProductInventoryToGivenStore(@PathVariable int storeId,  @RequestBody Inventory inventory, Principal principal, HttpServletResponse res) {
+		
+		Store store = storeServ.findStorebyId(storeId, principal.getName());
+		try {
+		inventory = inventoryServ.addNewProductByGivenStore( principal.getName(), store, inventory);
+			System.out.println(inventory);
+		} catch (Exception e) {
+			res.setStatus(400);
+			e.printStackTrace();
+		}
+		return inventory;
+
+	}
 }

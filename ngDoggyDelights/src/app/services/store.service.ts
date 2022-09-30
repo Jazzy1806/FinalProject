@@ -43,6 +43,8 @@ export class StoreService {
 
       );
     }
+
+    // for home page
   indexHome(): Observable<Store[]> {
     return this.http.get<Store[]>(this.baseUrl + "home/stores" + '?sorted=true').pipe(
       catchError((err: any) => {
@@ -169,6 +171,24 @@ export class StoreService {
         );
       })
     );
+  }
+
+  addProductForStore(store : Store, inventory:Inventory): Observable<Inventory>{
+    delete inventory.store?.owner;
+   // delete inventory.product?.reports;
+    delete inventory.store?.inventories;
+    delete inventory.store?.productReports;
+    return this.http.post<Inventory>(this.url + "/" + store.id + "/inventory",inventory, this.getHttpOptions() ).pipe(
+      catchError((err: any) => {
+        console.log(
+          "url: "+ this.url + "/" + store.id + "/inventory"
+        );
+
+        return throwError(
+          () => new Error('StoreService.addProductForStore(): error add product to store: ' + err)
+        );
+      })
+    )
   }
 
 }
