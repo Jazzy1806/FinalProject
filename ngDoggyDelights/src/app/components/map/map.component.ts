@@ -214,6 +214,7 @@ export class MapComponent implements OnInit {
         openInfoWindow(marker: MapMarker) {
           this.selectedStore = this.storeMatchProducts[Number(marker.title)];
           console.log("openInfo store",this.selectedStore);
+          this.displayStore = true;
           for (let p of this.mostRecentProdUpdates) {
             console.log("openInfo PR:",p);
             if (p.id.storeId === this.selectedStore.id) {
