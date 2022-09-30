@@ -4,15 +4,15 @@ import { User } from "./user";
 
 export class ProductReport {
   id: number;
-  createdOn: Date | null;
+  createdOn?: Date | null;
   updatedOn: Date | null;
   userQuantity: number; //do we want this to be low-normal-high???
   price: number;
   isInStock: boolean;
   remark: string;
-  user: User;
-  store: Store = {} as Store;
-  product: Product;
+  user?: User;
+  store?: Store | null;
+  product?: Product;
 
   constructor(
     id: number = 0,

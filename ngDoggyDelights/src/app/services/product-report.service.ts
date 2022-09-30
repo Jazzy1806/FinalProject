@@ -49,13 +49,17 @@ export class ProductReportService {
     // report.createdOn = this.datePipe.transform(Date.now(), 'shortDate')!;
     console.log(report);
 
-    report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
+    // report.createdOn = new Date(this.datePipe.transform(Date.now(), 'shortDate')!);
+    delete report.user;
+    delete report.store;
+    delete report.createdOn;
+    delete report.product;
 
-    return this.http.post<ProductReport>(this.url + '/' + pid + '/stores/' + sid + '/reports', report,
+    return this.http.post<ProductReport>(this.url + '/' + pid + '/stores/' + sid + '/reports/', report,
       this.getHttpOptions()).pipe(
         // return this.http.post<ProductReport>(this.baseUrl, report, this.getHttpOptions()).pipe(
         catchError((err: any) => {
-          // console.log(err);
+          console.log(err);
           return throwError(
             () => new Error('ProductReportService.create(): error creating report: ' + err)
           );

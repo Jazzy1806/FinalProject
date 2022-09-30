@@ -7,9 +7,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.ProductReport;
+import com.skilldistillery.treattracker.entities.Store;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.repositories.ProductReportRepository;
+import com.skilldistillery.treattracker.repositories.ProductRepository;
+import com.skilldistillery.treattracker.repositories.StoreRepository;
 import com.skilldistillery.treattracker.repositories.UserRepository;
 
 @Service
@@ -20,6 +24,12 @@ public class ProductReportServiceImpl implements ProductReportService {
 
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private StoreRepository storeRepo;
+	
+	@Autowired
+	private ProductRepository prodRepo;
 
 	@Override
 	public List<ProductReport> index(String username) {
@@ -44,11 +54,18 @@ public class ProductReportServiceImpl implements ProductReportService {
 //	}
 
 	@Override
-	public ProductReport create(String username, ProductReport product) {
+	public ProductReport create(String username, ProductReport report, int pid, int sid) {
 		User user = userRepo.findByUsername(username);
-		if (user != null) {
-			product.setCreatedOn(LocalDateTime.now());
-			return prodReportRepo.saveAndFlush(product);
+		Optional<Product> prodOpt = prodRepo.findById(pid);
+		Store store = storeRepo.findById(sid);
+		
+		if (user != null && prodOpt.isPresent() && store != null) {
+//			report.setCreatedOn(LocalDateTime.now());
+			report.setUser(user);
+			report.setProduct(prodOpt.get());
+			report.setStore(store);
+			
+			return prodReportRepo.saveAndFlush(report);
 		}
 		return null;
 	}

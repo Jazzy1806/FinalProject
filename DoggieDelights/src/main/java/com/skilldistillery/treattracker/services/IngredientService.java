@@ -7,6 +7,8 @@ import com.skilldistillery.treattracker.entities.Ingredient;
 public interface IngredientService {
 
 	public List<Ingredient> index(String username, int pid);
+	
+	List<Ingredient> getAll(String username);
 
 	// public ProductReport show(String username, int pid);
 

@@ -10,7 +10,7 @@ public interface ProductReportService {
 
 	// public ProductReport show(String username, int pid);
 
-	public ProductReport create(String username, ProductReport report);
+	public ProductReport create(String username, ProductReport report, int pid, int sid);
 
 	public ProductReport update(String username, int rid, ProductReport report);
 

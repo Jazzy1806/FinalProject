@@ -735,11 +735,6 @@ INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (17, 'Dried Beet Pulp', '
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (18, 'Lentil Flour', 'carb');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (19, 'Corn', 'carb');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (20, 'Wheat Bran Aleurone', 'carb');
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (21, 'Beef Fat', 'fat');
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (22, 'Fish Oil', 'fat');
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (23, 'Sunflower Oil', 'fat');
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (24, 'Soybean Oil', 'fat');
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (25, 'Vegetable Oil', 'fat');
 
 COMMIT;
 
@@ -750,8 +745,8 @@ COMMIT;
 START TRANSACTION;
 USE `doggydb`;
 INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 1);
-INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (2, 2);
-INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 1);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 2);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 3);
 INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 2);
 INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 3);
 

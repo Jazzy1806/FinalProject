@@ -1,7 +1,7 @@
 <main class="contqainer">
   <h1 style="text-align: center;">The Specter Selecter</h1>
 
-  <!-- *** Actual Store Name Dropdown *** -->
+  <!-- TODO: Actual Store Name Dropdown *** -->
   <!-- TODO: Sort Reports by Date - first 3? 5? -->
   <!-- TODO: Product card stretches to match number of Reports... -->
   <!-- TODO: No two-way binding on edit cancel -->
@@ -35,7 +35,7 @@
   <!-- *** Add Product *** -->
   <div class="container d-flex justify-content-center" *ngIf="newProduct">
     <div class="row center">
-      <div class="card col" style="width: 25rem;"><br>
+      <div class="card col" style="width: 50rem;"><br>
         <!-- <img src="{{newProduct.image}}" class="rounded mx-auto d-block cardImage" alt="..."> -->
         <form>
           <div class="mb-3">
@@ -62,6 +62,10 @@
               aria-describedby="imageHelp" placeholder="URL...">
           </div>
 
+          <div *ngFor="let ingredient of AllIngredients">
+            <span>{{ingredient.name}} </span>
+          </div>
+
           <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button>
@@ -83,6 +87,11 @@
           <h1 class="card-title">{{detailProduct.name}}</h1>
           <h3 class="card-title">{{detailProduct.brand}}</h3><br>
           <h6 class="card-text">{{detailProduct.description}}</h6><br>
+
+          <h6 class="card-text">Contains:</h6>
+          <div *ngFor="let ingredient of detailProduct.ingredients">{{ingredient.name}}</div><br>
+
+
           <span class="card-text">Created On</span><br>
           <span class="card-text">{{detailProduct.dateCreated}}</span><br>
           <span class="card-text">Last Updated On</span><br>
@@ -210,7 +219,7 @@
             <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
           </div>
 
-          <button (click)="addReport(detailProduct.id, storeId, newReport); newReport = null" type="button"
+          <button (click)="addReport(detailProduct, storeId, newReport); newReport = null" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 
@@ -234,8 +243,8 @@
           </div>
           <div class="mb-3">
             <label for="descriptionInput" class="form-label">Description</label>
-            <textarea [(ngModel)]="newComment.description" class="form-control" id="descriptionInput" rows="3" name="description"
-              placeholder="Let us know what you thought"></textarea>
+            <textarea [(ngModel)]="newComment.description" class="form-control" id="descriptionInput" rows="3"
+              name="description" placeholder="Let us know what you thought"></textarea>
           </div>
 
           <div class="mb-3">
@@ -250,7 +259,7 @@
               aria-describedby="storeHelp" placeholder="1">
           </div>
 
-          <button (click)="displayProduct(detailProduct) ;addComment(detailProduct.id, storeId, newComment); newComment = null" type="button"
+          <button (click)="addComment(detailProduct, storeId, newComment); newComment = null" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 
