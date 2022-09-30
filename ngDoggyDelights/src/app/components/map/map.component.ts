@@ -41,7 +41,7 @@ export class MapComponent implements OnInit {
     @ViewChild(MapInfoWindow) infoWindow: MapInfoWindow | undefined;
 
     zoom = 13;
-    radius = 3500;
+    radius = 0;
     mapCenter: google.maps.LatLngLiteral = {lat: 39.854992, lng: -105.1317431};
     circleCenter: google.maps.LatLngLiteral = {lat: 39.854992, lng: -105.1317431};
     icon = {
@@ -224,7 +224,7 @@ export class MapComponent implements OnInit {
 
   resetSearch() {
     this.zoom = 13;
-    this.radius = 3500;
+    this.radius = 0;
     this.mapCenter = {lat: 39.854992, lng: -105.1317431};
     this.circleCenter = {lat: 39.854992, lng: -105.1317431};
     this.searchCenter = '';

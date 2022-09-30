@@ -100,54 +100,15 @@
     <div *ngFor="let pr of prodDisplayInfoWindow">
     <div class="col">
       <div class="card h-100">
-          <!-- <a href="details.do?id=${site.id}"><img class="card-img-top" src="${site.image}" title="${site.name}, ${site.country}"/></a> -->
         <div class="card-body">
           <img id="bannerImg" width="80%" src="{{pr.product.image}}" height="300px" style="margin-left: 10%; border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
           <h2 class="card-title" style="text-align: center; align-items: center;justify-content: center;"><span style="text-transform:uppercase;">{{pr.product.name}}</span></h2>
           <h4 class="text-secondary mb-1 card-text" style="text-align: center; align-items: center;justify-content: center;">{{pr.product.brand}}</h4>
           <h4 class="text-secondary mb-1 card-text" style="text-align: center; align-items: center;justify-content: center;">${{pr.price}}</h4>
         </div>
-        <button class="btn btn-info btn-lg col-md-10 mb-2" style="margin-left: 8%; text-align: center; align-items: center;justify-content: center;" type="button" (click)="productDetails()">See Product Details</button>
+        <button class="btn btn-info btn-lg col-md-10 mb-2" style="margin-left: 8%; text-align: center; align-items: center;justify-content: center;" type="button" (click)="productDetails()">See All Products</button>
       </div>
     </div>
   </div>
 
 </div>
-<!--
-
-
-
-
-
-                          <div class="card-body p-md-4">
-                          <h2 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">{{selectedStore.name}}</h2>
-                          <form>
-                            <div class="row">
-                              <div class="col-md-12 col-sm-12 mb-4">
-                                <h2>{{selectedStore.</h2>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-12 col-lg-12 mb-4">
-                                <br><input type="text" id="searchTextField" name="searchCenter" placeholder="Search by city or zip code" autocomplete="on" [(ngModel)]="searchCenter"/>
-                              </div>
-                            </div>
-                            <div class="row">
-                              <div class="col-md-5">
-                                <select class="select form-control-lg" name="distance" [(ngModel)]="distance">
-                                  <option value="" disabled selected>Distance</option>
-                                  <option value="1">1 mile</option>
-                                  <option value="5">5 miles</option>
-                                  <option value="10">10 miles</option>
-                                  <option value="25">25 miles</option>
-                                  <option value="50">50 miles</option>
-                                </select>
-                              </div>
-                              <div class="col-md-6">
-                              </div>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                  </div> -->
