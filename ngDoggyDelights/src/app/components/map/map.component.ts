@@ -6,6 +6,7 @@ import { ProdRepPipe } from 'src/app/pipes/prod-rep.pipe';
 import { Store } from 'src/app/models/store';
 import { StoreService } from 'src/app/services/store.service';
 import { Address } from 'src/app/models/address';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -31,7 +32,7 @@ export class MapComponent implements OnInit {
   markers: any[] = [];
   prodDisplayInfoWindow: any[] = [];
 
-  constructor(private geocoder: MapGeocoder, private productService: ProductService, private storeService: StoreService, private prodRepPipe: ProdRepPipe) {
+  constructor(private geocoder: MapGeocoder, private router: Router, private productService: ProductService, private storeService: StoreService, private prodRepPipe: ProdRepPipe) {
     }
 
     ngOnInit(): void {
@@ -50,13 +51,6 @@ export class MapComponent implements OnInit {
       anchor: new google.maps.Point(0, 0) // anchor
     };
 
-    // markerOptions: google.maps.MarkerOptions = {
-    //     draggable: false,
-    //     animation: google.maps.Animation.DROP,
-    //     // label: ,
-    //     icon: this.icon,
-    //   };
-      // markerPositions: google.maps.LatLngLiteral[] = this.geocodedPlaces;
 
       setMapOptions() {
         if (this.searchCenter !== null && this.searchCenter !== '' && this.searchCenter !== undefined) {
@@ -172,8 +166,10 @@ export class MapComponent implements OnInit {
                     }).subscribe(({
                       results}) => {
                         console.log("find positions",results);
+                        if (counter === 0) {
                         console.log(results[0].geometry.location.lat());
                         console.log(results[0].geometry.location.lng());
+                        }
                         this.geocodedPlaces.push({lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng()});
                         console.log("find positions- geocoded places", this.geocodedPlaces);
                         if (this.searchCenter === null || this.searchCenter === '' || this.searchCenter === undefined) {
@@ -235,7 +231,6 @@ export class MapComponent implements OnInit {
     this.distance = '';
     this.keyword = '';
     this.geocodedPlaces = [];
-    // this.removeMarker();
     this.displayStore = false;
     this.productsByKeyword = [];
     this.storesByKeyword = [];
@@ -243,6 +238,10 @@ export class MapComponent implements OnInit {
     this.storeMatchProducts = [];
     this.addressArray = [];
     this.prodDisplayInfoWindow = [];
+  }
+
+  productDetails() {
+    this.router.navigateByUrl('product');
   }
 
 }

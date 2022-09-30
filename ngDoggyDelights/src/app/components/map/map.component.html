@@ -69,22 +69,20 @@
                     <div class="card rounded-2" *ngIf="displayStore">
                       <div class="card">
                         <!--start store info section/left-->
-                        <div class="d-flex flex-column align-items-center text-center" *ngIf="displayStore">
+                        <div class="d-flex flex-column align-items-center text-center">
                                 <img id="bannerImg" width="100%" src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/aa/Petco_store.JPG/640px-Petco_store.JPG"
                                   style="border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
                                 <div class="mt-3">
                                   <!--start user info below image-->
-                                  <h4>{{ selectedStore.name }}</h4>
-                                  <!-- <p class="text-secondary mb-1">
-                                    <strong>({{selectedStore.address?.address}})</strong>
-                                  </p> -->
-                                  <p class="text-secondary mb-1 ">{{selectedStore.address?.address}} <br>
-                                    {{ selectedStore.address?.city }}, {{ selectedStore.address?.state }}</p>
+                                  <h2>{{ selectedStore.name }}</h2> <br>
+
+                                  <h4 class="text-secondary mb-1 ">{{selectedStore.address?.address}} <br>
+                                    {{ selectedStore.address?.city }}, {{ selectedStore.address?.state }}</h4>
                                 </div>
                               </div>
                               <div class="row">
                                 <div class="col-sm-12 alight-items-center" style="margin-left: 25px">
-                                  <button type="button" class="btn btn-info btn-lg col-md-4 mb-2" (click)="resetSearch()">Back to Search</button>
+                                  <button type="button" style=" margin-left: 10%;text-align: center !important; align-items: center !important;justify-content: center !important;" class="btn btn-info btn-lg col-md-8 mb-2" (click)="resetSearch()">Back to Search</button>
                                 </div>
                               </div>
                           </div>
@@ -104,15 +102,18 @@
       <div class="card h-100">
           <!-- <a href="details.do?id=${site.id}"><img class="card-img-top" src="${site.image}" title="${site.name}, ${site.country}"/></a> -->
         <div class="card-body">
-          <h5 class="card-title">{{pr.product.name}}</h5>
-          <p class="card-text">{{pr.name}}</p>
+          <img id="bannerImg" width="80%" src="{{pr.product.image}}" height="300px" style="margin-left: 10%; border-top-left-radius: 0.3rem;border-top-right-radius: 0.3rem;" alt="banner" />
+          <h2 class="card-title" style="text-align: center; align-items: center;justify-content: center;"><span style="text-transform:uppercase;">{{pr.product.name}}</span></h2>
+          <h4 class="text-secondary mb-1 card-text" style="text-align: center; align-items: center;justify-content: center;">{{pr.product.brand}}</h4>
+          <h4 class="text-secondary mb-1 card-text" style="text-align: center; align-items: center;justify-content: center;">${{pr.price}}</h4>
         </div>
+        <button class="btn btn-info btn-lg col-md-10 mb-2" style="margin-left: 8%; text-align: center; align-items: center;justify-content: center;" type="button" (click)="productDetails()">See Product Details</button>
       </div>
     </div>
   </div>
 
 </div>
-
+<!--
 
 
 
@@ -143,11 +144,10 @@
                                 </select>
                               </div>
                               <div class="col-md-6">
-                                <input class="btn btn-info btn-lg col-md-7 mb-2" type="submit" (click)="setMapOptions();getProductsByKeyword()"/>
                               </div>
                             </div>
                           </form>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
