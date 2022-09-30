@@ -63,9 +63,9 @@ export class ProdRepPipe implements PipeTransform {
           if (this.mostRecentInv.product?.reports !== null && hasValues(this.mostRecentInv.product?.reports)) {
             for (let r of this.mostRecentInv.product.reports) {
               console.log("Product report inside date comp loop: ", r);
-                if (r.createdOn !== null && this.mostRecentInv.createdOn !== null) {
+                if (r.createdOn !== null && this.mostRecentInv.createdOn !== null && r.createdOn !== undefined ) {
                   if (prUpdate === 1) {
-                    if (r.createdOn !== null && this.mostRecentPR.createdOn !== null) {
+                    if (r.createdOn !== null && this.mostRecentPR.createdOn !== null && this.mostRecentPR.createdOn !== undefined) {
                       if (r.createdOn > this.mostRecentPR.createdOn) {
                         this.mostRecentPR = r;
                         console.log("Most recent PR after date eval: ", this.mostRecentPR);
@@ -89,7 +89,7 @@ export class ProdRepPipe implements PipeTransform {
                 console.log("Store reports: ", s.productReports);
               for (let r of s.productReports) {
                 console.log("Prod Rep in loop: ", r);
-                if (p.id === r.product.id && r.createdOn !== null) {
+                if (r.product !== undefined && p.id === r.product.id && r.createdOn !== null) {
                   if (counter === 0) {
                     console.log("Prod Rep after ID match: ", r);
                     this.mostRecentPR = r;
@@ -97,7 +97,7 @@ export class ProdRepPipe implements PipeTransform {
                     counter += 1;
                   }
                   else {
-                    if (r.createdOn !== null && this.mostRecentPR.createdOn !== null) {
+                    if (r.createdOn !== null && this.mostRecentPR.createdOn !== null && r.createdOn !== undefined && this.mostRecentPR.createdOn !== undefined) {
                       if (r.createdOn > this.mostRecentPR.createdOn) {
                         this.mostRecentPR = r;
                         console.log("Most recent after date eval: ", this.mostRecentPR);

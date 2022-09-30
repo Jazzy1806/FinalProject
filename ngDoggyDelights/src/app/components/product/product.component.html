@@ -1,7 +1,7 @@
-<main class="contqainer">
-  <h1 style="text-align: center;">The Specter Selecter</h1>
+<main class="container">
+  <h1 style="text-align: center;">Spec's Selects</h1>
 
-  <!-- *** Actual Store Name Dropdown *** -->
+  <!-- TODO: Actual Store Name Dropdown *** -->
   <!-- TODO: Sort Reports by Date - first 3? 5? -->
   <!-- TODO: Product card stretches to match number of Reports... -->
   <!-- TODO: No two-way binding on edit cancel -->
@@ -10,9 +10,12 @@
 
   <!-- *** All Products *** -->
   <div class="container" *ngIf="showAll && !detailProduct && !editProduct && !newProduct && !newReport && !newComment">
-    <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm">
-      Add a New Product
-    </button>
+    <div class="col text-center">
+      <button (click)="newProduct = getNewProduct(); showAll = false" class="btn btn-outline-primary btn-sm"
+        style="margin-bottom: 5px;">
+        Add a New Product
+      </button>
+    </div>
     <div *ngFor="let product of products">
       <div *ngIf="product.enabled">
         <div class="card" (click)="displayProduct(product)">
@@ -35,7 +38,7 @@
   <!-- *** Add Product *** -->
   <div class="container d-flex justify-content-center" *ngIf="newProduct">
     <div class="row center">
-      <div class="card col" style="width: 25rem;"><br>
+      <div class="card col" style="width: 50rem;"><br>
         <!-- <img src="{{newProduct.image}}" class="rounded mx-auto d-block cardImage" alt="..."> -->
         <form>
           <div class="mb-3">
@@ -62,11 +65,36 @@
               aria-describedby="imageHelp" placeholder="URL...">
           </div>
 
-          <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
-            class="btn btn-outline-primary btn-sm">Submit
-          </button>
+          <div>
+            <button type="button" class="btn btn-outline-primary btn-sm" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsed"
+              aria-controls="collapseExample" style="margin-bottom: 5px;">
+              Select Ingredients
+            </button>
+          </div>
+          <div #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsed" class="container justify-content-center">
+            <div class="card">
+              <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
+                <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox"
+                  class="form-check-input" name="hasIng" [ngModel]="hasIng">
+                <label class="form-check-label" for="ingredientId">{{ingredient.name}}</label>
+              </div>
+            </div>
+          </div>
 
-          <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-light btn-sm">Back
+
+          <!-- <div *ngFor="let ingredient of allIngredients" class="mb-3 form-check">
+            <input (change)="changeIngredient(ingredient.id, newProduct, hasIng)" type="checkbox"
+              class="form-check-input" name="hasIng" [ngModel]="hasIng">
+            <label class="form-check-label" for="ingredientId">{{ingredient.name}}</label>
+          </div> -->
+
+
+
+          <br>
+          <button (click)="addProduct(newProduct); newProduct = null; showAll = true" type="button"
+            class="btn btn-outline-primary btn-sm" style="margin-bottom: 5px;">Submit
+          </button><br>
+          <button (click)="newProduct = null; showAll = true" type="button" class="btn btn-outline-primary btn-sm">Back
           </button>
         </form>
       </div>
@@ -77,64 +105,86 @@
   <div class="container text-center d-flex justify-content-center">
     <div class="row center">
 
-      <div class="card col" *ngIf="detailProduct && !newReport && !newComment"><br>
+      <div class="card col-6" *ngIf="detailProduct && !newReport && !newComment"><br>
         <img src="{{detailProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
         <div class="card-body">
           <h1 class="card-title">{{detailProduct.name}}</h1>
           <h3 class="card-title">{{detailProduct.brand}}</h3><br>
           <h6 class="card-text">{{detailProduct.description}}</h6><br>
-          <span class="card-text">Created On</span><br>
-          <span class="card-text">{{detailProduct.dateCreated}}</span><br>
-          <span class="card-text">Last Updated On</span><br>
-          <span class="card-text">{{detailProduct.dateUpdated}}</span><br>
-          <button (click)="editProduct = detailProduct; detailProduct = null"
-            class="btn btn-outline-primary btn-sm">Edit
+
+          <h6 class="card-text">Contains:</h6>
+          <div *ngFor="let ingredient of detailProduct.ingredients">{{ingredient.name}}</div><br>
+
+
+          <span class="card-text"><b>Created On</b></span><br>
+          <span class="card-text">{{detailProduct.dateCreated}}</span><br><br>
+          <span class="card-text"><b>Last Updated On</b></span><br>
+          <span class="card-text">{{detailProduct.dateUpdated}}</span><br><br>
+          <button (click)="editProduct = detailProduct; detailProduct = null" class="btn btn-outline-primary btn-sm"
+            style="margin-bottom: 5px;">Edit
             Details
           </button><br>
-          <button (click)="disableProduct(detailProduct); detailProduct = null" class="btn btn-danger btn-sm">Remove
+          <button (click)="disableProduct(detailProduct); detailProduct = null"
+            class="btn btn-outline-danger btn-sm">Remove
           </button>
         </div>
       </div>
 
       <div class="col" *ngIf="detailProduct && !newReport && !newComment">
         <!-- <h4>Latest Prices</h4> -->
+        <div class="card report-card">
+          <div class="card-body">
+            <span><b>Latest Prices</b></span>
+          </div>
+        </div>
+        <hr>
+        <div class="card report-card" *ngFor="let report of detailProduct.reports">
+          <div class="card-body" *ngIf="report.store">
+            <span *ngIf="report.store.name"><b>{{report.store.name}}</b></span><br>
+            <span><b>${{report.price}}</b></span><br><br>
+            <span>{{report.remark}}</span><br>
+            <hr>
+            <span>{{report.createdOn}}</span><br>
+          </div>
+        </div>
 
-        <button (click)="newReport = getNewReport(detailProduct)" class="btn btn-outline-primary btn-sm">
+        <button (click)="newReport = getNewReport(detailProduct)" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">
           Report a New Price
         </button><br>
 
-        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
-
-        <div class="card report-card" *ngFor="let report of detailProduct.reports">
-          <div class="card-body" *ngIf="report.store">
-            <span><b>{{detailProduct.name}}</b></span><br>
-            <span><b>${{report.price}}</b></span><br>
-            <!-- <span>Seen At: <b>{{report.store | json}}</b></span><br> -->
-            <span *ngIf="report.store.name">Seen At: <b>{{report.store.name}}</b></span><br>
-            <span>On: <b>{{report.createdOn}}</b></span><br>
-            <span>At: <b>{{report.createdOn}}</b></span><br>
-            <!-- Product {{report.product.id}} -->
-          </div>
-        </div>
+        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">Back
+        </button>
       </div>
 
       <div class="col" *ngIf="detailProduct && !newReport && !newComment">
-        <button (click)="newComment = getNewComment(detailProduct)" class="btn btn-outline-primary btn-sm">
-          Comment on this Product
-        </button><br>
-
-        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm">Back</button>
-
+        <div class="card comment-card">
+          <div class="card-body">
+            <span><b>Comments</b></span>
+          </div>
+        </div>
+        <hr>
         <div class="card comment-card" *ngFor="let comment of detailProduct.comments">
           <!-- <div class="card-body" *ngIf="report.store"> -->
           <div class="card-body" *ngIf="comment">
-            <span><b>{{detailProduct.name}}</b></span><br>
-            <span><b>{{comment.title}}</b></span><br>
+            <!-- <span><b>{{detailProduct.name}}</b></span><br> -->
+            <span><b>{{comment.title}}</b></span><br><br>
             <span>{{comment.description}}</span><br>
-            <span>{{comment.rating}}</span><br>
-            <span>On: <b>{{comment.dateCreated}}</b></span><br>
+            <hr>
+            <!-- <span>{{comment.rating}}</span><br> -->
+            <span>{{comment.dateCreated}}</span><br>
           </div>
         </div>
+
+        <button (click)="newComment = getNewComment(detailProduct)" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">
+          Comment on this Product
+        </button><br>
+
+        <button (click)="detailProduct = null" type="button" class="btn btn-outline-primary btn-sm"
+          style="margin-bottom: 5px;">Back</button>
+
       </div>
 
     </div>
@@ -144,7 +194,7 @@
   <div class="container d-flex justify-content-center" *ngIf="editProduct">
     <div class="row center">
       <div class="card col" style="width: 25rem;"><br>
-        <img src="{{editProduct.image}}" class="rounded mx-auto d-block cardImage" alt="...">
+        <!-- <img src="{{editProduct.image}}" class="rounded mx-auto d-block cardImage" alt="..."> -->
         <form>
           <div class="mb-3">
             <label for="nameInput" class="form-label">Name</label>
@@ -171,11 +221,11 @@
           </div>
 
           <button (click)="updateProduct(editProduct); detailProduct = editProduct; editProduct = null" type="button"
-            class="btn btn-outline-primary btn-sm">Submit
-          </button>
+            class="btn btn-outline-primary btn-sm" style="margin-bottom: 5px;">Submit
+          </button><br>
 
           <button (click)="detailProduct = editProduct; editProduct = null;" type="button"
-            class="btn btn-light btn-sm">Back
+            class="btn btn-outline-primary btn-sm">Back
           </button>
         </form>
       </div>
@@ -210,7 +260,7 @@
             <label class="form-check-label" for="inStockCheck">Was it in Stock?</label>
           </div>
 
-          <button (click)="addReport(detailProduct.id, storeId, newReport); newReport = null" type="button"
+          <button (click)="addReport(detailProduct, storeId, newReport); newReport = null" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 
@@ -234,15 +284,15 @@
           </div>
           <div class="mb-3">
             <label for="descriptionInput" class="form-label">Description</label>
-            <textarea [(ngModel)]="newComment.description" class="form-control" id="descriptionInput" rows="3" name="description"
-              placeholder="Let us know what you thought"></textarea>
+            <textarea [(ngModel)]="newComment.description" class="form-control" id="descriptionInput" rows="3"
+              name="description" placeholder="Let us know what you thought"></textarea>
           </div>
 
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="ratingInput" class="form-label">Rating</label>
             <input [(ngModel)]="newComment.rating" type="number" class="form-control" id="ratingInput" name="rating"
               aria-describedby="storeHelp" placeholder="1">
-          </div>
+          </div> -->
 
           <div class="mb-3">
             <label for="storeInput" class="form-label">Which Store?</label>
@@ -250,7 +300,7 @@
               aria-describedby="storeHelp" placeholder="1">
           </div>
 
-          <button (click)="displayProduct(detailProduct) ;addComment(detailProduct.id, storeId, newComment); newComment = null" type="button"
+          <button (click)="addComment(detailProduct, storeId, newComment); newComment = null" type="button"
             class="btn btn-outline-primary btn-sm">Submit
           </button><br><br>
 

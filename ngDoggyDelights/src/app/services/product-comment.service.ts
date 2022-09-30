@@ -44,7 +44,10 @@ export class ProductCommentService {
   }
 
   create(pid: number, sid: number, comment: ProductComment): Observable<ProductComment> {
-    comment.dateCreated = new Date(this.datePipe.transform(Date.now(), 'ShortDate')!);
+    // comment.dateCreated = new Date(this.datePipe.transform(Date.now(), 'ShortDate')!);
+    delete comment.product;
+
+
     return this.http.post<ProductComment>(this.url + '/' + pid + '/stores/' + sid + '/comments', comment, this.getHttpOptions()).pipe(
       catchError((err: any) => {
         return throwError(

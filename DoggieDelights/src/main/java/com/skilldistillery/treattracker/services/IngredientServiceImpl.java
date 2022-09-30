@@ -28,6 +28,15 @@ public class IngredientServiceImpl implements IngredientService {
 		}
 		return null;
 	}
+	
+	@Override
+	public List<Ingredient> getAll(String username) {
+		User user = userRepo.findByUsername(username);
+		if (user != null) {
+			return ingredientRepo.findAll();
+		}
+		return null;
+	}
 
 //	@Override
 //	public ProductReport show(String username, int pid) {

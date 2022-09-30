@@ -7,9 +7,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skilldistillery.treattracker.entities.Product;
 import com.skilldistillery.treattracker.entities.ProductComment;
 import com.skilldistillery.treattracker.entities.User;
 import com.skilldistillery.treattracker.repositories.ProductCommentRepository;
+import com.skilldistillery.treattracker.repositories.ProductRepository;
 import com.skilldistillery.treattracker.repositories.UserRepository;
 
 @Service
@@ -20,6 +22,9 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 
 	@Autowired
 	private UserRepository userRepo;
+
+	@Autowired
+	private ProductRepository prodRepo;
 
 	@Override
 	public List<ProductComment> index(String username) {
@@ -44,9 +49,12 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 	}
 
 	@Override
-	public ProductComment create(String username, ProductComment comment) {
+	public ProductComment create(String username, ProductComment comment, int pid) {
 		User user = userRepo.findByUsername(username);
-		if (user != null) {
+		Optional<Product> prodOpt = prodRepo.findById(pid);
+
+		if (user != null && prodOpt.isPresent()) {
+			comment.setProduct(prodOpt.get());
 			return commentRepo.saveAndFlush(comment);
 		}
 		return null;
@@ -80,7 +88,7 @@ public class ProductCommentServiceImpl implements ProductCommentService {
 				updated = opt.get();
 				updated.removeComments();
 				update(user.getUsername(), cid, opt.get());
-				try {					
+				try {
 					commentRepo.deleteById(cid);
 					return true;
 				} catch (Exception e) {

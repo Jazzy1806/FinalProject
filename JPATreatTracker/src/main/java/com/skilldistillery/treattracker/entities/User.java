@@ -21,52 +21,52 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
-	@Column(name="first_name")
+
+	@Column(name = "first_name")
 	private String firstName;
-	
-	@Column(name="last_name")
+
+	@Column(name = "last_name")
 	private String lastName;
 	private String username;
 	private String password;
 	private String email;
 	private boolean enabled;
-	
+
 	@CreationTimestamp
-	@Column(name="created_on")
+	@Column(name = "created_on")
 	private LocalDateTime dateCreated;
-	
+
 	@UpdateTimestamp
-	@Column(name="updated_on")
+	@Column(name = "updated_on")
 	private LocalDateTime dateUpdated;
-	
+
 	private String role;
 	private String bio;
-	@Column(name="profile_image_url")
+	@Column(name = "profile_image_url")
 	private String image;
-	
+
 	@OneToOne
-	@JoinColumn(name="address_id")
+	@JoinColumn(name = "address_id")
 	private Address address;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy = "user")
 	private List<Pet> pets;
-	
+
 	@JsonIgnore
-	@OneToMany(mappedBy="user")
-	private List<ProductReport> productReports;	
-	
+	@OneToMany(mappedBy = "user")
+	private List<ProductReport> productReports;
+
 	@JsonIgnore
-	@OneToMany(mappedBy="user")
+	@OneToMany(mappedBy = "user")
 	private List<Store> stores;
-	
-	
-	public User() {}
+
+	public User() {
+	}
 
 	public int getId() {
 		return id;
@@ -171,7 +171,7 @@ public class User {
 	public void setImage(String image) {
 		this.image = image;
 	}
-	
+
 	public Address getAddress() {
 		return address;
 	}
@@ -179,7 +179,6 @@ public class User {
 	public void setAddress(Address address) {
 		this.address = address;
 	}
-	
 
 	public List<Pet> getPets() {
 		return pets;
@@ -213,16 +212,20 @@ public class User {
 		User other = (User) obj;
 		return id == other.id;
 	}
-	
+
 	public void addStoreToUser(Store store) {
 		if (stores == null) {
 			stores = new ArrayList<>();
 		}
-		
-		stores.add(store);
-		
-	}
-	
-	
 
+		stores.add(store);
+
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", username=" + username
+				+ ", password=" + password + ", email=" + email + ", enabled=" + enabled + ", dateCreated="
+				+ dateCreated + ", dateUpdated=" + dateUpdated + ", role=" + role + ", bio=" + bio + "]";
+	}
 }

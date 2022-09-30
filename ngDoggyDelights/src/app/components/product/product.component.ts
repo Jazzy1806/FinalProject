@@ -1,5 +1,5 @@
 import { Store } from 'src/app/models/store';
-import { StoreService } from 'src/app/services/store.service';
+import { NgForm } from '@angular/forms';
 import { ProductReportService } from 'src/app/services/product-report.service';
 import { ProductReportComponent } from './../product-report/product-report.component';
 import { Component, OnInit } from '@angular/core';
@@ -9,6 +9,8 @@ import { ProductReport } from 'src/app/models/product-report';
 import { AuthService } from 'src/app/services/auth.service';
 import { ProductCommentService } from 'src/app/services/product-comment.service';
 import { ProductComment } from 'src/app/models/product-comment';
+import { IngredientService } from 'src/app/services/ingredient.service';
+import { Ingredient } from 'src/app/models/ingredient';
 // import { Observable } from 'rxjs';
 
 @Component({
@@ -21,7 +23,14 @@ export class ProductComponent implements OnInit {
   loggedInUser: any;
   showAll: boolean = true;
   storeId: number = 1;
+  store: Store = {} as Store;
   products: Product[] = [];
+  iid: number = 0;
+  isCollapsed: boolean = true;
+
+  hasIng: boolean = false;
+
+  allIngredients: Ingredient[] = [];
   newProduct: Product | null = null;
   editProduct: Product | null = null;
   detailProduct: Product | null = null;
@@ -35,38 +44,47 @@ export class ProductComponent implements OnInit {
     private reportService: ProductReportService,
     private reportComp: ProductReportComponent,
     private commentService: ProductCommentService,
-    private storeService: StoreService,
+    private ingredientService: IngredientService,
     private authService: AuthService
   ) { }
 
   ngOnInit(): void {
     this.reload();
-    // this.reportComp.reload();
     this.getLoggedInUser();
+    this.getAllIngredients();
   }
 
   getLoggedInUser() {
     this.authService.getLoggedInUser().subscribe({
       next: (user) => {
         this.loggedInUser = user;
-        // this.newComment.user = this.loggedInUser;
-        // console.log('user logged in ' + user.username);
       },
       error: (problem) => {
         console.error(
-          'StoreListHttpComponent.collectLoggedInUser(): error loading user logged in'
+          'ProductComponent.collectLoggedInUser(): error loading user logged in'
         );
         console.error(problem);
       },
     });
   }
 
+  getAllIngredients() {
+    this.ingredientService.index().subscribe({
+      next: (data) => {
+        this.allIngredients = data;
+      },
+      error: (err) => {
+        console.error('ProductReportComponent.displayProduct(): error loading ingredients' + err);
+      },
+    });
+  }
+
   displayProduct(product: Product) {
+    this.reload();
     this.detailProduct = product;
 
     this.reportService.getReportsByProduct(product.id).subscribe({
       next: (data) => {
-        // console.log(data);
         if (this.detailProduct) {
           this.detailProduct.reports = data;
         }
@@ -78,7 +96,6 @@ export class ProductComponent implements OnInit {
 
     this.commentService.indexByProduct(product.id).subscribe({
       next: (comments) => {
-        // console.log(comments);
         if (this.detailProduct) {
           this.detailProduct.comments = comments;
         }
@@ -93,6 +110,7 @@ export class ProductComponent implements OnInit {
 
   getNewProduct() {
     this.newProduct = new Product();
+    this.getAllIngredients();
     return this.newProduct;
   }
 
@@ -109,46 +127,45 @@ export class ProductComponent implements OnInit {
     return this.newReport;
   }
 
-  addReport(pid:number, sid: number, report: ProductReport) {
-    this.storeService.getStoreById(sid).subscribe({
-      next: (store) => {
-        console.log(store);
-        report.store = store;
-      },
-      error: (err) => {
-        console.error('ProductComponent.getStoreById(): error retrieving store' + err);
-      },
-    });
+  // getStore(sid: number) {
+  //   this.storeService.getStoreById(sid).subscribe({
+  //     next: (store) => {
+  //       console.log('*** From Store Service: ' + store);
+  //       this.store = store;
+  //     },
+  //     error: (err) => {
+  //       console.error('ProductComponent.getStoreById(): error retrieving store' + err);
+  //     },
+  //   });
+  // }
 
-    console.log(report);
-    this.reportService.create(pid, sid, report).subscribe({
+  addReport(product: Product, sid: number, report: ProductReport) {
+    this.reportService.create(product.id, sid, report).subscribe({
       next: (report) => {
-        console.log(report);
-        // report.store = store;
+        this.displayProduct(product);
       },
       error: (err) => {
         console.error('ProductComponent.addReport(): error adding report' + err);
       },
     });
+  }
 
-    // this.reportComp.addReport(pid, sid, report);
-    this.newReport = this.reportComp.getNewReport();
-    this.reload();
+  addComment(product: Product, sid: number, comment: ProductComment) {
+    this.commentService.create(product.id, sid, comment).subscribe({
+      next: (data) => {
+        // this.reload();
+        this.displayProduct(product);
+      },
+      error: (err) => {
+        console.error('ProductComponent.addComment(): error adding comment' + err);
+      },
+    });
   }
 
   getReports() {
     this.reports = this.reportComp.getAllReports();
     return this.reports;
   }
-
-  // getReportsByProduct(pid: number) {
-  //   this.reports = this.reportComp.getProductReports(pid);
-  //   // this.reload();
-  //   for (let report of this.reports) {
-  //     console.log(report);
-  //   }
-  //   return this.reports;
-  // }
 
   reload() {
     this.prodService.index().subscribe({
@@ -164,9 +181,10 @@ export class ProductComponent implements OnInit {
   }
 
   addProduct(newProduct: Product) {
+    console.log(newProduct);
+
     this.prodService.create(newProduct).subscribe({
       next: (data) => {
-        // this.newProduct = new Product();
         this.reload();
       },
       error: (err) => {
@@ -175,20 +193,36 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  addComment(pid: number, sid: number, comment: ProductComment) {
-    this.commentService.create(pid, sid, comment).subscribe({
-      next: (data) => {
-        this.reload();
-      },
-      error: (err) => {
-        console.error('ProductComponent.addComment(): error adding comment' + err);
-      },
-    });
+  addIngredient(id: number, product: Product) {
+    console.log(id - 1);
+
+    // if (product.ingredients.includes(this.allIngredients[iid])) {
+    console.log(id - 1);
+    console.log(this.allIngredients[id - 1]);
+
+    product.ingredients.push(this.allIngredients[id - 1]);
+    console.log(product);
+
+    // }
+    return product;
+  }
+
+  changeIngredient(id: number, product: Product, hasIng: boolean) {
+    id--;
+    // console.log(this.allIngredients[id]);
+    if (!product.ingredients.includes(this.allIngredients[id])) {
+      product.ingredients.push(this.allIngredients[id]);
+    } else {
+      let index = (ing: Ingredient) => ing.id === this.allIngredients[id].id;
+      // console.log(product.ingredients.findIndex(index));
+      product.ingredients.splice(product.ingredients.findIndex(index), 1);
+      // console.log('after reomve');
+    }
+    // console.log(product);
+    return product;
   }
 
   updateProduct(product: Product) {
-    // console.log(product);
-
     this.prodService.update(product).subscribe({
       next: (data) => {
         this.editProduct = null;
@@ -202,11 +236,8 @@ export class ProductComponent implements OnInit {
 
   disableProduct(product: Product) {
     product.enabled = 0;
-    // console.log(product);
-
     this.prodService.update(product).subscribe({
       next: (data) => {
-        // this.detailProduct = product;
         this.editProduct = null;
         this.reload();
       },
@@ -215,8 +246,6 @@ export class ProductComponent implements OnInit {
       },
     });
   }
-
-
 
   // deleteProduct(pid: number) {
   //   this.prodService.destroy(pid).subscribe({
