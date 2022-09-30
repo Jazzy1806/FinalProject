@@ -198,6 +198,7 @@ export class PetComponent implements OnInit {
           this.addBreeds = [];
           this.addDiets = [];
           this.getPets();
+          this.editPet = null;
         },
         error: (nojoy) => {
           console.error('PetsHttpComponent.updatePet(): error updating pets:' + nojoy);
