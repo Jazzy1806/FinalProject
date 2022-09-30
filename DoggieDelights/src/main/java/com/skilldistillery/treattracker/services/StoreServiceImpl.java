@@ -97,7 +97,7 @@ public class StoreServiceImpl implements StoreService {
                     Map.Entry<Store, Double> entry2)  {
  
                     // Subtracting the entries
-                    return (int) (entry1.getValue()- entry2.getValue());
+                    return (int) (entry2.getValue()- entry1.getValue());
                 }
             });
         

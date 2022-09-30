@@ -97,7 +97,6 @@ export class StoreComponent implements OnInit {
       store.enabled = true;
       console.log("active store" + store.name);
     }
-
   }
 
   productsByStore(store: Store) {
@@ -128,6 +127,7 @@ export class StoreComponent implements OnInit {
         this.storeComments = comments;
         this.selectedStore = store;
         console.log('selected Store ' + this.selectedStore.name);
+        console.log("loggedInUser role "+ this.loggedInUser.role);
 
         this.storeName = store.name;
         for (let comment of comments) {
@@ -179,6 +179,7 @@ export class StoreComponent implements OnInit {
     this.storeService.createStore(store).subscribe({
       next: (result) => {
         console.log('inside createStorecomponent ts');
+        this.reload();
       },
       error: (nojoy) => {
         console.error(
@@ -188,7 +189,7 @@ export class StoreComponent implements OnInit {
       },
     });
     this.isCollapsed = true;
-    this.reload();
+
   }
 
   inventoryByStoreAndProd(store: Store, prod: Product): void {
@@ -293,6 +294,7 @@ export class StoreComponent implements OnInit {
         this.reload();
         console.log("inside processAddProductToStore " + inventory.product?.name);
         this.newInventory = {} as Inventory;
+
       },
       error: (problem) => {
         console.error(
