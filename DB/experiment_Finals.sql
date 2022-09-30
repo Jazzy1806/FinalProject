@@ -715,10 +715,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (1, 'Lamb', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (1, 'Venison', 'protein');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (2, 'Chicken', 'protein');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (3, 'Salmon', 'protein');
-INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (4, 'Beef', 'protein');
+INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (4, 'Duck', 'protein');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (5, 'Pea Protein', 'protein');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (6, 'Soybean Flour', 'protein');
 INSERT INTO `ingredient` (`id`, `name`, `type`) VALUES (7, 'Canola Meal', 'protein');
@@ -744,10 +744,10 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `doggydb`;
-INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 1);
-INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 2);
 INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 3);
-INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 2);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (1, 5);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (2, 1);
+INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (2, 6);
 INSERT INTO `ingredient_has_product` (`product_id`, `ingredient_id`) VALUES (3, 3);
 
 COMMIT;
@@ -791,7 +791,7 @@ START TRANSACTION;
 USE `doggydb`;
 INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (1, 'My Husky feels so much better now that he eats this.', 'Solid ingredients at a reasonable price.', 1, '2022-09-28 12:00:02', 1, NULL);
 INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (2, 'Specter runs when he hears me open the bag.', 'We tried multiple brands, and this one finally works.', 1, '2022-09-28 12:00:02', 1, 1);
-INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Simply Awesome!', 'Description 3', 3, NULL, 2, NULL);
+INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (3, 'Simply Awesome!', 'I tried everything before finding this.', 1, '2022-09-28 12:00:02', 2, NULL);
 INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (4, 'Product comment 4', 'Description 4', 1, NULL, 3, NULL);
 INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (5, 'Product comment 5 in reply to 4', 'Description 5', 2, NULL, 3, NULL);
 INSERT INTO `product_comment` (`id`, `title`, `description`, `rating`, `created_on`, `product_id`, `in_reply_to_id`) VALUES (6, 'Product comment 6 in reply to 4', 'Description 6', 3, NULL, 3, NULL);

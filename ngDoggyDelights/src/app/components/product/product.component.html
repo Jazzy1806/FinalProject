@@ -140,8 +140,8 @@
         <hr>
         <div class="card report-card" *ngFor="let report of detailProduct.reports">
           <div class="card-body" *ngIf="report.store">
-            <span><b>${{report.price}}</b></span><br>
-            <span *ngIf="report.store.name"><b>{{report.store.name}}</b></span><br><br>
+            <span *ngIf="report.store.name"><b>{{report.store.name}}</b></span><br>
+            <span><b>${{report.price}}</b></span><br><br>
             <span>{{report.remark}}</span><br>
             <hr>
             <span>{{report.createdOn}}</span><br>
