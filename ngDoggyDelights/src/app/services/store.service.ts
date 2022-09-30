@@ -171,4 +171,19 @@ export class StoreService {
     );
   }
 
+  addProductForStore(store : Store, inventory:Inventory): Observable<Inventory>{
+
+    return this.http.post<Inventory>(this.url + "/" + store.id + "/inventory",inventory, this.getHttpOptions() ).pipe(
+      catchError((err: any) => {
+        console.log(
+          "url: "+ this.url + "/" + store.id + "/inventory"
+        );
+
+        return throwError(
+          () => new Error('StoreService.addProductForStore(): error add product to store: ' + err)
+        );
+      })
+    )
+  }
+
 }

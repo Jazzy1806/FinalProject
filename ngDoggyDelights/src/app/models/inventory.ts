@@ -11,7 +11,7 @@ export class Inventory {
   createdOn: Date | null;
   updatedOn: Date | null;
 
-  constructor(id: number, price: number, quantity: number, enabled: boolean, store: Store, product: Product,
+  constructor(id: number = 0, price: number = 0, quantity: number = 0, enabled: boolean =false , store: Store, product: Product,
     createdOn: Date, updatedOn: Date) {
     this.id = id;
     this.price = price;

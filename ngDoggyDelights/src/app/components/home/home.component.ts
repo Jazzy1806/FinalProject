@@ -6,6 +6,7 @@ import { StoreService } from 'src/app/services/store.service';
 import { Store } from 'src/app/models/store';
 import { Product } from 'src/app/models/product';
 declare var window:any;
+declare function siteFooter() : any;
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,8 @@ declare var window:any;
   styleUrls: ['./home.component.css']
 })
 
-
 export class HomeComponent implements OnInit {
+
   closeResult: string = '';
   formModal:any;
   stores : Store [] | null = null;
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     this.storeLoad();
     this.productLoad();
+    siteFooter();
   }
 
   openModal() {

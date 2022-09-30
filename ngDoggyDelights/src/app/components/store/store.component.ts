@@ -32,6 +32,8 @@ export class StoreComponent implements OnInit {
   quantity = 0;
   updatedInventory = {} as Inventory;
   storeSearch = '';
+  newProduct = new Product();
+  newInventory = {} as Inventory;
 
   constructor(
     private storeService: StoreService,
@@ -274,4 +276,32 @@ export class StoreComponent implements OnInit {
       },
     });
   }
+
+  addNewProduct(store: Store){
+    this.selectedStore = store;
+    this.newInventory.store = this.selectedStore;
+    console.log("this.selectedStore" + this.newInventory.store);
+
+  }
+
+  processAddProductToStore(store : Store, inventory : Inventory) {
+    inventory.product = this.newProduct;
+    console.log(inventory.product.name);
+
+    this.storeService.addProductForStore(store, inventory).subscribe({
+      next: (inventory) =>{
+        this.reload();
+        console.log("inside processAddProductToStore " + inventory.product.name);
+
+      },
+      error: (problem) => {
+        console.error(
+          'StoreListHttpComponent.addProductToStore(): error adding product to store'
+        );
+        console.error(problem);
+      },
+    });
+
+  }
+
 }

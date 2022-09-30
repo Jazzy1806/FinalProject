@@ -1,6 +1,6 @@
 <main class="container">
   <div class="container-fluid">
-    <div *ngIf="!storeComments">
+    <div *ngIf="!storeComments && (newInventory | json) == '{}'">
       <div class="row">
         <div class="d-flex justify-content-end">
           <form class="form-group mx-sm-3 mb-2">
@@ -114,7 +114,6 @@
         </div>
       </div>
       <!-- show list of active stores -->
-
       <div *ngFor="let store of stores">
         <div class="row">
           <div class="col">
@@ -126,13 +125,18 @@
                 <button ngbDropdownItem (click)="commentsByStore(store)">
                   Details
                 </button>
+                <div *ngIf="loggedInUser.username === 'admin' || loggedInUser === store.owner">
+                  <button ngbDropdownItem (click)="addNewProduct(store)">
+                    Add Product
+                  </button>
+                </div>
                 <button ngbDropdownItem>
-                  Address: {{ store.address?.address }},
+                  <mat-icon> business</mat-icon> {{ store.address?.address }},
                   {{ store.address?.city }}, {{ store.address?.state }}
                   {{ store.address?.postalCode }}
                 </button>
                 <button ngbDropdownItem>
-                  Contact: {{ store.address?.phone }}
+                  <mat-icon> call</mat-icon> {{ store.address?.phone }}
                 </button>
               </div>
             </div>
@@ -163,10 +167,12 @@
             {{store.enabled === true ? 'remove' : 'active'}}
           </button>
         </div>
+        <!-- *** Add Product *** -->
+
       </div>
     </div>
 
-    <div *ngIf="storeComments && products">
+    <div *ngIf="storeComments && products && (newInventory | json) == '{}'">
       <div class="row">
         <div class="col-sm-8">
           <h1>{{ selectedStore.name }}</h1>
@@ -256,36 +262,59 @@
         </div>
       </div>
     </div>
+    <div class="container d-flex justify-content-center" *ngIf="(newInventory | json) != '{}'">
+      <div class="row center">
+        <h2 class="mt-2 text-center">Add Product to {{selectedStore.name}} store</h2>
+        <div class="card col" style="width: 25rem;"><br>
+          <!-- <img src="{{newProduct.image}}" class="rounded mx-auto d-block cardImage" alt="..."> -->
+          <form>
+            <div class="mb-3">
+              <label for="nameInput" class="form-label">Name</label>
+              <input [(ngModel)]="newProduct.name" type="text" class="form-control" id="nameInput" name="name"
+                aria-describedby="nameHelp" placeholder="Name...">
+            </div>
 
-    <!-- <ngb-carousel *ngIf="images"> -->
-    <!-- <ng-template ngbSlide> -->
-    <!-- <div class="picsum-img-wrapper"> -->
-    <!-- <img [src]="images[0]" alt="Random first slide"> -->
-    <!-- </div> -->
-    <!-- <div class="carousel-caption"> -->
-    <!-- <h3>First slide label</h3> -->
-    <!-- <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> -->
-    <!-- </div> -->
-    <!-- </ng-template> -->
-    <!-- <ng-template ngbSlide> -->
-    <!-- <div class="picsum-img-wrapper"> -->
-    <!-- <img [src]="images[1]" alt="Random second slide"> -->
-    <!-- </div> -->
-    <!-- <div class="carousel-caption"> -->
-    <!-- <h3>Second slide label</h3> -->
-    <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p> -->
-    <!-- </div> -->
-    <!-- </ng-template> -->
-    <!-- <ng-template ngbSlide> -->
-    <!-- <div class="picsum-img-wrapper"> -->
-    <!-- <img [src]="images[2]" alt="Random third slide"> -->
-    <!-- </div> -->
-    <!-- <div class="carousel-caption"> -->
-    <!-- <h3>Third slide label</h3> -->
-    <!-- <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p> -->
-    <!-- </div> -->
-    <!-- </ng-template> -->
-    <!-- </ngb-carousel> -->
+            <div class="mb-3">
+              <label for="brandInput" class="form-label">Brand</label>
+              <input [(ngModel)]="newProduct.brand" type="text" class="form-control" id="brandInput" name="brand"
+                aria-describedby="brandHelp" placeholder="Brand...">
+            </div>
+
+            <div class="mb-3">
+              <label for="descriptionInput" class="form-label">Description</label>
+              <textarea [(ngModel)]="newProduct.description" class="form-control" id="descriptionInput" rows="3"
+                name="description" placeholder="Description..."></textarea>
+            </div>
+
+            <div class="mb-3 row">
+              <div class="col-sm-8">
+                <label for="imageInput" class="form-label">Image URL</label>
+                <input [(ngModel)]="newProduct.image" type="text" class="form-control" id="imageInput" name="image"
+                  aria-describedby="imageHelp" placeholder="URL...">
+              </div>
+              <div class="col-sm-2">
+                <label for="imageInput" class="form-label">Quantity</label>
+                <input [(ngModel)]="newInventory.quantity" type="number" class="form-control" id="imageInput" name="quantity"
+                  aria-describedby="imageHelp" >
+              </div>
+              <div class="col-sm-2">
+                <label for="imageInput" class="form-label">Price</label>
+                <input [(ngModel)]="newInventory.price" type="number" class="form-control" id="imageInput" name="price"
+                  aria-describedby="imageHelp" >
+              </div>
+            </div>
+
+            <button (click)="processAddProductToStore(selectedStore, newInventory)" type="button"
+              class="btn btn-outline-primary btn-sm">Submit
+            </button>
+
+            <button type="button" class="btn btn-light btn-sm">Back
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
 
   </div>
 </main>

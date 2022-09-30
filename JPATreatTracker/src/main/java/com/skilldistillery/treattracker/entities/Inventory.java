@@ -17,7 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 public class Inventory {
 	
 	@EmbeddedId
-	private InventoryId id;
+	private InventoryId id = new InventoryId();
 	
 	@ManyToOne
 	@JoinColumn(name="store_id")
