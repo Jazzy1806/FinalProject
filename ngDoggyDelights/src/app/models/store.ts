@@ -11,13 +11,13 @@ export class Store {
   name: string = '';
   address?: Address | null;
   description: string = '';
-  inventories: Inventory[] | null;
+  inventories?: Inventory[] | null;
   chain?: Chain | null;
   comments: StoreComment[] | null;
   websiteUrl: string = '';
   logoUrl: string = '';
   products: Product[] | null = null;
-  productReports: ProductReport[] | null;
+  productReports?: ProductReport[] | null;
   enabled: boolean = false;
   owner?: User;
 

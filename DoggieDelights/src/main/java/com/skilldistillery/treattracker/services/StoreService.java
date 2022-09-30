@@ -31,6 +31,8 @@ public interface StoreService {
 	boolean deleteCommentStore(String username, Store store, StoreComment comment);
 	Set<Store> findStoresByProductKeywordSearch(String keyword);
 	
+//	Product createProductByGivenStore(String username, Store store, Product product);
+	
 	
 	
 	

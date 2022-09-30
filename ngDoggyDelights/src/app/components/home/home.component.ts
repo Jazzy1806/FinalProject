@@ -13,8 +13,8 @@ declare var window:any;
   styleUrls: ['./home.component.css']
 })
 
-
 export class HomeComponent implements OnInit {
+
   closeResult: string = '';
   formModal:any;
   stores : Store [] | null = null;
